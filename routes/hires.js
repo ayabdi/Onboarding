@@ -49,19 +49,81 @@ router.post(
             res.status(400).send("Server error");
         }
     });
-
-//@route GET api/profile
-//@desc  Get all profiles
+//@route GET hire by id /hires
+//@desc  Register hire
 //@access Public
-
-router.get('/', async(req, res) => {
+router.get('/:id', async(req, res) => {
     try {
-        const profiles = await Profile.find().populate('user', ['name', 'avatar']);
-        res.json(profiles);
+        const hire = await Hire.findById(req.params.id);
+        res.json(hire);
     } catch (err) {
         console.error(err.message);
+        if (err.kind == 'ObjectId') {
+            return res.status(400).json({ msg: "Hire not found" });
+        }
+        res.status(500).send('Server Error');
+    }
+});
+//@route DELETE /hires
+//@desc  DELETE profile and User
+//@access Public
+async function getHire(req, res, next) {
+    let hire
+    try {
+        hire = await Hire.findById(req.params.id);
+
+        if (hire == null) {
+            return res.status(404).json({ message: 'Cannot Find Hire' })
+        }
+    } catch (error) {
+        return res.status(500).json({ message: error.message });
+    }
+    res.hire = hire
+    next()
+}
+router.delete('/:id', async(req, res) => {
+    try {
+        //Remove profile
+        await Hire.findByIdAndRemove(req.params.id);
+        res.json("Profile Deleted");
+    } catch (err) {
+        console.error(err.message);
+        if (err.kind == 'ObjectId') {
+            return res.status(400).json({ msg: "Hire not found" });
+        }
         res.status(500).send('Server Error');
     }
 });
 
+//@route UPDATE /hires
+//@desc  UPDATE profile and User
+//@access Public
+router.patch('/:id', getHire, async(req, res) => {
+    if (req.body.name != null) {
+        res.hire.name = req.body.name
+    }
+    if (req.body.email != null) {
+        res.hire.email = req.body.email
+    }
+    if (req.body.job_title != null) {
+        res.hire.job_title = req.body.job_title
+    }
+    if (req.body.department != null) {
+        res.hire.department = req.body.department
+    }
+    if (req.body.hiring_manager != null) {
+        res.hire.hiring_manager = req.body.hiring_manager
+    }
+    if (req.body.hm_email != null) {
+        res.hire.hm_email = req.body.hm_email
+    }
+    try {
+        const updatedHire = await res.hire.save()
+        res.json(updatedHire)
+
+    } catch (error) {
+        res.status(400).json({ msg: error.message })
+    }
+
+})
 module.exports = router;

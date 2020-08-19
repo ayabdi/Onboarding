@@ -1,13 +1,8 @@
-
-POST http://localhost:5000/hires
+PATCH  http://localhost:5000/hires/5f3ae4704dcaa62548f9f4a4
 Content-Type: application/json
 
 {
-    "name": "Abdulrahman Abdi",
-    "email": "abdulrahmanaabdi98@gmail.com",
-    "job_title": "developer",
-    "department": "cyber security",
-    "hiring_manager": "faltu",
-    "hm_email": "chelseafc110698@gmail.com"
+    "name": "ASDFG"
+
 }
 
