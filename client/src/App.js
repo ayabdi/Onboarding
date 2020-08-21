@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import Navbar from "./components/Layout/Navbar";
 import Landing from "./components/Layout/Landing";
 import Register from "./components/Layout/Register";
+
 import "./App.css";
 
 function App() {
@@ -10,7 +11,20 @@ function App() {
     <Router>
       <Fragment>
         <Navbar />
-        <Route exact path="/" component={Landing} />
+        <header>
+               <div className="spacer">
+                &nbsp;
+            </div>
+            <br/>
+            <br/>
+
+            <div className='container-small'>
+                Jane Doe's Workflow
+            </div>
+        </header>
+
+     
+        
         <section>
           <Switch>
             <Route exact path ="/register" component={Register}/>

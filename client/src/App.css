@@ -88,6 +88,7 @@
     background-color: #4a208e;
 }
 
+
 .card {
     margin: 0 auto;
 }
@@ -96,7 +97,7 @@
     border: 1px solid #707070;
 }
 
-.card-body.new-hire {
+.card-body-active {
     border: solid 2px #4e1390;
 }
 
@@ -139,22 +140,31 @@
     padding-left: 10px;
 }
 
-.btn.btn-primary.px-4.float-right.new-hire {
+.btn.btn-primary.px-4.float-right {
     height: 37px;
     width: 95px;
     position: absolute;
     margin-top: 20px;
     right: 0;
+    opacity: 1;
     background-color: #4a208e;
+}
+.remove-button{
+    content: none;
 }
 
 .btn.btn-primary.px-4 {
     height: 37px;
     margin: 0;
     margin-bottom: 40px;
+    opacity: 0.6;
     background-color: #4a208e;
 }
+.btn.btn-primary.px-4.active {
+    opacity: 1;
+    background-color: #4a208e;
 
+}
 .col-sm-3.float-right {
     position: absolute;
     text-align: center;

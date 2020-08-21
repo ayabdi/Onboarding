@@ -1,8 +1,10 @@
 import React , {Fragment, useState  }from 'react'
+import Stepper from '../Stepper/Stepper'
+import axios from 'axios'
 
-const Register = () => {
+function Register  (props)  {
     const [formData, setFormData] = useState({
-        name: 'name',
+        name: '',
         email:'',
         job_title: '',
         department: '',
@@ -13,34 +15,64 @@ const Register = () => {
     
     const onChange = e => setFormData({...formData, [e.target.name]: e.target.value});
     
-    const onSubmit = e => {
+    const onSubmit = async e => {
         e.preventDefault();
+
+        const newHire = {name, email, job_title, department, hiring_manager, hm_email}
+        try { 
+            const config = {          
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        }
+        const body = JSON.stringify(newHire);
+
+        const res = await axios.post('/hires', body, config);
+        console.log(res.data);
+        } catch (error) {
+            console.error(error.response.data)
+        }
     }
+   /// Stepper
+    const stepsArray = [
+        // "Create your account",
+        "Add new hire information",
+        "Schedule automated emails",
+        "Create Tasks",
+      
+      ];
+      const [currentStep, setCount] = useState(1)
+      
+      
+       const increment = () => {
+        if (currentStep>0 && currentStep <3) { 
+        setCount(currentStep + 1)
+        
+        }
+       }
+       const decrement = () => {
+         setCount(currentStep - 1)
+       }
+       console.log(currentStep)
+      //is card active
+   
+    
+         
+    
     return (
+
         <Fragment>
-            <header>
-               <div className="spacer">
-                &nbsp;
-            </div>
-            <br/>
-            <br/>
-
-            <div className='container-small'>
-                Jane Doe's Workflow
-            </div>
-        </header>
-
-        <div class='container pb'>
-            <ul class='progress-bars'>
-                <li class='col-sm-3 active'> Add new hire information</li>
-                <li class='col-sm-3'> Schedule automated emails</li>
-                <li class='col-sm-3'>Create tasks</li>
-            </ul>
+        <div className="stepper-container-horizontal">
+          <Stepper
+            direction="horizontal"
+            currentStepNumber={currentStep - 1}
+            steps={stepsArray}
+            stepColor="purple"
+          />
         </div>
-        <br/>
         <div className="card" style={{width: "53rem"}}>
-
-        <div className="card-body new-hire">
+           
+        <div className={`card-body  ${currentStep === 1 ?"card-body-active":"card-body"}  }`}>
             <h5 className="card-title ">New Hire Information</h5>
             <p className="card-text ">Please enter details for the new hires</p>
             <div className="container">
@@ -88,7 +120,11 @@ const Register = () => {
                                         value={department}
                                         onChange={e=> onChange(e)}
                                         />
-                                </div>
+                                       
+                               </div>
+                               
+
+                               
                             </div>
                             <div className="form-group row">
                                 <div className="col-sm-3 cmsize">
@@ -109,10 +145,9 @@ const Register = () => {
                                         value={hm_email}
                                         onChange={e=> onChange(e)}
                                         />
-                                       
+                                     
                                 </div>
-                                <button type="button" className="btn btn-primary px-4 float-right new-hire">Next</button>
-
+                                <button onClick={increment} type="button" className={`"btn btn-primary px-4 float-right"  ${currentStep === 1 ?"btn btn-primary px-4 float-right":"remove-button"}  }`}>Next</button>
                             </div>
                         </form>
                     </div>
@@ -120,7 +155,7 @@ const Register = () => {
             </div>
 
         </div>
-        <div class="card-body ">
+        <div class={`card-body  ${currentStep === 2 ?"card-body-active":"card-body"}  }`}>
                 <div class="row">
                     <div class="col-sm-7">
                         <h5 class="card-title ">Automated Emails</h5>
@@ -133,7 +168,7 @@ const Register = () => {
                 </div>
 
             </div>
-            <div class="card-body ">
+            <div class={`card-body  ${currentStep === 3 ?"card-body-active":"card-body"}  }`}>
                 <div class="row">
                     <div class="col-md-10">
                         <h5 class="card-title ">Tasks</h5>
@@ -150,5 +185,6 @@ const Register = () => {
         </Fragment>
     )
 }
+
 
 export default Register
