@@ -1,5 +1,8 @@
 const express = require('express')
 const mongoose = require('mongoose');
+const bodyParser = require('body-parser');
+
+
 const url = 'mongodb://localhost/Onboarding'
 
 const app = express();
@@ -20,9 +23,15 @@ app.use(function(req, res, next) {
     res.header("Access-Control-Allow-Origin", "*");
     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
     next();
-  });
+  });   
 app.use(express.json());
+
+//bodyparser
+app.use(bodyParser.json())
+app.use(bodyParser.urlencoded({extended: true}))
+
 app.use('/hires', require('./routes/hires'));
+app.use('/send_email', require('./routes/mailer'));
 
 const PORT = process.env.PORT || 5000;
 
