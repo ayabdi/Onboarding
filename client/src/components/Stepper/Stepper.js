@@ -126,7 +126,7 @@ export default class Stepper extends Component {
             {step.description}
           </div>
           {index !== steps.length - 1 && (
-            <div className={`divider-line divider-line-${steps.length} ${step.completed ? 'divider-line divider-line-3' : 'divider-line divider-line-completed' }`} />
+            <div className={`divider-line ${step.completed ? 'divider-line divider-line-completed' : 'divider-line'  }`} />
           )}
         </div>
       );
