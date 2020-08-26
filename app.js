@@ -1,6 +1,7 @@
 const express = require('express')
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
+const nodemailer = require('nodemailer')
 
 
 const url = 'mongodb://localhost/Onboarding'
@@ -31,7 +32,7 @@ app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({extended: true}))
 
 app.use('/hires', require('./routes/hires'));
-app.use('/send_email', require('./routes/mailer'));
+app.use('/send_email', require('./routes/mailer'))
 
 const PORT = process.env.PORT || 5000;
 

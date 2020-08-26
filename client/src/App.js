@@ -3,7 +3,7 @@ import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import Navbar from "./components/Layout/Navbar";
 import Landing from "./components/Layout/Landing";
 import HireForm from "./components/Layout/HireForm";
-import ModalForm from "./components/Layout/ModalForm"
+
 
 import {Provider} from 'react-redux'
 

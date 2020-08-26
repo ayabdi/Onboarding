@@ -1,8 +1,10 @@
-PATCH  http://localhost:5000/hires/5f3ae4704dcaa62548f9f4a4
+GET  http://localhost:5000/send_email
 Content-Type: application/json
 
 {
-    "name": "ASDFG"
-
+    "to": "abdulrahmanabdi98@gmail.com",
+    "subject" : "lol",
+    "body" : "HEHEHEHE"
+     
 }
 

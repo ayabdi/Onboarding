@@ -4,7 +4,7 @@ import DatePicker from "react-datepicker";
 
 import Stepper from "../Stepper/Stepper";
 import useForm from "../forms/useForm";
-import ModalForm from "./ModalForm";
+import EmailModalForm from "./EmailModalForm";
 import axios from "axios";
 import validate from "../forms/validateForm";
 
@@ -74,7 +74,7 @@ const HireForm = () => {
       {show ? (
         <div onClick={closeModalHandler} className="back-drop"></div>
       ) : null}
-      <ModalForm show={show} close={closeModalHandler} />
+      <EmailModalForm show={show} close={closeModalHandler} hirename ={formData.name}/>
       <header>
         <div className="spacer">&nbsp;</div>
         <br />
