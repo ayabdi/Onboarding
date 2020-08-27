@@ -33,6 +33,7 @@ app.use(bodyParser.urlencoded({extended: true}))
 
 app.use('/hires', require('./routes/hires'));
 app.use('/send_email', require('./routes/mailer'))
+app.use('/emails', require('./routes/emails'))
 
 const PORT = process.env.PORT || 5000;
 

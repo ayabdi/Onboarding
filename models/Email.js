@@ -2,9 +2,13 @@ const mongoose = require('mongoose');
 
 const emailSchema = new mongoose.Schema({
  
-    hire:{
+    hires:{
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'hire'
+        ref: 'hires'
+    },
+    to: {
+        type: String
+        
     },
     from :{
         type: String,
