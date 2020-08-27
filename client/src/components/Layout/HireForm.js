@@ -22,7 +22,6 @@ const HireForm = () => {
   }
   //modal form
   const [show, setShow] = useState(false);
-
   const closeModalHandler = () => setShow(false);
 
   //     //set form Data
@@ -68,7 +67,7 @@ const HireForm = () => {
 
   //Date Picker
   const [selectedDate, setSelectedDate] = useState(null);
- 
+  formData.startDate = selectedDate;
 
   return (
     <Fragment>
@@ -76,6 +75,9 @@ const HireForm = () => {
         <div onClick={closeModalHandler} className="back-drop"></div>
       ) : null}
       <EmailModalForm show={show} close={closeModalHandler} hirename ={formData.name} startDate = {getTime(selectedDate)}/>
+
+
+
       <header>
         <div className="spacer">&nbsp;</div>
         <br />
@@ -113,21 +115,11 @@ const HireForm = () => {
                       <DatePicker
                       selected = {selectedDate}
                       onChange = {date =>  setSelectedDate(getTime(date))}
-                     
-                    
                       className = "form-control textbox-size" 
                       dateFormat="MMMM dd,yyyy"
-                     />
-                     
-                    
 
-                      {/* <input
-                        type="text"
-                        className=
-                        name="name"
-                       // value={formData.name}
-                        onChange={handleChange}
-                      /> */}
+                     />
+                     {errors.startDate && <p className ='alert'>{errors.startDate}</p>}
                     </div>
                   </div>
                   <div className="form-group row">
@@ -142,6 +134,7 @@ const HireForm = () => {
                         value={formData.name}
                         onChange={handleChange}
                       />
+                      {errors.name && <p>{errors.name}</p>}
                     </div>
                     <div className="col-sm-3 cmsize">
                       <label className="conrol-label">New Hire's email</label>

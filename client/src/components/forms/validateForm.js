@@ -11,17 +11,19 @@ export default function  validate(formData){
         errors.email = 'Email address is invalid'
     } 
     if(!pattern.test(String(formData.hm_email).toLowerCase())){
-        errors.email = 'Email address is invalid'
+        errors.Hm_email = 'Email address is invalid'
     } 
-
+    if(!formData.startDate){
+        errors.startDate = 'Start Date is required';
+    }
     if(!formData.name){
-        errors.email = 'Name is required';
+        errors.name = 'Name is required';
     }
     if(!formData.jobTitle){
-        errors.email = 'Job Title is required';
+        errors.jobTitle = 'Job Title is required';
     }
     if(!formData.department){
-        errors.email = 'Department is required';
+        errors.department = 'Department is required';
     }
          
     return errors;
