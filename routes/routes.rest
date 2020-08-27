@@ -1,10 +1,11 @@
-GET  http://localhost:5000/send_email
+POST   http://localhost:5000/send_email
 Content-Type: application/json
 
 {
-    "to": "abdulrahmanabdi98@gmail.com",
-    "subject" : "lol",
-    "body" : "HEHEHEHE"
+   
+    "subject" : "lol 2:10 ",
+    "message" : "HEHEHEHE lol",
+   
      
 }
 

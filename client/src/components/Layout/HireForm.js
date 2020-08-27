@@ -1,6 +1,6 @@
 import React, { Fragment, useState } from "react";
-import PropTypes, { func } from "prop-types";
 import DatePicker from "react-datepicker";
+import { getTime, getDate, format } from 'date-fns'
 
 import Stepper from "../Stepper/Stepper";
 import useForm from "../forms/useForm";
@@ -68,13 +68,14 @@ const HireForm = () => {
 
   //Date Picker
   const [selectedDate, setSelectedDate] = useState(null);
+ 
 
   return (
     <Fragment>
       {show ? (
         <div onClick={closeModalHandler} className="back-drop"></div>
       ) : null}
-      <EmailModalForm show={show} close={closeModalHandler} hirename ={formData.name}/>
+      <EmailModalForm show={show} close={closeModalHandler} hirename ={formData.name} startDate = {getTime(selectedDate)}/>
       <header>
         <div className="spacer">&nbsp;</div>
         <br />
@@ -111,10 +112,13 @@ const HireForm = () => {
                     
                       <DatePicker
                       selected = {selectedDate}
-                      onChange = {date => setSelectedDate(date)}
+                      onChange = {date =>  setSelectedDate(getTime(date))}
+                     
+                    
                       className = "form-control textbox-size" 
-                      dateFormat="MMMM d, yyyy"
+                      dateFormat="MMMM dd,yyyy"
                      />
+                     
                     
 
                       {/* <input

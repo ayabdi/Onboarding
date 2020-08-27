@@ -1,6 +1,9 @@
 const nodemailer = require('nodemailer');
+const cron = require('node-cron');
 const express = require('express');
-
+const addDays = require('date-fns/addDays')
+const parseISO = require('date-fns/parseISO')
+const datefns = require('date-fns')
 
 const sendmailRouter = express.Router()
 const bodyParser = require('body-parser');
@@ -32,17 +35,32 @@ const transport = {
       console.log('users ready to mail myself')
     }
   });
+
+
+
  sendmailRouter.post('/', (req,res, next) => {
     //make mailable object
     const mail = {
       from: 'ay.abdi1106@gmail.com',
       to: 'abdulrahmanabdi98@gmail.com',
       subject: req.body.subject,
-      text: req.body.message 
+      text: req.body.message,
+      date :req.body.date,
+      daysBefore: req.body.daysBefore
+
 
     }
-// error handling goes here. 
+    //calculate email date and set month and day
+    var emaildate = addDays(parseISO(req.body.date),  -req.body.daysBefore)
+    var day = datefns.getDate(emaildate)
+    console.log(day)
+    var month = datefns.getMonth(emaildate)+1
+    console.log(month)
+    //scheduler
+cron.schedule(` 48 12 ${day} ${month} *`, () => {
+    console.log('email sent');
 transporter.sendMail(mail, (err,data) => {
+    // error handling goes here. 
     if(err) {
       res.json({
         status: 'fail'
@@ -52,34 +70,9 @@ transporter.sendMail(mail, (err,data) => {
         status: 'success'
       })
     }
-  })
+  })}, {
+  scheduled: true,
+  timezone: "Europe/London"
   });
-// function sendEmail(mail) {
-//     var mailOptions = {
-//         from: 'ay.abdi1106@gmail.com',
-//         to: mail.to,
-//         subject: mail.subject,
-//         message: mail.message
-//     }
-    
-//     transporter.sendMail(mailOptions, function(err, info){
-//         if (err){
-//             console.log(err + 'ffs')
-//         }
-//         else {
-//            console.log('Email sent: ' + info.response) 
-//         }
-                                                                        
-//     })
-// }
-// //PoST
-// router.post('/'), (req, res) => {
-//    mail = {
-//     to: req.body.to_address,
-//     subject: req.body.subject,
-//     body: req.body.message
-//    }
-//    sendEmail(mail)
-//    res.redirect('/')
-// }
+ });
 module.exports = sendmailRouter;

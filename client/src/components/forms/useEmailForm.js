@@ -9,6 +9,9 @@ const useEmailForm = () => {
        from:'',
        subject: '',
        message: '',
+       date: '',
+       //# of days before start date
+       daysBefore: ''
    })
      
    
@@ -21,19 +24,33 @@ const useEmailForm = () => {
    }
 
 
-//    const onSubmit =  async e => {
-//     e.preventDefault();
-    
-//     try {
-//          email(emailData) 
-//     } catch (error) {
-//          console.error(error.response.data)
-//     }
-    
-//    }
+
+
+const onSubmit =  e => {
+          e.preventDefault();
+          
+  
+  
+  try {
+          const config = {
+          headers: {
+              'Content-Type': 'application/json'
+          }
+      }
+      //Send email
+      const body = JSON.stringify(emailData);
+
+      const res =  axios.post('/send_email', body, config);
+      console.log(res.data);
+      console.log('success!')
+      console.log(body);
+      } catch (error) {
+          console.error(error.response.data)
+      }}
    return {
     handleChange,
     emailData,
+   onSubmit
    
        
 }}
