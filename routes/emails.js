@@ -1,15 +1,34 @@
 const express = require("express");
 const router = express.Router();
+const axios = require("axios")
 
 const Email = require("../models/Email");
 const Hire = require("../models/Hire");
+const { body } = require("express-validator");
 
-//@route GET emails per hire
+
+
+//@route GET /emails
+//@desc  Fetch all Emails 
+//@access Public
+router.get('/', async(req, res) => {
+    try {
+        const hires = await Email.find();
+        res.json(hires);
+
+    } catch (errors) {
+        res.send('Error' + errors)
+    }
+});
+//@route GET /emails/:id
+//@desc  Fetch Email per hire ID
+//@access Public
+    
 router.get("/:id", async (req, res) => {
   try {
     const emails = await Email.find({
-       hires: req.body.hires,
-    }).populate('hires');
+       hire: req.body.hire,
+    }).populate('hire',['name', 'email']);
     res.json(emails);
   } catch (errors) {
     
@@ -20,24 +39,44 @@ router.get("/:id", async (req, res) => {
   }
 });
 
-//@route POST Create Email
 
-//@route POST /hires
-//@desc  Register hire
+//@route POST /emails
+//@desc  Create Email 
 //@access Public
+    
+//Get Hire by Email
+async function getHire(req, res, next) {
+   let hire
+    try {
+    
+        hire = await Hire.findOne({email : req.body.email});
+        
+        if (hire == null) {
+            return res.status(404).json({ message: 'Cannot Find email' })
+        }
+    } catch (error) {
+        return res.status(500).json({ message: error.message });
+    }
+    res.hire = hire
+   next()
+ 
+}
 
-router.post("/", async (req, res) => {
+router.post("/", getHire, async (req, res) => {
+    
   const email = new Email({
-    hires: req.body.hires,
+    hire: res.hire._id,
     from: "ay.abdi1106@gmail.com",
-    to: "abdulrahmanabdi98@gmail.com",
+    to: req.body.email,
     subject: req.body.subject,
     message: req.body.message,
     date: req.body.date,
     daysBefore: req.body.daysBefore,
   });
   try {
+   
     const newEmail = await email.save();
+    
     res.json(newEmail);
   } catch (error) {
     console.error(error.message);
@@ -91,6 +130,9 @@ router.patch('/:id', getEmail, async(req, res) => {
     }
     if (req.body.message != null) {
         res.email.message = req.body.message
+    }
+    if (req.body.date != null) {
+        res.email.date = req.body.date
     }
     if (req.body.daysBefore != null) {
         res.email.daysBefore = req.body.daysBefore
