@@ -1,20 +1,28 @@
 import React, { Fragment, useState } from "react";
 import DatePicker from "react-datepicker";
-import { getTime, getDate, format } from 'date-fns'
+import { getTime, getDate, format } from "date-fns";
 
 import Stepper from "../Stepper/Stepper";
 import useForm from "../forms/useForm";
 import EmailModalForm from "./EmailModalForm";
-import axios from "axios";
 import validate from "../forms/validateForm";
 
-import 'react-datepicker/dist/react-datepicker.css'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faEdit } from '@fortawesome/free-solid-svg-icons'
+import { faTrash } from '@fortawesome/free-solid-svg-icons'
+
+import "react-datepicker/dist/react-datepicker.css";
 
 const HireForm = () => {
-  const { handleChange, onSubmit, formData, errors, currentStep } = useForm(
-    submit,
-    validate
-  );
+  const {
+    handleChange,
+    onSubmit,
+    formData,
+    errors,
+    currentStep,
+    decrement,
+    emails,
+  } = useForm(submit, validate);
   const [isValid, setisValid] = useState(false);
   function submit() {
     console.log("Successfull Submitted");
@@ -23,39 +31,6 @@ const HireForm = () => {
   //modal form
   const [show, setShow] = useState(false);
   const closeModalHandler = () => setShow(false);
-
-  //     //set form Data
-  //     const [formData, setFormData] = useState({
-  //         name: '',
-  //         email:'',
-  //         job_title: '',
-  //         department: '',
-  //         hiring_manager: '',
-  //         hm_email: ''
-  //     });
-  //    const{name, email, job_title, department, hiring_manager, hm_email} = formData;
-
-  //     const onChange = e => setFormData({...formData, [e.target.name]: e.target.value});
-
-  //     const onSubmit = e => {
-  //         e.preventDefault();
-  //         createHire(formData)
-
-  // const creatHire = {name, email, job_title, department, hiring_manager, hm_email}
-  //     try {
-  //         const config = {
-  //         headers: {
-  //             'Content-Type': 'application/json'
-  //         }
-  //     }
-  //     //Post to database
-  //     const body = JSON.stringify(creatHire);
-
-  //     const res = await axios.post('/hires', body, config);
-  //     console.log(res.data);
-  //     } catch (error) {
-  //         console.error(error.response.data)
-  //     }
 
   /// Stepper
   const stepsArray = [
@@ -67,16 +42,19 @@ const HireForm = () => {
 
   //Date Picker
   const [selectedDate, setSelectedDate] = useState(null);
-  formData.startDate = selectedDate;
+  formData.startDate = new Date(getTime(selectedDate));
 
   return (
     <Fragment>
       {show ? (
         <div onClick={closeModalHandler} className="back-drop"></div>
       ) : null}
-      <EmailModalForm show={show} close={closeModalHandler} hirename ={formData.name} startDate = {getTime(selectedDate)}/>
-
-
+      <EmailModalForm
+        show={show}
+        close={closeModalHandler}
+        hireForm={formData}
+        startDate={getTime(selectedDate)}
+      />
 
       <header>
         <div className="spacer">&nbsp;</div>
@@ -99,6 +77,7 @@ const HireForm = () => {
           className={`card-body  ${
             currentStep === 1 ? "card-body-active" : "card-body"
           }  }`}
+          onClick={(e) => decrement(e)}
         >
           <h5 className="card-title ">New Hire Information</h5>
           <p className="card-text ">Please enter details for the new hires</p>
@@ -108,18 +87,14 @@ const HireForm = () => {
                 <form className="hire-form" onSubmit={(e) => onSubmit(e)}>
                   <div className="form-group row">
                     <div className="col-sm-3 cmsize">
-                      <label className="conrol-label">
-                        Start Date
-                      </label>
-                    
-                      <DatePicker
-                      selected = {selectedDate}
-                      onChange = {date =>  setSelectedDate(getTime(date))}
-                      className = "form-control textbox-size" 
-                      dateFormat="MMMM dd,yyyy"
+                      <label className="conrol-label">Start Date</label>
 
-                     />
-                     {errors.startDate && <p className ='alert'>{errors.startDate}</p>}
+                      <DatePicker
+                        selected={selectedDate}
+                        onChange={(date) => setSelectedDate(getTime(date))}
+                        className="form-control textbox-size"
+                        dateFormat="MMMM dd,yyyy"
+                      />
                     </div>
                   </div>
                   <div className="form-group row">
@@ -239,6 +214,58 @@ const HireForm = () => {
                 Schedule an Email
               </button>
             </div>
+
+            <>
+              {/* <div className="container email-preview-titles">
+                <div className="row email-preview">
+                  <div
+                    className="col-sm-3 email-titles"
+                    style={{ margin: "8px" }}
+                  >
+                    Subject
+                  </div>
+                  <div
+                    className="col-sm-3 email-titles"
+                    style={{ margin: "8px" }}
+                  >
+                    To
+                  </div>
+                  <div
+                    className="col-sm-3 email-titles"
+                    style={{ margin: "8px" }}
+                  >
+                    Scheduled For
+                  </div>
+                </div>
+              </div> */}
+              {emails.map((email, i) => (
+                <div key={i} className="container email-preview">
+                  <div className="row email-preview">
+                    <div className="col-sm-3 email-preview">
+                      {email.subject}
+                    </div>
+                    <div
+                      className="col-sm-3 email-preview"
+                      style={{ margin: "8px" }}
+                    >
+                      lol
+                      <br />
+                      <div className="email">{email.to}</div>
+                    </div>
+                    <div className="col-sm-3 email-preview">
+                      {" "}
+                      {email.daysBefore} Days before
+                    </div>
+
+                    <div className="col-xs">
+                    <FontAwesomeIcon icon={faEdit} style = {{marginTop: '50%'}}/> &nbsp;
+                    <FontAwesomeIcon icon={faTrash} style = {{marginTop: '50%'}} /> 
+                    </div>  
+                 
+                  </div>
+                </div>
+              ))}{" "}
+            </>
           </div>
         </div>
         <div

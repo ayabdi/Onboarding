@@ -2,17 +2,18 @@ import {useState, useEffect} from 'react'
 import axios from 'axios'
 
 const useEmailForm = () => {
-
-    
-    const [emailData, setEmailData] = useState({
-       to: '',
-       from:'',
-       subject: '',
-       message: '',
-       date: '',
+     
+    const initialState = {
+        hire: " ",
+        to: " ",
+       from:" ",
+       subject: " ",
+       message: " ",
+       date: " ",
        //# of days before start date
-       daysBefore: ''
-   })
+       daysBefore: " "
+    }
+    const [emailData, setEmailData] = useState(initialState)
      
    
    const handleChange = event => {
@@ -22,15 +23,9 @@ const useEmailForm = () => {
            [name]: value
        });
    }
-
-
-
-
-const onSubmit =  e => {
+const [submitting , isSubmitting] = useState(false)
+const onSubmit =  async e =>  {
           e.preventDefault();
-          
-  
-  
   try {
           const config = {
           headers: {
@@ -40,18 +35,37 @@ const onSubmit =  e => {
       //Send email
       const body = JSON.stringify(emailData);
 
-      const res =  axios.post('/send_email', body, config);
+      const res = await axios.post('http://localhost:5000/emails', body, config)
       console.log(res.data);
-      console.log('success!')
-      console.log(body);
+      setEmailData(initialState);
+    
+
       } catch (error) {
           console.error(error.response.data)
       }}
+
+ // Edit Email
+const [emailEdit, setEmailEdit] = useState({})
+function editEmail (emailID) {
+    axios({
+        method: 'DELETE',
+        mode: 'no-cors',
+        headers: {
+            'Accept': 'application/json', 'Content-Type': 'application/json',
+           
+        },
+        url : `http://localhost:5000/emails/${emailID}`
+    }).then(res => {
+        console.log(res.data)
+    })
+}
+
    return {
     handleChange,
     emailData,
-   onSubmit
-   
-       
+    onSubmit,
+
 }}
+
+
 export default useEmailForm;

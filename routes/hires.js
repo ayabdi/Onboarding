@@ -22,11 +22,11 @@ router.post(
     '/', [
         //Validating entries
         check("name", "Name is required").not().isEmpty(),
-        check("email", "Please include a valid email").isEmail(),
-        check("job_title", "Name is required").not().isEmpty(),
-        check("department", "Name is required").not().isEmpty(),
-        check("hiring_manager", "Name is required").not().isEmpty(),
-        check("hm_email", "Please include a valid email").isEmail(),
+        // check("email", "Please include a valid email").isEmail(),
+        // check("job_title", "Name is required").not().isEmpty(),
+        // check("department", "Name is required").not().isEmpty(),
+        // check("hiring_manager", "Name is required").not().isEmpty(),
+        // check("hm_email", "Please include a valid email").isEmail(),
     ],
     async(req, res) => {
         const errors = validationResult(req);
@@ -34,6 +34,7 @@ router.post(
             return res.status(400).json({ errors: errors.array() });
         }
         const hire = new Hire({
+          //  startDate: req.body.startDate,
             name: req.body.name,
             email: req.body.email,
             job_title: req.body.job_title,

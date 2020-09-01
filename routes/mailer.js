@@ -38,11 +38,12 @@ const transport = {
 
 
 
+
  sendmailRouter.post('/', (req,res, next) => {
     //make mailable object
     const mail = {
       from: 'ay.abdi1106@gmail.com',
-      to: 'abdulrahmanabdi98@gmail.com',
+      to: req.body.email,
       subject: req.body.subject,
       text: req.body.message,
       date :req.body.date,
@@ -53,9 +54,9 @@ const transport = {
     //calculate email date and set month and day
     var emaildate = addDays(parseISO(req.body.date),  -req.body.daysBefore)
     var day = datefns.getDate(emaildate)
-    console.log(day)
     var month = datefns.getMonth(emaildate)+1
-    console.log(month)
+    
+
     //scheduler
 cron.schedule(` 48 12 ${day} ${month} *`, () => {
     console.log('email sent');

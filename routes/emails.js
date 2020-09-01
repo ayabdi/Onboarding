@@ -11,34 +11,28 @@ const { body } = require("express-validator");
 //@route GET /emails
 //@desc  Fetch all Emails 
 //@access Public
-router.get('/', async(req, res) => {
-    try {
-        const hires = await Email.find();
-        res.json(hires);
 
-    } catch (errors) {
-        res.send('Error' + errors)
-    }
-});
 //@route GET /emails/:id
 //@desc  Fetch Email per hire ID
 //@access Public
     
-router.get("/:id", async (req, res) => {
-  try {
-    const emails = await Email.find({
-       hire: req.body.hire,
-    }).populate('hire',['name', 'email']);
-    res.json(emails);
-  } catch (errors) {
-    
-    if (errors.kind == 'ObjectId') {
-        return res.status(400).json({ msg: "Hire not found" });
-    }
-    res.status(500).send('Server Error');
-  }
-});
 
+////@route GET /emails/:email
+//@desc  Fetch Emails per email address
+//@access Public
+router.get('/find/:email', async(req, res) => {
+    try {
+        const email = await Email.find({to : req.params.email})
+        
+        res.json(email);
+    } catch (err) {
+        console.error(err.message);
+        if (err.kind == 'ObjectId') {
+            return res.status(400).json({ msg: "Hire not found" });
+        }
+        res.status(500).send('Server Error');
+    }
+});
 
 //@route POST /emails
 //@desc  Create Email 
@@ -49,7 +43,7 @@ async function getHire(req, res, next) {
    let hire
     try {
     
-        hire = await Hire.findOne({email : req.body.email});
+        hire = await Hire.findOne({email : req.body.to});
         
         if (hire == null) {
             return res.status(404).json({ message: 'Cannot Find email' })
@@ -67,7 +61,7 @@ router.post("/", getHire, async (req, res) => {
   const email = new Email({
     hire: res.hire._id,
     from: "ay.abdi1106@gmail.com",
-    to: req.body.email,
+    to: req.body.to,
     subject: req.body.subject,
     message: req.body.message,
     date: req.body.date,
@@ -136,9 +130,6 @@ router.patch('/:id', getEmail, async(req, res) => {
     }
     if (req.body.daysBefore != null) {
         res.email.daysBefore = req.body.daysBefore
-    }
-    if (req.body.hm_email != null) {
-        res.email.hm_email = req.body.hm_email
     }
     try {
         const updatedEmail = await res.email.save()

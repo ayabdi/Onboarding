@@ -2,18 +2,20 @@ const mongoose = require('mongoose');
 
 const emailSchema = new mongoose.Schema({
  
-    hires:{
+    hire:{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'hires'
     },
-    to: {
-        type: String
-        
-    },
-    from :{
+    to:{
         type: String,
         required: true
-
+    },
+    email:{
+        type:String
+    },
+    from:{
+        type: String,
+        required: true
     },
 
     subject:{
@@ -25,7 +27,7 @@ const emailSchema = new mongoose.Schema({
     },
     date: {
         type: Date,
-        required: true,
+        //required: true,
     },
     daysBefore : {
        type: String

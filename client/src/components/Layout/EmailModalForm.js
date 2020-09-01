@@ -1,10 +1,11 @@
 import React, { useState } from "react";
 import useEmailForm from "../forms/useEmailForm";
-const EmailModalForm = ({ show, close, hirename, startDate }) => {
+const EmailModalForm = ({ show, close, hireForm, startDate }) => {
   const { handleChange, emailData, onSubmit } = useEmailForm();
- 
+  
   //set emailData to 
-  emailData.to = hirename;
+  emailData.to = hireForm.email;
+
 
   // get  startDate and convert to date
   emailData.date = new Date(startDate);
@@ -37,11 +38,9 @@ const EmailModalForm = ({ show, close, hirename, startDate }) => {
                 <div className="col-sm-6">
                   <label className="conrol-label">To</label>
                   <input
-                    type="text"
-                    className="form-control text-box-sm"
-                    name="to"
-                    value={emailData.to}
-                    onChange={handleChange}
+                   className="form-control text-box-sm"
+                    value={hireForm.name} 
+                    readOnly
                   />
                 </div>
                 <div className="col-sm-6">
@@ -101,25 +100,25 @@ const EmailModalForm = ({ show, close, hirename, startDate }) => {
             <div className="modal-content row">Preview Email</div>
             <div className="modal-content row" style={{ border: "0" }}>
               <div className="preview row">
-                <p style={{ fontWeight: "bold" }}>To: </p> &nbsp; {emailData.to}{" "}
+                <p style={{ fontWeight: "bold" }}>To: </p> &nbsp; {hireForm.name}
                 {/* add to name */}
               </div>
               <div className="preview row">
-                <p style={{ fontWeight: "bold" }}>From: </p> &nbsp;{" "}
+                <p style={{ fontWeight: "bold" }}>From: </p> &nbsp;
                 {emailData.from}
               </div>
               <div className="preview row">
-                <p style={{ fontWeight: "bold" }}>Date: </p> &nbsp;{" "}
+                <p style={{ fontWeight: "bold" }}>Date: </p> &nbsp;
                 {emailData.date.toLocaleString("default", {
                   month: "long",
                   day: "numeric",
                   year: "numeric",
-                })}{" "}
+                })}
                 {/* add date */}
               </div>
               <br />
               <div className="preview row">
-                <p style={{ fontWeight: "bold" }}>Subject: </p> &nbsp;{" "}
+                <p style={{ fontWeight: "bold" }}>Subject: </p> &nbsp;
                 {/* add subject*/} {emailData.subject}
               </div>
               <div className="preview row">
@@ -141,6 +140,7 @@ const EmailModalForm = ({ show, close, hirename, startDate }) => {
         </button>
         <button
           type="submit"
+          onClick = {close}
           form="emailForm"
           className="btn btn-primary btn-sm mod"
         >

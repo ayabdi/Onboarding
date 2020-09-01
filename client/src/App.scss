@@ -92,6 +92,7 @@
 
 .card-body {
     border: 1px solid #707070;
+    padding: 25px;
 }
 
 .card-body-active {
@@ -381,4 +382,45 @@ z-index: 1;
     font-size: 14px;
     height: 20px;
     white-space: pre-line;
+}
+//email list
+.container.email-preview {
+  border-radius: 4px;
+  box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.16);
+  border: solid 1px #707070;
+  padding: 8px 12px;
+  margin: 12px;
+  margin: 0 0 12px 12px;
+  width: 90%;
+}
+.container.email-preview-titles {
+
+  margin: 15px 8px 0px 12px;
+  width: 90%;
+}
+.col-sm-3.email-titles {
+  max-width: 100%;  
+  font-weight: 450;
+  margin: 8px;
+  font-size: 14px;
+  line-height: 1.5;
+ 
+}
+.col-sm-3.email-preview {
+  max-width: 100%;  
+  font-weight: 450;
+  margin: auto 8px;
+  font-size: 14px;
+  line-height: 1.5;
+  text-overflow: ellipsis;
+}
+.row.email-preview.p{
+  margin:0;
+}
+.email{
+  font-size: 11px;
+  opacity: 0.8;
+}
+.icons{
+  cursor: pointer;
 }

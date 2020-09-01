@@ -14,7 +14,6 @@
         width: 40%;
         display: flex;
         flex-direction: column;
-        
         align-items: center;
         justify-content: center;
         position: relative;
@@ -64,7 +63,6 @@
 }
 
 
-
 .step-number.step-number-selected {
     // background: purple;
     border-radius: 50%;
@@ -73,8 +71,6 @@
     height: 1px;
     text-align: center;
     
-    
-
 }
 
 .step-number-disabled {

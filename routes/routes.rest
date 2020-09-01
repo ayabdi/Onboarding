@@ -1,11 +1,15 @@
-POST   http://localhost:5000/send_email
+GET http://localhost:5000/emails/find/abdulrahmanabdi98@gmail.com
 Content-Type: application/json
 
-{
+{  
    
-    "subject" : "lol 2:10 ",
-    "message" : "HEHEHEHE lol",
-   
+   "email" : "abdulrahmanabdi98@gmail.com",
+   "subject": "Not Welcome to the Team",
+   "message" : "NON2",
+   "date" : "2020-08-30T01:00:00",
+   "daysBefore": "1"
+
+    
      
 }
 

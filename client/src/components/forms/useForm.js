@@ -37,50 +37,84 @@ const handleChange = event => {
     
     }
    }
-   const decrement = () => {
+   const decrement = event => {
+     if (currentStep>1 && currentStep <=3)
      setCount(currentStep - 1)
    }
  
  
-
+//POSTING
 const onSubmit =  async e => {
     e.preventDefault();
     //handle errors
     setErrors(validate(formData));
+   
     setIsSubmitting(true);
     
-//    if (Object.keys(errors).length === 0) {
-//      increment;
-//    }
-    
-    //     try { 
-    //         const config = {          
-    //         headers: {
-    //             'Content-Type': 'application/json'
-    //         }
-    //     }
-    //     const body = JSON.stringify(formData);
-    //     const res = await axios.post('/hires', body, config);
-    //     console.log(res.data);
-    // } catch (error) {
-    //     console.error(error.response.data)
-    // }
+        try { 
+            const config = {          
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        }
+        const body = JSON.stringify(formData);
+        const res = await axios.post('http://localhost:5000/hires', body, config)
+        console.log(res.data);
+        
+    } catch (error) {
+        console.error(error.response.data)
+    }
 }
 useEffect(() => {
- if(Object.keys(errors).length === 0 && isSubmitting){
+ if(Object.keys(errors).length === 0 && isSubmitting ){
      callback();
      //move to next step
      increment();
  }
   
-}, [errors])
+}, [errors]
+)
+//Fetching Emails
+const [emails , fetchEmails] = useState([])
+
+useEffect (() => {
+  
+    axios({
+        method: 'GET',
+       
+        url : `http://localhost:5000/emails/find/${formData.email}`
+    }).then(res => {
+        fetchEmails(res.data)
+    })
+},[isSubmitting, emails])
+
+//Delete Email
+function deleteEmail (emailID) {
+    axios({
+        method: 'DELETE',
+        mode: 'no-cors',
+        headers: {
+            'Accept': 'application/json', 'Content-Type': 'application/json',
+           
+        },
+        url : `http://localhost:5000/emails/${emailID}`
+    }).then(res => {
+        console.log(res.data)
+    })
+}
+
+
 
 return {
     handleChange,
     onSubmit,
     formData,
     errors,
-    currentStep
+    currentStep,
+    decrement,
+    emails,
+    deleteEmail
+    
    
     
 }}
