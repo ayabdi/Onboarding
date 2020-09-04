@@ -20,8 +20,8 @@ const transport = {
     port: 587,
     secure: false,
     auth: {
-      user: 'ay.abdi1106@gmail.com',
-      pass: 'thegame005'
+      user: 'testharmonizehq123@gmail.com',
+      pass: 'harmonizehq@12345'
     }
   };
   
