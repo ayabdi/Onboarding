@@ -8,7 +8,7 @@ const useForm = (callback, validate) => {
 
  const [formData, setFormData] = useState({
     startDate:'',
-    name: '',
+    name: 'lol',
     email:'',
     job_title: '',
     department: '',
@@ -102,6 +102,7 @@ function deleteEmail (emailID) {
         console.log(res.data)
     })
 }
+
 
 
 return {
