@@ -5,7 +5,7 @@ import Navbar from "./components/Layout/Navbar";
 import HireForm from "./components/Layout/HireForm";
 
 
-import {Provider} from 'react-redux'
+
 
 
 import "./App.scss";
