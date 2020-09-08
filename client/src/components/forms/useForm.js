@@ -8,7 +8,7 @@ const useForm = (callback, validate) => {
 
  const [formData, setFormData] = useState({
     startDate:'',
-    name: 'lol',
+    name: '',
     email:'',
     job_title: '',
     department: '',
@@ -58,7 +58,7 @@ const onSubmit =  async e => {
             }
         }
         const body = JSON.stringify(formData);
-        const res = await axios.post('http://localhost:3000/hires', body, config)
+        const res = await axios.post('http://localhost:5000/hires', body, config)
         console.log(res.data);
         
     } catch (error) {
