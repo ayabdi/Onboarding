@@ -8,7 +8,7 @@ const useForm = (callback, validate) => {
 
  const [formData, setFormData] = useState({
     startDate:'',
-    name: 'lol',
+    name: '',
     email:'',
     job_title: '',
     department: '',

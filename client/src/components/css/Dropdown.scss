@@ -1,0 +1,25 @@
+
+$color-main: #4e1390;
+
+.ui.fluid.dropdown {
+  width: 80% !important;
+  margin: 0 auto;
+  font: inherit;
+  border-color: #000000 !important;
+}
+
+.ui.selection.active.dropdown:hover {
+  border-color: #000000 !important;
+}
+
+.ui.selection.dropdown:focus {
+  border-color: $color-main !important;
+}
+
+.ui.selection.active.dropdown:hover {
+  border-color: $color-main !important;
+}
+
+.ui.selection.active.dropdown .menu {
+  border-color: $color-main !important;
+}

@@ -105,7 +105,7 @@ const EmailModalForm = ({ show, close, hireForm }) => {
               </div>
               <div className="preview row">
                 <p style={{ fontWeight: "bold" }}>From: </p> &nbsp;
-                {emailData.from}
+                {emailData.fromName}
               </div>
               <div className="preview row">
                 <p style={{ fontWeight: "bold" }}>Date: </p> &nbsp;
