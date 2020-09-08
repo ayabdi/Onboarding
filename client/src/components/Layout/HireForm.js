@@ -5,6 +5,7 @@ import { getTime, getDate, format } from "date-fns";
 import Stepper from "../Stepper/Stepper";
 import useForm from "../forms/useForm";
 import EmailModalForm from "./EmailModalForm";
+import EditEmailModal from "./EditEmailModal";
 import validate from "../forms/validateForm";
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -12,6 +13,7 @@ import { faEdit } from '@fortawesome/free-solid-svg-icons'
 import { faTrash } from '@fortawesome/free-solid-svg-icons'
 
 import "react-datepicker/dist/react-datepicker.css";
+import useEmailEditForm from "../forms/useEmailEditForm";
 
 const HireForm = () => {
   const {
@@ -22,7 +24,14 @@ const HireForm = () => {
     currentStep,
     decrement,
     emails,
+    isSubmitting,
+    deleteEmail,
   } = useForm(submit, validate);
+  
+  const { handleEdit, onEdit, setEmailData, emailData} = useEmailEditForm();
+ 
+ 
+
   const [isValid, setisValid] = useState(false);
   function submit() {
     console.log("Successfull Submitted");
@@ -31,6 +40,11 @@ const HireForm = () => {
   //modal form
   const [show, setShow] = useState(false);
   const closeModalHandler = () => setShow(false);
+
+  //edit modal form
+  const [showEdit, setShowEdit] = useState(false);
+ 
+  const closeEditModalHandler = () => setShowEdit(false);
 
   /// Stepper
   const stepsArray = [
@@ -44,6 +58,12 @@ const HireForm = () => {
   const [selectedDate, setSelectedDate] = useState(null);
   formData.startDate = new Date(getTime(selectedDate));
 
+
+
+   
+     
+  
+ 
   return (
     <Fragment>
       {show ? (
@@ -53,8 +73,18 @@ const HireForm = () => {
         show={show}
         close={closeModalHandler}
         hireForm={formData}
-        startDate={getTime(selectedDate)}
       />
+        {showEdit ? (
+        <div onClick={closeEditModalHandler} className="back-drop"></div>
+      ) : null}
+      <EditEmailModal
+        show={showEdit}
+        close={closeEditModalHandler}
+        emailForm={emailData}
+         handleChange = {handleEdit}
+         onSubmits = {onEdit}
+     />
+   
 
       <header>
         <div className="spacer">&nbsp;</div>
@@ -215,8 +245,8 @@ const HireForm = () => {
               </button>
             </div>
 
-            <>
-              {/* <div className="container email-preview-titles">
+            <>{ emails.length >0 ? (
+               <div className="container email-preview-titles">
                 <div className="row email-preview">
                   <div
                     className="col-sm-3 email-titles"
@@ -237,8 +267,11 @@ const HireForm = () => {
                     Scheduled For
                   </div>
                 </div>
-              </div> */}
+              </div> 
+            ) : null
+} 
               {emails.map((email, i) => (
+                
                 <div key={i} className="container email-preview">
                   <div className="row email-preview">
                     <div className="col-sm-3 email-preview">
@@ -248,7 +281,7 @@ const HireForm = () => {
                       className="col-sm-3 email-preview"
                       style={{ margin: "8px" }}
                     >
-                      lol
+                      {email.hire.name}
                       <br />
                       <div className="email">{email.to}</div>
                     </div>
@@ -258,8 +291,8 @@ const HireForm = () => {
                     </div>
 
                     <div className="col-xs">
-                    <FontAwesomeIcon icon={faEdit} style = {{marginTop: '50%'}}/> &nbsp;
-                    <FontAwesomeIcon icon={faTrash} style = {{marginTop: '50%'}} /> 
+                    <FontAwesomeIcon icon={faEdit} style = {{marginTop: '50%'}} className = "icons" onClick= {() => {setShowEdit(true);  setEmailData(email)}}/> &nbsp;
+                    <FontAwesomeIcon icon={faTrash} style = {{marginTop: '50%'}} className = "icons" onClick= {()=> deleteEmail(email._id)} /> 
                     </div>  
                  
                   </div>

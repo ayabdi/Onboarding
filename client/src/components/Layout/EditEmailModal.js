@@ -1,15 +1,11 @@
 import React, { useState } from "react";
-import useEmailForm from "../forms/useEmailForm";
-const EmailModalForm = ({ show, close, hireForm }) => {
-  const { handleChange, emailData, onSubmit} = useEmailForm();
+import useEmailEditForm from "../forms/useEmailEditForm";
+
+import { getTime, getDate, format } from "date-fns";
+const EditEmailModal = ({ show, close, emailForm, handleChange, onSubmits}) => {
   
-  //set emailData to 
-  emailData.to = hireForm.email;
-
-
-  // get  startDate and convert to date
-  emailData.date = hireForm.startDate;
- 
+  
+let date = new Date(emailForm.date)
 
   return (
     <div
@@ -31,15 +27,15 @@ const EmailModalForm = ({ show, close, hireForm }) => {
           <div className="modal-content column">
             <form
               className="modal-form"
-              id="emailForm"
-              onSubmit={(e) => onSubmit(e)}
+              id="emailEditForm"
+               onSubmit={(e) => onSubmits(e)}
             >
               <div className="form-group row">
                 <div className="col-sm-6">
                   <label className="conrol-label">To</label>
                   <input
                    className="form-control text-box-sm"
-                    value={hireForm.name} 
+                    value={emailForm.hire.name} 
                     readOnly
                   />
                 </div>
@@ -49,7 +45,7 @@ const EmailModalForm = ({ show, close, hireForm }) => {
                     type="text"
                     className="form-control text-box-sm"
                     name="fromName"
-                    value={emailData.fromName}
+                  value={emailForm.fromName}
                     onChange={handleChange}
                   />
                 </div>
@@ -61,7 +57,8 @@ const EmailModalForm = ({ show, close, hireForm }) => {
                     type="text"
                     className="form-control text-box-sm"
                     name="subject"
-                    value={emailData.subject}
+                    
+                  value={emailForm.subject}
                     onChange={handleChange}
                   />
                 </div>
@@ -73,7 +70,7 @@ const EmailModalForm = ({ show, close, hireForm }) => {
                     type="textarea"
                     className="form-control text-box-large"
                     name="message"
-                    value={emailData.message}
+                   value={emailForm.message}
                     onChange={handleChange}
                   ></textarea>
                 </div>
@@ -86,7 +83,7 @@ const EmailModalForm = ({ show, close, hireForm }) => {
                     type="text"
                     className="form-control text-box-sml"
                     name="daysBefore"
-                    value={emailData.daysBefore}
+                   value={emailForm.daysBefore}
                     onChange={handleChange}
                   />{" "}
                   &nbsp; Days before start date
@@ -100,16 +97,16 @@ const EmailModalForm = ({ show, close, hireForm }) => {
             <div className="modal-content row">Preview Email</div>
             <div className="modal-content row" style={{ border: "0" }}>
               <div className="preview row">
-                <p style={{ fontWeight: "bold" }}>To: </p> &nbsp; {hireForm.name}
+                <p style={{ fontWeight: "bold" }}>To: </p> &nbsp; {emailForm.hire.name}
                 {/* add to name */}
               </div>
               <div className="preview row">
                 <p style={{ fontWeight: "bold" }}>From: </p> &nbsp;
-                {emailData.from}
+                {emailForm.fromName}
               </div>
               <div className="preview row">
                 <p style={{ fontWeight: "bold" }}>Date: </p> &nbsp;
-                {emailData.date.toLocaleString("default", {
+                {date.toLocaleString("default", {
                   month: "long",
                   day: "numeric",
                   year: "numeric",
@@ -119,12 +116,12 @@ const EmailModalForm = ({ show, close, hireForm }) => {
               <br />
               <div className="preview row">
                 <p style={{ fontWeight: "bold" }}>Subject: </p> &nbsp;
-                {/* add subject*/} {emailData.subject}
+                {/* add subject*/} {emailForm.subject}
               </div>
               <div className="preview row">
                 <br />
                 {/* add message */}
-                {emailData.message}
+                {emailForm.message}
               </div>
             </div>
           </div>
@@ -141,7 +138,7 @@ const EmailModalForm = ({ show, close, hireForm }) => {
         <button
           type="submit"
           onClick = {() => close()}
-          form="emailForm"
+          form="emailEditForm"
           className="btn btn-primary btn-sm mod"
         >
           Send
@@ -150,4 +147,4 @@ const EmailModalForm = ({ show, close, hireForm }) => {
     </div>
   );
 };
-export default EmailModalForm;
+export default EditEmailModal;

@@ -1,14 +1,14 @@
 import {useState, useEffect} from 'react'
 import axios from 'axios'
 
-import validate from './validateForm'
+
 //set form Data
 const useForm = (callback, validate) => {
    
 
  const [formData, setFormData] = useState({
     startDate:'',
-    name: '',
+    name: 'lol',
     email:'',
     job_title: '',
     department: '',
@@ -58,7 +58,7 @@ const onSubmit =  async e => {
             }
         }
         const body = JSON.stringify(formData);
-        const res = await axios.post('http://localhost:5000/hires', body, config)
+        const res = await axios.post('http://localhost:3000/hires', body, config)
         console.log(res.data);
         
     } catch (error) {
@@ -104,7 +104,6 @@ function deleteEmail (emailID) {
 }
 
 
-
 return {
     handleChange,
     onSubmit,
@@ -113,7 +112,9 @@ return {
     currentStep,
     decrement,
     emails,
-    deleteEmail
+    isSubmitting,
+    deleteEmail,
+    
     
    
     

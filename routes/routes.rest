@@ -1,11 +1,11 @@
-GET http://localhost:5000/emails/find/abdulrahmanabdi98@gmail.com
+PATCH  http://localhost:5000/emails/5f4ea6e57cd09e2e74ec14ff
 Content-Type: application/json
 
 {  
    
    "email" : "abdulrahmanabdi98@gmail.com",
-   "subject": "Not Welcome to the Team",
-   "message" : "NON2",
+   "subject": "Not Wselcome to the Team",
+   "message" : "NON3",
    "date" : "2020-08-30T01:00:00",
    "daysBefore": "1"
 
