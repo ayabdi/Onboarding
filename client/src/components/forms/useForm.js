@@ -1,14 +1,14 @@
 import {useState, useEffect} from 'react'
 import axios from 'axios'
 
-import validate from './validateForm'
+
 //set form Data
 const useForm = (callback, validate) => {
    
 
  const [formData, setFormData] = useState({
     startDate:'',
-    name: '',
+    name: 'lol',
     email:'',
     job_title: '',
     department: '',
@@ -103,7 +103,25 @@ function deleteEmail (emailID) {
     })
 }
 
-
+// //Edit Email
+// const [emailEdit, setEmailEdit] = useState({})
+// function editEmail (emailData) {
+  
+//     try { 
+//         const config = {          
+//         headers: {
+//             'Content-Type': 'application/json',
+//             'Accept': 'application/json',
+//         }
+//     }
+//     const body = JSON.stringify(emailData);
+//     const res = axios.patch(`http://localhost:5000/${emailData._id}`, body, config)
+//     console.log(res.data);
+    
+// } catch (error) {
+//     console.error(error.response.data)
+// }
+// }
 
 return {
     handleChange,
@@ -113,7 +131,9 @@ return {
     currentStep,
     decrement,
     emails,
-    deleteEmail
+    isSubmitting,
+    deleteEmail,
+    
     
    
     

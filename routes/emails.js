@@ -8,13 +8,36 @@ const { body } = require("express-validator");
 
 
 
-//@route GET /emails
-//@desc  Fetch all Emails 
-//@access Public
+// //@route GET /emails
+// //@desc  Fetch all Emails 
+// //@access Public
+// router.get('/', async(req, res) => {
+//     try {
+//         const hires = await Email.find();
+//         res.json(hires);
 
-//@route GET /emails/:id
-//@desc  Fetch Email per hire ID
-//@access Public
+//     } catch (errors) {
+//         res.send('Error' + errors)
+//     }
+// });
+// //@route GET /emails/:id
+// //@desc  Fetch Email per hire ID
+// //@access Public
+    
+// router.get("/find/:id", async (req, res) => {
+//   try {
+//     const emails = await Email.find({
+//        hire: req.body.hire,
+//     }).populate('hire',['name', 'email']);
+//     res.json(emails);
+//   } catch (errors) {
+    
+//     if (errors.kind == 'ObjectId') {
+//         return res.status(400).json({ msg: "Hire not found" });
+//     }
+//     res.status(500).send('Server Error');
+//   }
+// });
     
 
 ////@route GET /emails/:email
@@ -22,7 +45,7 @@ const { body } = require("express-validator");
 //@access Public
 router.get('/find/:email', async(req, res) => {
     try {
-        const email = await Email.find({to : req.params.email})
+        const email = await Email.find({to : req.params.email}).populate('hire', ['name', 'email'])
         
         res.json(email);
     } catch (err) {
@@ -61,6 +84,7 @@ router.post("/", getHire, async (req, res) => {
   const email = new Email({
     hire: res.hire._id,
     from: "ay.abdi1106@gmail.com",
+    fromName: req.body.fromName,
     to: req.body.to,
     subject: req.body.subject,
     message: req.body.message,
@@ -102,7 +126,7 @@ async function getEmail(req, res, next) {
     let email
     try {
         email = await Email.findById(req.params.id);
-
+        console.log(req.body.hire)
         if (email == null) {
             return res.status(404).json({ message: 'Cannot Find email' })
         }
@@ -116,6 +140,7 @@ router.patch('/:id', getEmail, async(req, res) => {
     if (req.body.from != null) {
         res.email.from = req.body.from
     }
+    
     if (req.body.to != null) {
         res.email.to = req.body.to
     }
@@ -131,7 +156,10 @@ router.patch('/:id', getEmail, async(req, res) => {
     if (req.body.daysBefore != null) {
         res.email.daysBefore = req.body.daysBefore
     }
+    
     try {
+        res.email.hire = req.body.hire
+        console.log(req.body.hire._id)
         const updatedEmail = await res.email.save()
         res.json(updatedEmail)
 

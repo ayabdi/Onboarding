@@ -35,4 +35,4 @@ const hireSchema = new mongoose.Schema({
     }
 });
 
-module.exports = mongoose.model('hires', hireSchema);
+module.exports = mongoose.model('hire', hireSchema);

@@ -4,7 +4,7 @@ const emailSchema = new mongoose.Schema({
  
     hire:{
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'hires'
+        ref: 'hire'
     },
     to:{
         type: String,
@@ -15,7 +15,11 @@ const emailSchema = new mongoose.Schema({
     },
     from:{
         type: String,
-        required: true
+        //required: true
+    },
+    fromName:{
+        type: String,
+        //required: true
     },
 
     subject:{
