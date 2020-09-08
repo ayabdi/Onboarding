@@ -10,9 +10,9 @@ export default function  validate(formData){
      else if(!pattern.test(String(formData.email).toLowerCase())){
         errors.email = 'Email address is invalid'
     } 
-    if(!pattern.test(String(formData.hm_email).toLowerCase())){
-        errors.Hm_email = 'Email address is invalid'
-    } 
+    // if(!pattern.test(String(formData.hm_email).toLowerCase())){
+    //     errors.Hm_email = 'Email address is invalid'
+    // } 
     if(!isAfter(formData.startDate, new Date(1987, 1, 11))){
         errors.startDate = 'Start Date is required';
     

@@ -7,12 +7,12 @@ const useEmailForm = () => {
         hire: " ",
         to: " ",
        from:" ",
-       fromName:"",
-       subject: " ",
-       message: " ",
+       fromName:"Tom Hall",
+       subject: " Welcome to The Team! ",
+       message: "Hi John, Welcome to The Company! ",
        date: " ",
        //# of days before start date
-       daysBefore: " "
+       daysBefore: "30"
     }
     const [emailData, setEmailData] = useState(initialState)
      

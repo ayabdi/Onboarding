@@ -8,12 +8,12 @@ const useForm = (callback, validate) => {
 
  const [formData, setFormData] = useState({
     startDate:'',
-    name: '',
-    email:'',
-    job_title: '',
-    department: '',
-    hiring_manager: '',
-    hm_email: ''
+    name: 'John Doe',
+    email:'johnedoe@gmail.com',
+    job_title: 'Developer',
+    department: 'Engineering',
+    hiring_manager: 'Tom Hall',
+    hm_email: 'tommhall@harmonize.hq'
 })
 const [errors, setErrors] = useState({})
 const [isSubmitting, setIsSubmitting] = useState(false);
