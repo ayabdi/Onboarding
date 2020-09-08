@@ -1,6 +1,7 @@
 import {useState, useEffect} from 'react'
 import axios from 'axios'
 
+/// Email Edit controller
 const useEmailEditForm = () => {
     
     const [isSubmittingEmail, setIsSubmittingEmail] = useState(false) 
@@ -18,7 +19,7 @@ const useEmailEditForm = () => {
     }
     const [emailData, setEmailData] = useState(initialState)
      
-   
+   //onChange handler
    const handleEdit = event => {
        const {name, value} = event.target;
        setEmailData({
@@ -27,7 +28,7 @@ const useEmailEditForm = () => {
        });
    }
 
-
+//edit on submit
 const onEdit =  async e =>  {
           e.preventDefault();
   try {
@@ -40,9 +41,8 @@ const onEdit =  async e =>  {
       //Store email
       const body = JSON.stringify(emailData);
 
-      const res = await axios.patch(`http://localhost:5000/emails/${emailData._id}`, body, config)
+      const res = await axios.patch(`http://localhost:3000/emails/${emailData._id}`, body, config)
       console.log(res.data);
-     // setEmailData(initialState);
 
       } catch (error) {
           console.error("")

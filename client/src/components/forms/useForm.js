@@ -58,7 +58,7 @@ const onSubmit =  async e => {
             }
         }
         const body = JSON.stringify(formData);
-        const res = await axios.post('http://localhost:5000/hires', body, config)
+        const res = await axios.post('http://localhost:3000/hires', body, config)
         console.log(res.data);
         
     } catch (error) {
@@ -103,25 +103,6 @@ function deleteEmail (emailID) {
     })
 }
 
-// //Edit Email
-// const [emailEdit, setEmailEdit] = useState({})
-// function editEmail (emailData) {
-  
-//     try { 
-//         const config = {          
-//         headers: {
-//             'Content-Type': 'application/json',
-//             'Accept': 'application/json',
-//         }
-//     }
-//     const body = JSON.stringify(emailData);
-//     const res = axios.patch(`http://localhost:5000/${emailData._id}`, body, config)
-//     console.log(res.data);
-    
-// } catch (error) {
-//     console.error(error.response.data)
-// }
-// }
 
 return {
     handleChange,
