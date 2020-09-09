@@ -36,6 +36,7 @@ router.post("/", async (req, res) => {
     task: req.body.task,
     to: req.body.to,
     to_email: req.body.to_email,
+    note: req.body.note,
     isCompleted: req.body.isCompleted,
     due_date: req.body.due_date,
     daysBefore: req.body.daysBefore,
@@ -71,7 +72,7 @@ router.delete('/:id', async(req, res) => {
 //@route UPDATE 
 //@desc  UPDATE Task
 //@access Public
-async function geTask(req, res, next) {
+async function getTask(req, res, next) {
     let task
     try {
         task = await Task.findById(req.params.id);
@@ -95,6 +96,9 @@ router.patch('/:id', getTask, async(req, res) => {
     }
     if (req.body.to_email != null) {
         res.task.to_email = req.body.to_email
+    }
+    if (req.body.note != null) {
+        res.task.note = req.body.note
     }
     if (req.body.isCompleted != null) {
         res.task.isCompleted = req.body.isCompleted
