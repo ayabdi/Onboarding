@@ -2,18 +2,18 @@ import React, { Fragment, useState } from "react";
 import DatePicker from "react-datepicker";
 import { getTime, getDate, format } from "date-fns";
 
-import Stepper from "../Stepper/Stepper";
-import useForm from "../forms/useForm";
+import Stepper from "./stepper/Stepper";
+import useForm from "./forms/useForm";
 import EmailModalForm from "./EmailModalForm";
 import EditEmailModal from "./EditEmailModal";
-import validate from "../forms/validateForm";
+import validate from "./forms/validateForm";
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faEdit } from '@fortawesome/free-solid-svg-icons'
 import { faTrash } from '@fortawesome/free-solid-svg-icons'
 
 import "react-datepicker/dist/react-datepicker.css";
-import useEmailEditForm from "../forms/useEmailEditForm";
+import useEmailEditForm from "./forms/useEmailEditForm";
 
 const HireForm = () => {
   const {

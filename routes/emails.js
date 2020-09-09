@@ -8,38 +8,6 @@ const { body } = require("express-validator");
 
 
 
-// //@route GET /emails
-// //@desc  Fetch all Emails 
-// //@access Public
-// router.get('/', async(req, res) => {
-//     try {
-//         const hires = await Email.find();
-//         res.json(hires);
-
-//     } catch (errors) {
-//         res.send('Error' + errors)
-//     }
-// });
-// //@route GET /emails/:id
-// //@desc  Fetch Email per hire ID
-// //@access Public
-    
-// router.get("/find/:id", async (req, res) => {
-//   try {
-//     const emails = await Email.find({
-//        hire: req.body.hire,
-//     }).populate('hire',['name', 'email']);
-//     res.json(emails);
-//   } catch (errors) {
-    
-//     if (errors.kind == 'ObjectId') {
-//         return res.status(400).json({ msg: "Hire not found" });
-//     }
-//     res.status(500).send('Server Error');
-//   }
-// });
-    
-
 ////@route GET /emails/:email
 //@desc  Fetch Emails per email address
 //@access Public
@@ -101,8 +69,8 @@ router.post("/", getHire, async (req, res) => {
     res.status(400).send("Server error");
   }
 });
-//@route DELETE /hires
-//@desc  DELETE profile and User
+//@route DELETE /emails
+//@desc  DELETE email
 //@access Public
 
 router.delete('/:id', async(req, res) => {

@@ -34,7 +34,7 @@ router.post(
             return res.status(400).json({ errors: errors.array() });
         }
         const hire = new Hire({
-          //  startDate: req.body.startDate,
+            startDate: req.body.startDate,
             name: req.body.name,
             email: req.body.email,
             job_title: req.body.job_title,
@@ -66,7 +66,7 @@ router.get('/:id', async(req, res) => {
     }
 });
 //@route DELETE /hires
-//@desc  DELETE profile and User
+//@desc  DELETE hire
 //@access Public
 async function getHire(req, res, next) {
     let hire
@@ -97,7 +97,7 @@ router.delete('/:id', async(req, res) => {
 });
 
 //@route UPDATE /hires
-//@desc  UPDATE profile and User
+//@desc  UPDATE Hire
 //@access Public
 router.patch('/:id', getHire, async(req, res) => {
     if (req.body.name != null) {
