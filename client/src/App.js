@@ -1,11 +1,11 @@
 import React, { Fragment } from "react";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import Navbar from "./components/Layout/Navbar";
-///import Landing from "./components/Layout/Landing";
+import Landing from "./components/Layout/Landing";
 import HireForm from "./components/Layout/HireForm";
 
 
-import {Provider} from 'react-redux'
+
 
 
 import "./App.scss";
@@ -21,7 +21,10 @@ function App() {
         
         <section>
           <Switch>
+           <Route exact path ="/" component={Landing}/> 
             <Route exact path ="/hire" component={HireForm}/>
+            
+            
           </Switch>
         </section>
         

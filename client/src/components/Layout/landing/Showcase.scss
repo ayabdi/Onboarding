@@ -1,0 +1,32 @@
+.main-feature{
+   padding-top: 4rem;
+   padding-bottom: 4rem;
+   position: relative;
+
+   background-color: #f9f2fc;
+   width: 1440px;
+   height: 486px;
+   text-align: center;
+}
+
+@import url('https://fonts.googleapis.com/css2?family=Lora&display=swap');
+.feature-section{
+    line-height: 3;
+    margin-top: 5rem;
+}
+
+.feature-section h2{
+   font-family: Lora;
+   font-size: 25px;
+   font-weight: 900;
+   color: #000000;
+}
+
+
+.main-feature .text-box h3{
+   color: black;
+   font-weight: 300;
+   font-family: Poppins;
+   font-size: 20px;
+   margin-top: 15px;
+}

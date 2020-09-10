@@ -2,18 +2,18 @@ import React, { Fragment, useState } from "react";
 import DatePicker from "react-datepicker";
 import { getTime, getDate, format } from "date-fns";
 
-import Stepper from "../Stepper/Stepper";
-import useForm from "../forms/useForm";
+import Stepper from "./stepper/Stepper";
+import useForm from "./forms/useForm";
 import EmailModalForm from "./EmailModalForm";
 import EditEmailModal from "./EditEmailModal";
-import validate from "../forms/validateForm";
+import validate from "./forms/validateForm";
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faEdit } from '@fortawesome/free-solid-svg-icons'
 import { faTrash } from '@fortawesome/free-solid-svg-icons'
 
 import "react-datepicker/dist/react-datepicker.css";
-import useEmailEditForm from "../forms/useEmailEditForm";
+import useEmailEditForm from "./forms/useEmailEditForm";
 
 const HireForm = () => {
   const {
@@ -57,11 +57,7 @@ const HireForm = () => {
   //Date Picker
   const [selectedDate, setSelectedDate] = useState(null);
   formData.startDate = new Date(getTime(selectedDate));
-
-
-
-   
-     
+  
   
  
   return (
@@ -89,7 +85,7 @@ const HireForm = () => {
       <header>
         <div className="spacer">&nbsp;</div>
         <br />
-        <br />
+        <br /> <br/>
 
         <div className="container-small">Jane Doe's Workflow</div>
       </header>
@@ -107,7 +103,7 @@ const HireForm = () => {
           className={`card-body  ${
             currentStep === 1 ? "card-body-active" : "card-body"
           }  }`}
-          onClick={(e) => decrement(e)}
+           onClick={(e) => decrement(e)}
         >
           <h5 className="card-title ">New Hire Information</h5>
           <p className="card-text ">Please enter details for the new hires</p>
@@ -125,6 +121,7 @@ const HireForm = () => {
                         className="form-control textbox-size"
                         dateFormat="MMMM dd,yyyy"
                       />
+                      {errors.startDate && <p>{errors.startDate}</p>}
                     </div>
                   </div>
                   <div className="form-group row">
@@ -163,7 +160,9 @@ const HireForm = () => {
                         value={formData.job_title}
                         onChange={handleChange}
                       />
+                      {errors.job_title && <p>{errors.job_title}</p>}
                     </div>
+                    
                     <div className="col-sm-3 cmsize">
                       <label className="conrol-label">Department</label>
                       <input
@@ -173,6 +172,7 @@ const HireForm = () => {
                         value={formData.department}
                         onChange={handleChange}
                       />
+                      {errors.department && <p>{errors.department}</p>}
                     </div>
                   </div>
                   <div className="form-group row">

@@ -1,0 +1,76 @@
+/* .container{
+    padding-top: 9rem;
+    padding-bottom: 9rem;
+} */
+@import "../../css/App.scss";
+
+.main-header{
+  padding-top: 9rem;
+  height:45rem;
+  position: relative;
+  background-color:white;
+}
+
+
+
+@import url('https://fonts.googleapis.com/css2?family=Poppins&display=swap');
+.main-header .text-box h3{
+  font-family: Poppins;
+  font-size: 1rem;
+  font-weight: 600;
+  line-height: 37px;
+  color:#4F1391;
+}    
+
+@import url('https://fonts.googleapis.com/css2?family=Lora&display=swap');
+.main-header .text-box h1{
+  font-family: Lora;
+  font-weight: bold;
+  line-height: 1.5;
+  font-size: 50px;
+  color: #000000;
+
+  font-stretch: normal;
+  font-style: normal;
+  line-height: normal;
+  letter-spacing: normal;
+}    
+.text-box h2{
+  font-weight: 600;
+  font-family: Poppins;
+  font-size: 25px;
+  color: #4f1391;
+}
+.text-box p {
+  font-family: Poppins;
+  margin-bottom: 2rem;
+  font-size: 23px;
+  font-weight: 300;
+  color: #000000;
+}
+
+.call-to-action {
+  background-color:#4E1390;
+  cursor: pointer;
+  border: none;
+  border-radius: 10px;
+  width: 120px;
+  height: 52.3px;
+  margin-top: 25px;
+}
+
+.call-to-action a{
+  color: #ffffff;
+  font-size: 18px;
+  text-decoration: none !important;
+}
+
+.call-to-action a:hover{
+  color: #ffffff;
+}
+
+
+.jumbo{
+  width: 678px;
+  height: 411px;
+}

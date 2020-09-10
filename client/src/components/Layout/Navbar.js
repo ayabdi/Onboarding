@@ -1,42 +1,82 @@
-import React from 'react'
-import { Link  } from "react-router-dom"
+import React, { useState, useEffect, useRef } from "react";
+import '../css/Navbar.scss'
+import HarmonizeLogo from "../../assets/logo.png";
 
-export const Navbar = () => {
-    return (
-        <nav className="navbar navbar-expand-md navbar-dark fixed-top bg-custom-2">
-                <div className="container">
-                    <Link className="navbar-brand navbar-label" to="/">Harmonize</Link>
-                    <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
-            <span className="navbar-toggler-icon"></span>
-          </button>
-                    <div className="collapse navbar-collapse justify-content-end " id="navbarText">
-                        <ul className="nav">
-                            <li className="nav-item dropdown">
-                                <a className="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                Features
-                              </a>
-                                <div className="dropdown-menu" aria-labelledby="navbarDropdown">
-                                    <a className="dropdown-item" href="#">Action</a>
-                                    <a className="dropdown-item" href="#">Another action</a>
-                                    <div className="dropdown-divider"></div>
-                                    <a className="dropdown-item" href="#">Something else here</a>
-                                </div>
-                            </li>
-                            <li className="nav-item active">
-                                <a className="nav-link" href="#">About Us</a>
-                            </li>
-                            <li className="nav-item active">
-                                <a className="nav-link" href="#">Contact Us <span className="sr-only">(current)</span></a>
-                            </li>
-                            <li className="nav-item active">
-                                <a className="nav-link" href="#">Blog <span className="sr-only">(current)</span></a>
-                            </li>
-                        </ul>
+const _Navbar = () => {
+  const dropdownRef = useRef(null);
+  const [showDropdown, setShowDropdown] = useState(false);
 
+  const navigate = (href, newTab) => {
+    const a = document.createElement("a");
+    a.href = href;
+    if (newTab) {
+      a.setAttribute("target", "_blank");
+    }
+    a.click();
+  };
+
+  const [navWhite, setNavWhite] = useState(false);
+  useEffect(() => {
+    function handleScroll() {
+      if (window.pageYOffset > 50) {
+        setNavWhite(true);
+      } else {
+        setNavWhite(false);
+      }
+    }
+    window.addEventListener("scroll", handleScroll);
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
+
+  return (
+    <header>
+      <nav className={`navbar-custom ${navWhite ? "white" : ""}`}>
+        <div className="container">
+          <a href="/" className="navbar-brand">
+            <img src={HarmonizeLogo} alt="logo" /> Harmonize
+          </a>
+          <ul>
+            <li>
+              <button
+                className="products-drop"
+                onMouseOver={() => setShowDropdown(true)}
+                onMouseLeave={() => setShowDropdown(false)}
+              >
+                Products{" "}
+                <i
+                  className="fas fa-chevron-down"
+                  style={{ marginLeft: "2.5px" }}
+                ></i>
+                {showDropdown && (
+                  <div className="product-dropdown" ref={dropdownRef}>
+                    <div className="dropdown-content">
+                      <a target="_blank" rel="noreferrer" href="/calculator">
+                        Paycheck Calculator
+                      </a>
+                      <a target="_blank" rel="noreferrer" href="/orgchart">
+                        Organizational Chart
+                      </a>
+                      <a target="_blank" rel="noreferrer" href="/contract">
+                        Contract Generator
+                      </a>
+                      <a href="#!">Onboarding</a>
                     </div>
-                </div>
+                  </div>
+                )}
+              </button>
+            </li>
+            <li>
+              <a target="_blank" rel="oopener noreferrer" href="https://www.attendancebot.com/blog/">
+                Blog
+              </a>
+            </li>
+          </ul>
+        </div>
+      </nav>
+    </header>
+  );
+};
 
-            </nav>
-    )
-}
-export default Navbar;
+export default _Navbar;

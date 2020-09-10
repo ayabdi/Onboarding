@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-import useEmailForm from "../forms/useEmailForm";
-const EmailModalForm = ({ show, close, hireForm }) => {
-  const { handleChange, emailData, onSubmit} = useEmailForm();
+import useTaskForm from "./formcontroller/useTaskForm";
+const TaskModalForm = ({ show, close, hireForm }) => {
+  const { handleChange, emailData, onSubmit} = useTaskForm();
   
   //set emailData to 
   emailData.to = hireForm.email;
@@ -150,4 +150,4 @@ const EmailModalForm = ({ show, close, hireForm }) => {
     </div>
   );
 };
-export default EmailModalForm;
+export default TaskModalForm;

@@ -8,12 +8,12 @@ const useForm = (callback, validate) => {
 
  const [formData, setFormData] = useState({
     startDate:'',
-    name: 'lol',
-    email:'',
-    job_title: '',
-    department: '',
-    hiring_manager: '',
-    hm_email: ''
+    name: 'John Doe',
+    email:'johnedoe@gmail.com',
+    job_title: 'Developer',
+    department: 'Engineering',
+    hiring_manager: 'Tom Hall',
+    hm_email: 'tommhall@harmonize.hq'
 })
 const [errors, setErrors] = useState({})
 const [isSubmitting, setIsSubmitting] = useState(false);
@@ -58,7 +58,7 @@ const onSubmit =  async e => {
             }
         }
         const body = JSON.stringify(formData);
-        const res = await axios.post('http://localhost:3000/hires', body, config)
+        const res = await axios.post('http://localhost:5000/hires', body, config)
         console.log(res.data);
         
     } catch (error) {
@@ -102,6 +102,7 @@ function deleteEmail (emailID) {
         console.log(res.data)
     })
 }
+
 
 
 return {
