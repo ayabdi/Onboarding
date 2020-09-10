@@ -11,8 +11,6 @@ const bodyParser = require('body-parser');
 // router.use(bodyParser.json())
 // router.use(bodyParser.urlencoded({extended: true}))
 
-
-
 const transport = {
     //all of the configuration for making a site send an email.
   
