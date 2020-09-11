@@ -15,6 +15,7 @@ export default function  validate(formData){
     // } 
     if(!isAfter(formData.startDate, new Date(1987, 1, 11))){
         errors.startDate = 'Start Date is required';
+        console.log(formData.startDate)
     
     }
     if(!formData.name){

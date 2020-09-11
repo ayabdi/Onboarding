@@ -7,8 +7,8 @@ const useForm = (callback, validate) => {
    
 
  const [formData, setFormData] = useState({
-    startDate:'',
-    name: 'John Doe',
+    startDate:' ',
+    name: ' John Doe',
     email:'johnedoe@gmail.com',
     job_title: 'Developer',
     department: 'Engineering',
@@ -111,6 +111,7 @@ return {
     formData,
     errors,
     currentStep,
+    increment,
     decrement,
     emails,
     isSubmitting,

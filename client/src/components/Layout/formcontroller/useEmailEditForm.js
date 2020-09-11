@@ -20,7 +20,7 @@ const useEmailEditForm = () => {
     const [emailData, setEmailData] = useState(initialState)
      
    //onChange handler
-   const handleEdit = event => {
+   const handleEmailEdit = event => {
        const {name, value} = event.target;
        setEmailData({
            ...emailData, 
@@ -29,7 +29,7 @@ const useEmailEditForm = () => {
    }
 
 //edit on submit
-const onEdit =  async e =>  {
+const onEmailEdit =  async e =>  {
           e.preventDefault();
   try {
           const config = {
@@ -51,9 +51,9 @@ const onEdit =  async e =>  {
 
 
    return {
-    handleEdit,
+    handleEmailEdit,
     emailData,
-    onEdit,
+    onEmailEdit,
     setEmailData
     
     

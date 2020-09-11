@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import useEmailForm from "../forms/useEmailForm";
+import useEmailForm from "./formcontroller/useEmailForm";
 const EmailModalForm = ({ show, close, hireForm }) => {
   const { handleChange, emailData, onSubmit} = useEmailForm();
   

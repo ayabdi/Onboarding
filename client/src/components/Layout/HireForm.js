@@ -1,19 +1,21 @@
-import React, { Fragment, useState } from "react";
+import React, { Fragment, useState , useEffect} from "react";
 import DatePicker from "react-datepicker";
 import { getTime, getDate, format } from "date-fns";
 
 import Stepper from "./stepper/Stepper";
-import useForm from "./forms/useForm";
+import useForm from "./formcontroller/useForm";
 import EmailModalForm from "./EmailModalForm";
+import TaskModalForm from "./TaskModalForm"
 import EditEmailModal from "./EditEmailModal";
-import validate from "./forms/validateForm";
+import validate from "./validation/validateForm";
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faEdit } from '@fortawesome/free-solid-svg-icons'
 import { faTrash } from '@fortawesome/free-solid-svg-icons'
 
 import "react-datepicker/dist/react-datepicker.css";
-import useEmailEditForm from "./forms/useEmailEditForm";
+import useEmailEditForm from "./formcontroller/useEmailEditForm";
+import useTaskEditForm from "./formcontroller/useTaskEditForm";
 
 const HireForm = () => {
   const {
@@ -22,14 +24,17 @@ const HireForm = () => {
     formData,
     errors,
     currentStep,
+    increment,
     decrement,
     emails,
     isSubmitting,
     deleteEmail,
   } = useForm(submit, validate);
   
-  const { handleEdit, onEdit, setEmailData, emailData} = useEmailEditForm();
- 
+  const { handleEmailEdit, onEmailEdit, setEmailData, emailData} = useEmailEditForm();
+  const { handleTaskEdit, onTaskEdit, setTaskData, taskData, fetchHireEmail} = useTaskEditForm();
+  //fet hire email for task editing
+  //fetchHireEmail(formData.email);
  
 
   const [isValid, setisValid] = useState(false);
@@ -37,18 +42,25 @@ const HireForm = () => {
     console.log("Successfull Submitted");
     setisValid(true);
   }
-  //modal form
-  const [show, setShow] = useState(false);
-  const closeModalHandler = () => setShow(false);
+  //email modal form
+  const [showEmail, setShowEmail] = useState(false);
+  const closeEmailModalHandler = () => setShowEmail(false);
 
-  //edit modal form
-  const [showEdit, setShowEdit] = useState(false);
- 
-  const closeEditModalHandler = () => setShowEdit(false);
+  //edit email  modal form
+  const [showEmailEdit, setShowEmailEdit] = useState(false);
+  const closeEditEmailModalHandler = () => setShowEmailEdit(false);
+
+  //task modal form
+  const [showTask, setShowTask] = useState(false);
+  const closeTaskModalHandler = () => setShowTask(false);
+
+  //edit Task  modal form
+  const [showTaskEdit, setShowTaskEdit] = useState(false);
+  const closeEditTaskModalHandler = () => setShowTaskEdit(false);
+
 
   /// Stepper
   const stepsArray = [
-    // "Create your account",
     "Add new hire information",
     "Schedule automated emails",
     "Create Tasks",
@@ -56,31 +68,44 @@ const HireForm = () => {
 
   //Date Picker
   const [selectedDate, setSelectedDate] = useState(null);
-  formData.startDate = new Date(getTime(selectedDate));
+  useEffect(() => {
+       formData.startDate = new Date(getTime(selectedDate));
+   }, [selectedDate]
+   )
+
+  
   
   
  
   return (
     <Fragment>
-      {show ? (
-        <div onClick={closeModalHandler} className="back-drop"></div>
+      {showEmail ? (
+        <div onClick={closeEmailModalHandler} className="back-drop"></div>
       ) : null}
       <EmailModalForm
-        show={show}
-        close={closeModalHandler}
+        show={showEmail}
+        close={closeEmailModalHandler}
         hireForm={formData}
       />
-        {showEdit ? (
-        <div onClick={closeEditModalHandler} className="back-drop"></div>
+      {showEmailEdit ? (
+        <div onClick={closeEditEmailModalHandler} className="back-drop"></div>
       ) : null}
       <EditEmailModal
-        show={showEdit}
-        close={closeEditModalHandler}
+        show={showEmailEdit}
+        close={closeEditEmailModalHandler}
         emailForm={emailData}
-         handleChange = {handleEdit}
-         onSubmits = {onEdit}
+         handleChange = {handleEmailEdit}
+         onSubmits = {onEmailEdit}
      />
-   
+      {showTask ? (
+        <div onClick={closeTaskModalHandler} className="back-drop"></div>
+      ) : null}
+      <TaskModalForm
+        show={showTask}
+        close={closeTaskModalHandler}
+        hireForm={formData}
+        date = {selectedDate}
+      />
 
       <header>
         <div className="spacer">&nbsp;</div>
@@ -230,7 +255,7 @@ const HireForm = () => {
             </div>
             <div className="col-sm-3 float-right">
               <button
-                onClick={() => setShow(true)}
+                onClick={() => setShowEmail(true)}
                 className={`btn btn-primary px-4 custom ${
                   currentStep === 2
                     ? "btn btn-primary px-4 custom active "
@@ -291,7 +316,7 @@ const HireForm = () => {
                     </div>
 
                     <div className="col-xs">
-                    <FontAwesomeIcon icon={faEdit} style = {{marginTop: '50%'}} className = "icons" onClick= {() => {setShowEdit(true);  setEmailData(email)}}/> &nbsp;
+                    <FontAwesomeIcon icon={faEdit} style = {{marginTop: '50%'}} className = "icons" onClick= {() => {setShowEmailEdit(true);  setEmailData(email)}}/> &nbsp;
                     <FontAwesomeIcon icon={faTrash} style = {{marginTop: '50%'}} className = "icons" onClick= {()=> deleteEmail(email._id)} /> 
                     </div>  
                  
@@ -302,6 +327,8 @@ const HireForm = () => {
           </div>
         </div>
         <div
+         
+          onClick = {currentStep ===2 ? ( (e) => increment(e)) : null }
           className={`card-body  ${
             currentStep === 3 ? "card-body-active" : "card-body"
           }  }`}
@@ -316,6 +343,7 @@ const HireForm = () => {
             </div>
             <div className="col-sm-3 float-right">
               <button
+                onClick={() => setShowTask(true)}
                 type="button"
                 className={`btn btn-primary px-4 custom ${
                   currentStep === 3
@@ -326,6 +354,60 @@ const HireForm = () => {
                 Create a task
               </button>
             </div>
+            <>{ emails.length >0 ? (
+               <div className="container email-preview-titles">
+                <div className="row email-preview">
+                  <div
+                    className="col-sm-3 email-titles"
+                    style={{ margin: "8px" }}
+                  >
+                    Subject
+                  </div>
+                  <div
+                    className="col-sm-3 email-titles"
+                    style={{ margin: "8px" }}
+                  >
+                    To
+                  </div>
+                  <div
+                    className="col-sm-3 email-titles"
+                    style={{ margin: "8px" }}
+                  >
+                    Scheduled For
+                  </div>
+                </div>
+              </div> 
+            ) : null
+} 
+              {emails.map((email, i) => (
+                
+                <div key={i} className="container email-preview">
+                  <div className="row email-preview">
+                    <div className="col-sm-3 email-preview">
+                      {email.subject}
+                    </div>
+                    <div
+                      className="col-sm-3 email-preview"
+                      style={{ margin: "8px" }}
+                    >
+                      {email.hire.name}
+                      <br />
+                      <div className="email">{email.to}</div>
+                    </div>
+                    <div className="col-sm-3 email-preview">
+                      {" "}
+                      {email.daysBefore} Days before
+                    </div>
+
+                    <div className="col-xs">
+                    <FontAwesomeIcon icon={faEdit} style = {{marginTop: '50%'}} className = "icons" onClick= {() => {setShowEmailEdit(true);  setEmailData(email)}}/> &nbsp;
+                    <FontAwesomeIcon icon={faTrash} style = {{marginTop: '50%'}} className = "icons" onClick= {()=> deleteEmail(email._id)} /> 
+                    </div>  
+                 
+                  </div>
+                </div>
+              ))}{" "}
+            </>
           </div>
         </div>
       </div>

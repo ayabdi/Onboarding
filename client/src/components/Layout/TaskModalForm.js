@@ -1,15 +1,10 @@
 import React, { useState } from "react";
 import useTaskForm from "./formcontroller/useTaskForm";
+import {addDays} from 'date-fns'
 const TaskModalForm = ({ show, close, hireForm }) => {
-  const { handleChange, emailData, onSubmit} = useTaskForm();
+  const { handleChange, taskData, onSubmit, setReminderArr, reminderArr} = useTaskForm();
   
-  //set emailData to 
-  emailData.to = hireForm.email;
-
-
-  // get  startDate and convert to date
-  emailData.date = hireForm.startDate;
- 
+  taskData.hire = hireForm.email 
 
   return (
     <div
@@ -20,7 +15,7 @@ const TaskModalForm = ({ show, close, hireForm }) => {
       }}
     >
       <div className="modal-header">
-        <p>Schedule an email</p>
+        <p>Create a Task</p>
         <span onClick={close} className="close-modal-btn">
           x
         </span>
@@ -31,62 +26,80 @@ const TaskModalForm = ({ show, close, hireForm }) => {
           <div className="modal-content column">
             <form
               className="modal-form"
-              id="emailForm"
+              id="taskForm"
               onSubmit={(e) => onSubmit(e)}
             >
               <div className="form-group row">
-                <div className="col-sm-6">
-                  <label className="conrol-label">To</label>
+                <div className="col">
+                  <label className="conrol-label">Task</label>
                   <input
                    className="form-control text-box-sm"
-                    value={hireForm.name} 
-                    readOnly
+                   name = "task"
+                   value={taskData.task} 
+                   onChange = {handleChange}
+                    
                   />
                 </div>
-                <div className="col-sm-6">
-                  <label className="conrol-label">From</label>
+              </div>
+              <div className="form-group row">
+                <div className="col">
+                  <label className="conrol-label">Person responsible</label>
                   <input
                     type="text"
                     className="form-control text-box-sm"
-                    name="fromName"
-                    value={emailData.fromName}
+                    name="to"
+                    value={taskData.to}
                     onChange={handleChange}
                   />
                 </div>
               </div>
               <div className="form-group row">
                 <div className="col">
-                  <label className="conrol-label">Subject</label>
+                  <label className="conrol-label">Email address</label>
                   <input
                     type="text"
                     className="form-control text-box-sm"
-                    name="subject"
-                    value={emailData.subject}
+                    name="to_email"
+                    value={taskData.to_email}
                     onChange={handleChange}
                   />
                 </div>
               </div>
               <div className="form-group row">
                 <div className="col">
-                  <label className="conrol-label">Message</label>
+                  <label className="conrol-label">Note</label>
                   <textarea
                     type="textarea"
-                    className="form-control text-box-large"
-                    name="message"
-                    value={emailData.message}
+                    className="form-control text-box-med"
+                    name="note"
+                    value={taskData.note}
                     onChange={handleChange}
                   ></textarea>
                 </div>
               </div>
               <div className="form-group row">
                 <div className="col">
-                  <br />
-                  <label className="conrol-label">Send email:</label>
+                  
+                  <label className="conrol-label">Due Date</label>
                   <input
                     type="text"
                     className="form-control text-box-sml"
-                    name="daysBefore"
-                    value={emailData.daysBefore}
+                    name="due_date"
+                    value={taskData.due_date}
+                    onChange={handleChange}
+                  />{" "}
+                  &nbsp; Days before start date
+                </div>
+              </div>
+              <div className="form-group row">
+                <div className="col">
+                
+                  <label className="conrol-label">Set Reminder</label>
+                  <input
+                    type="text"
+                    className="form-control text-box-sml"
+                    name="reminder"
+                    value={taskData.reminder}
                     onChange={handleChange}
                   />{" "}
                   &nbsp; Days before start date
@@ -97,34 +110,49 @@ const TaskModalForm = ({ show, close, hireForm }) => {
         </div>
         <div className="col right">
           <div className="modal-content column">
-            <div className="modal-content row">Preview Email</div>
+            <div className="modal-content row">Preview email reminder</div>
             <div className="modal-content row" style={{ border: "0" }}>
               <div className="preview row">
-                <p style={{ fontWeight: "bold" }}>To: </p> &nbsp; {hireForm.name}
+                <p style={{ fontWeight: "bold" }}>To: </p> &nbsp; {taskData.to}
                 {/* add to name */}
               </div>
               <div className="preview row">
-                <p style={{ fontWeight: "bold" }}>From: </p> &nbsp;
-                {emailData.fromName}
+                <p style={{ fontWeight: "bold" }}>From: </p>  &nbsp;
+                {taskData.from}
               </div>
               <div className="preview row">
-                <p style={{ fontWeight: "bold" }}>Date: </p> &nbsp;
-                {emailData.date.toLocaleString("default", {
+                <p style={{ fontWeight: "bold" }}>Date: </p> &nbsp; 
+                {reminderArr.map((reminder, i) => (
+                  
+                <div key = {i}> 
+                &nbsp;{i===0? null : `  & ` }
+                  { i<3? addDays(hireForm.startDate, (-reminderArr[i]-taskData.due_date)).toLocaleString("default", {
                   month: "long",
                   day: "numeric",
                   year: "numeric",
-                })}
-                {/* add date */}
+                 }): null} 
+                
+                </div> 
+                )  ) 
+                
+                }
+              
+                
               </div>
               <br />
               <div className="preview row">
                 <p style={{ fontWeight: "bold" }}>Subject: </p> &nbsp;
-                {/* add subject*/} {emailData.subject}
+                Automated Email Reminder from {taskData.from}
               </div>
               <div className="preview row">
                 <br />
-                {/* add message */}
-                {emailData.message}
+                Task: {taskData.task} <br/>
+                Due Date : {addDays(hireForm.startDate, -taskData.due_date).toLocaleString("default", {
+                  month: "long",
+                  day: "numeric",
+                  year: "numeric",
+                })} <br/>
+                {taskData.note}
               </div>
             </div>
           </div>
@@ -141,7 +169,7 @@ const TaskModalForm = ({ show, close, hireForm }) => {
         <button
           type="submit"
           onClick = {() => close()}
-          form="emailForm"
+          form="taskForm"
           className="btn btn-primary btn-sm mod"
         >
           Send

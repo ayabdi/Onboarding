@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import useEmailEditForm from "../forms/useEmailEditForm";
+import useEmailEditForm from "./formcontroller/useEmailEditForm";
 
 import { getTime, getDate, format } from "date-fns";
 const EditEmailModal = ({ show, close, emailForm, handleChange, onSubmits}) => {
