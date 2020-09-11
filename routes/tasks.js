@@ -25,13 +25,30 @@ router.get('/find/:id', async(req, res) => {
 //@route POST /tasks
 //@desc  Create Email 
 //@access Public
-    
 
-router.post("/", async (req, res) => {
+//Get Hire by Email
+async function getHire(req, res, next) {
+    let hire
+     try {
+     
+         hire = await Hire.findOne({email : req.body.hire});
+         
+         if (hire == null) {
+             return res.status(404).json({ message: 'Cannot Find email' })
+         }
+     } catch (error) {
+         return res.status(500).json({ message: error.message });
+     }
+     res.hire = hire
+    next()
+  
+ }  
+
+router.post("/", getHire ,async (req, res) => {
     
   const task = new Task({
-    hire: req.body.hire,
-    from_email: "ay.abdi1106@gmail.com",
+    hire: res.hire._id,
+    from_email: "testharmonizehq123@gmail.com",
     from: req.body.from,
     task: req.body.task,
     to: req.body.to,
@@ -39,7 +56,7 @@ router.post("/", async (req, res) => {
     note: req.body.note,
     isCompleted: req.body.isCompleted,
     due_date: req.body.due_date,
-    daysBefore: req.body.daysBefore,
+    reminder: req.body.reminder,
   });
   try {
    

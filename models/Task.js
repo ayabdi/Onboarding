@@ -34,11 +34,12 @@ const taskSchema = new mongoose.Schema({
     },
 
     due_date: {
-        type: Date,
+        type: String,
         //required: true,
     },
-    daysBefore : {
-       type: String
+    reminder : {
+       type: {String}
+       //required: true,
     },
 
     date_created: {
