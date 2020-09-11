@@ -5,6 +5,11 @@ const { check, validationResult } = require("express-validator");
 
 const Hire = require("../models/Hire");
 
+//@route GET /hires
+//@desc  GET all hires
+//@access Public
+
+
 router.get('/', async(req, res) => {
     try {
         const hires = await Hire.find();
@@ -56,6 +61,21 @@ router.post(
 router.get('/:id', async(req, res) => {
     try {
         const hire = await Hire.findById(req.params.id);
+        res.json(hire);
+    } catch (err) {
+        console.error(err.message);
+        if (err.kind == 'ObjectId') {
+            return res.status(400).json({ msg: "Hire not found" });
+        }
+        res.status(500).send('Server Error');
+    }
+});
+//@route GET hire by email /hires/find/:email
+//@desc  Get hire data by email address
+//@access Public
+router.get('/find/:email', async(req, res) => {
+    try {
+        const hire = await Hire.find({email: req.params.email});
         res.json(hire);
     } catch (err) {
         console.error(err.message);
