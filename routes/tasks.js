@@ -5,12 +5,12 @@ const Task = require("../models/Task");
 const Hire = require("../models/Hire");
 
 
-////@route GET /tasks/:email
+////@route GET /tasks/:hire
 //@desc  Fetch Tasks per hire ID
 //@access Public
 router.get('/find/:id', async(req, res) => {
     try {
-        const task = await Task.find({hire: req.body.hire}).populate('hire', ['name', 'email'])
+        const task = await Task.find({id: req.body.hire}).populate('hire', ['name', 'email'])
         
         res.json(task);
     } catch (err) {
@@ -34,7 +34,7 @@ async function getHire(req, res, next) {
          hire = await Hire.findOne({email : req.body.hire});
          
          if (hire == null) {
-             return res.status(404).json({ message: 'Cannot Find email' })
+             return res.status(404).json({ message: 'Cannot Find hire' })
          }
      } catch (error) {
          return res.status(500).json({ message: error.message });
@@ -90,46 +90,52 @@ router.delete('/:id', async(req, res) => {
 //@desc  UPDATE Task
 //@access Public
 async function getTask(req, res, next) {
-    let task
+    let tasks
     try {
-        task = await Task.findById(req.params.id);
+        tasks = await Task.findById(req.params.id);
        
-        if (task == null) {
+        if (tasks == null) {
             return res.status(404).json({ message: 'Cannot Find task' })
         }
     } catch (error) {
         return res.status(500).json({ message: error.message });
     }
-    res.task = task
+    res.tasks = tasks
     next()
 }
 router.patch('/:id', getTask, async(req, res) => {
     if (req.body.from != null) {
-        res.task.from = req.body.from
+        res.tasks.from = req.body.from
+    }
+    if (req.body.from_email != null) {
+        res.tasks.from_email = req.body.from_email
+    }
+    if (req.body.task != null) {
+        res.tasks.task = req.body.task
     }
     
     if (req.body.to != null) {
-        res.task.to = req.body.to
+        res.tasks.to = req.body.to
     }
     if (req.body.to_email != null) {
-        res.task.to_email = req.body.to_email
+        res.tasks.to_email = req.body.to_email
     }
     if (req.body.note != null) {
-        res.task.note = req.body.note
+        res.tasks.note = req.body.note
     }
     if (req.body.isCompleted != null) {
-        res.task.isCompleted = req.body.isCompleted
+        res.tasks.isCompleted = req.body.isCompleted
     }
     if (req.body.due_date != null) {
-        res.task.due_date = req.body.due_date
+        res.tasks.due_date = req.body.due_date
     }
-    if (req.body.daysBefore != null) {
-        res.task.daysBefore = req.body.daysBefore
+    if (req.body.reminder != null) {
+        res.tasks.reminder = req.body.reminder
     }
     
     try {
-        
-        const updateTask = await res.task.save()
+
+        const updatedTask = await res.tasks.save()
         res.json(updatedTask)
 
     } catch (error) {
