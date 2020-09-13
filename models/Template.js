@@ -6,22 +6,26 @@ const templateSchema = new mongoose.Schema({
         required: true,
         unique: true
     },
-    from: {
-        type: String,
-        required: true
-    },
-    subject: {
-        type: String,
-        required: true
-    },
-    message: {
-        type: String,
-        required: true
-    },
-    days: {
-        type: [Number],
-        required: true
-    }
+
+    emails: [{
+        subject: {
+            type: String,
+            required: true
+        },
+        message: {
+            type: String,
+            required: true
+        }
+    }],
+
+    tasks: [{
+        lat: {
+            
+        },
+        lng: {
+            
+        }
+    }]
 });
 
 module.exports = mongoose.model('template', templateSchema);

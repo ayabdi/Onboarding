@@ -10,10 +10,8 @@ router.post('/',
     async (req, res) => {
         params = req.body
         name = params["name"]
-        from = params["from"]
-        subject = params["subject"]
-        message = params["message"]
-        days = params["days"]
+        emails = params["emails"]
+        tasks = params["tasks"]
 
         const template = new Template({
             name: name,
