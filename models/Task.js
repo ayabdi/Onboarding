@@ -12,11 +12,11 @@ const taskSchema = new mongoose.Schema({
     },
     from:{
         type: String,
-        required: true
+        //required: true
     },
     from_email:{
         type: String,
-        required: true
+        //required: true
     },
     to:{
         type:String
@@ -38,7 +38,7 @@ const taskSchema = new mongoose.Schema({
         //required: true,
     },
     reminder : {
-       type: {String}
+       type: String
        //required: true,
     },
 
