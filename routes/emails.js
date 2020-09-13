@@ -127,7 +127,7 @@ router.patch('/:id', getEmail, async(req, res) => {
     
     try {
         res.email.hire = req.body.hire
-        console.log(req.body.hire._id)
+        
         const updatedEmail = await res.email.save()
         res.json(updatedEmail)
 
