@@ -40,7 +40,7 @@ app.use('/hires', require('./routes/hires'));
 app.use('/send_email', require('./routes/mailer'))
 app.use('/emails', require('./routes/emails'))
 app.use('/tasks', require('./routes/tasks'))
-//app.use('/templates', require('./routes/templates'))
+app.use('/templates', require('./routes/templates'))
 
 // Serve static assets in production
 if (process.env.NODE_ENV === 'production') {
