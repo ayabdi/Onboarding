@@ -15,15 +15,29 @@ const templateSchema = new mongoose.Schema({
         message: {
             type: String,
             required: true
+        },
+        days: {
+            type: [Number],
+            required: true
         }
     }],
 
     tasks: [{
-        lat: {
-            
+        name: {
+            type: String,
+            required: true
         },
-        lng: {
-            
+        note: {
+            type: String,
+            required: true
+        },
+        due_days: {
+            type: Number,
+            required: true
+        },
+        reminder_days: {
+            type: [Number],
+            required: true
         }
     }]
 });

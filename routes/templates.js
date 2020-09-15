@@ -3,7 +3,7 @@ const router = express.Router();
 const Template = require("../models/Template");
 
 // @route POST /templates
-// @desc Creates an email template 
+// @desc Creates a template 
 // @access Public
 
 router.post('/', 
@@ -15,10 +15,8 @@ router.post('/',
 
         const template = new Template({
             name: name,
-            from: from,
-            subject: subject,
-            message: message,
-            days: days
+            emails: emails,
+            tasks: tasks
         });
 
         try {
@@ -32,7 +30,7 @@ router.post('/',
 )
 
 // @route GET /templates
-// @desc Retrieves an email template 
+// @desc Retrieves a template 
 // @access Public
 
 router.get('/name/:name', 
@@ -50,7 +48,7 @@ router.get('/name/:name',
 )
 
 // @route DELETE /templates
-// @desc Deletes an email template 
+// @desc Deletes a template 
 // @access Public
 
 router.delete('/name/:name', 
@@ -68,33 +66,25 @@ router.delete('/name/:name',
 )
 
 // @route PATCH /templates
-// @desc Updates an email template
+// @desc Updates a template
 // @access Public
 
 router.patch('/', async(req, res) => {
     params = req.body
     name = params["name"]
     new_name = params["new_name"]
-    new_from = params["new_from"]
-    new_subject = params["new_subject"]
-    new_message = params["new_message"]
-    new_days = params["new_days"]
+    new_emails = params["new_emails"]
+    new_tasks = params["new_tasks"]
     var updated_template = { }
 
     if (new_name != null) 
         updated_template["name"] = new_name
 
-    if (new_from != null) 
-        updated_template["from"] = new_from
+    if (new_emails != null) 
+        updated_template["emails"] = new_emails
     
-    if (new_subject != null) 
-        updated_template["subject"] = new_subject
-    
-    if (new_message != null) 
-        updated_template["message"] = new_message
-    
-    if (new_days != null) 
-        updated_template["days"] = new_days
+    if (new_tasks != null) 
+        updated_template["tasks"] = new_tasks
 
     try {
         const template_ret = await Template.find({name: name}).updateMany(updated_template)
