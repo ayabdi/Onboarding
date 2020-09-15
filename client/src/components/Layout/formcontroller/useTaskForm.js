@@ -21,7 +21,7 @@ const useTaskForm = () => {
    const handleChange = event => {
        const {name, value} = event.target;
        setTaskData({
-           ...taskData, 
+            ...taskData, 
            [name]: value
        });
        if (name === 'reminder'){

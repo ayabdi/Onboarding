@@ -6,6 +6,7 @@ const useTaskEditForm = () => {
     const initialState = {
     
     _id: "",
+    hire:'',
     from: "",
     task: "",
     to: "",
@@ -17,41 +18,21 @@ const useTaskEditForm = () => {
     }
     const [taskData, setTaskData] = useState(initialState)
      
+    const[reminderArray, setReminderArr] = useState([])
+    
    //onChange handler
    const handleTaskEdit = event => {
+    
        const {name, value} = event.target;
        setTaskData({
            ...taskData, 
            [name]: value
        });
+       if (name === 'reminder'){
+        setReminderArr(value.split(','))
+    }
    }
 
-//Fetching hire id by hire email
-const [hireID, fetchHireID] = useState(null)
-const [hireEmail, fetchHireEmail] = useState(null)
-useEffect (() => {
-    axios({
-        method: 'GET',
-       
-        url : `http://localhost:5000/hire/find/${hireEmail}`
-    }).then(res => {
-        fetchHireID(res.body._id)
-    })
-},[ hireEmail])
-
-//Fetching Tasks
-const [tasks , fetchTasks] = useState([])
-
-useEffect (() => {
-  
-    axios({
-        method: 'GET',
-       
-        url : `http://localhost:5000/tasks/find/${hireID}`
-    }).then(res => {
-        fetchTasks(res.data)
-    })
-},[hireID, tasks])
 
 
 //edit on submit
@@ -79,11 +60,10 @@ const onTaskEdit =  async e =>  {
    return {
     handleTaskEdit,
     taskData,
+    
     onTaskEdit,
     setTaskData,
-    fetchHireEmail
-    
-    
+    reminderArray
 
 }}
 

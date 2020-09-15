@@ -27,6 +27,26 @@ router.post(
     '/', [
         //Validating entries
         check("name", "Name is required").not().isEmpty(),
+        check('email')
+        .not()
+        .isEmpty()
+        .withMessage('Email is required')
+        .isEmail()
+        .withMessage('Invalid Email')
+        .custom((value, {req}) => {
+          return new Promise((resolve, reject) => {
+            Hire.findOne({email:req.body.email}, function(err, user){
+              if(err) {
+                reject(new Error('Server Error'))
+              }
+              if(Boolean(user)) {
+                reject(new Error('E-mail already in use'))
+                
+              }
+              resolve(true)
+            });
+          });
+        }),
         // check("email", "Please include a valid email").isEmail(),
         // check("job_title", "Name is required").not().isEmpty(),
         // check("department", "Name is required").not().isEmpty(),
@@ -36,8 +56,8 @@ router.post(
     async(req, res) => {
         const errors = validationResult(req);
         if (!errors.isEmpty()) {
-            return res.status(400).json({ errors: errors.array() });
-        }
+            return res.status(400).json({ errors: errors.array()});   }
+      
         const hire = new Hire({
             startDate: req.body.startDate,
             name: req.body.name,
@@ -58,22 +78,22 @@ router.post(
 //@route GET hire by id /hires
 //@desc  Register hire
 //@access Public
-router.get('/:id', async(req, res) => {
-    try {
-        const hire = await Hire.findById(req.params.id);
-        res.json(hire);
-    } catch (err) {
-        console.error(err.message);
-        if (err.kind == 'ObjectId') {
-            return res.status(400).json({ msg: "Hire not found" });
-        }
-        res.status(500).send('Server Error');
-    }
-});
+// router.get('/:id', async(req, res) => {
+//     try {
+//         const hire = await Hire.findById(req.params.id);
+//         res.json(hire);
+//     } catch (err) {
+//         console.error(err.message);
+//         if (err.kind == 'ObjectId') {
+//             return res.status(400).json({ msg: "Hire not found" });
+//         }
+//         res.status(500).send('Server Error');
+//     }
+// });
 //@route GET hire by email /hires/find/:email
 //@desc  Get hire data by email address
 //@access Public
-router.get('/find/:email', async(req, res) => {
+router.get('/:email', async(req, res) => {
     try {
         const hire = await Hire.find({email: req.params.email});
         res.json(hire);

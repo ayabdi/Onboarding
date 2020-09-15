@@ -16,7 +16,7 @@ const useForm = (callback, validate) => {
     hm_email: 'tommhall@harmonize.hq'
 })
 const [errors, setErrors] = useState({})
-const [isSubmitting, setIsSubmitting] = useState(false);
+const [isSubmitting, setIsSubmitting] = useState(null);
 
 
 const handleChange = event => {
@@ -42,12 +42,13 @@ const handleChange = event => {
      setCount(currentStep - 1)
    }
  
- 
+   const [isUnique, setIsUnique] = useState(true)
 //POSTING
+
 const onSubmit =  async e => {
     e.preventDefault();
     //handle errors
-    setErrors(validate(formData));
+    setErrors(validate(formData, isUnique));
    
     setIsSubmitting(true);
     
@@ -60,9 +61,17 @@ const onSubmit =  async e => {
         const body = JSON.stringify(formData);
         const res = await axios.post('http://localhost:5000/hires', body, config)
         console.log(res.data);
+        setIsUnique(true);
+    
         
     } catch (error) {
-        console.error(error.response.data)
+        console.error(error.response.data.errors[0].msg)
+
+        if(error.response.data.errors[0].msg=== 'E-mail already in use'){
+    
+            setIsUnique(false)
+            console.log(isUnique)
+        }
     }
 }
 useEffect(() => {
@@ -103,6 +112,54 @@ function deleteEmail (emailID) {
     })
 }
 
+//Fetching hire id by hire email
+const [hireID, fetchHireID] = useState(' ')
+let hireEmail
+useEffect (() => {
+    
+    axios({
+        method: 'GET',
+        
+        url : `http://localhost:5000/hires/${formData.email}`
+    }).then(res => {
+        fetchHireID(res.data)
+    
+        
+    })
+
+},[isSubmitting, hireID ])
+
+//Fetching Tasks
+const [tasks , fetchTasks] = useState([])
+
+useEffect (() => {
+  
+    axios({
+        method: 'GET',
+        
+        url : `http://localhost:5000/tasks/find/${hireID._id}`
+    }).then(res => {
+        fetchTasks(res.data)
+    })
+ 
+},[isSubmitting, tasks])
+
+//Delete tasks
+function deleteTask (taskID) {
+    axios({
+        method: 'DELETE',
+        mode: 'no-cors',
+        headers: {
+            'Accept': 'application/json', 'Content-Type': 'application/json',
+           
+        },
+        url : `http://localhost:5000/tasks/${taskID}`
+    }).then(res => {
+        console.log(res.data)
+    })
+}
+
+
 
 
 return {
@@ -114,8 +171,10 @@ return {
     increment,
     decrement,
     emails,
+    tasks,
     isSubmitting,
     deleteEmail,
+    deleteTask
     
     
    

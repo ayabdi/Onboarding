@@ -21,14 +21,13 @@ const hireSchema = new mongoose.Schema({
     },
     hiring_manager: {
         type: String,
-        //required: true
+      //required: true
     },
     hm_email: {
         type: String,
        // required: true
     },
-
-
+    
     date_created: {
         type: Date,
         default: Date.now

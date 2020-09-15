@@ -7,6 +7,7 @@ import useForm from "./formcontroller/useForm";
 import EmailModalForm from "./EmailModalForm";
 import TaskModalForm from "./TaskModalForm"
 import EditEmailModal from "./EditEmailModal";
+import TaskEditModal from "./TaskEditModal";
 import validate from "./validation/validateForm";
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -16,6 +17,7 @@ import { faTrash } from '@fortawesome/free-solid-svg-icons'
 import "react-datepicker/dist/react-datepicker.css";
 import useEmailEditForm from "./formcontroller/useEmailEditForm";
 import useTaskEditForm from "./formcontroller/useTaskEditForm";
+import useTaskForm from "./formcontroller/useTaskForm";
 
 const HireForm = () => {
   const {
@@ -27,14 +29,17 @@ const HireForm = () => {
     increment,
     decrement,
     emails,
+    tasks,
     isSubmitting,
     deleteEmail,
+    deleteTask
   } = useForm(submit, validate);
   
   const { handleEmailEdit, onEmailEdit, setEmailData, emailData} = useEmailEditForm();
-  const { handleTaskEdit, onTaskEdit, setTaskData, taskData, fetchHireEmail} = useTaskEditForm();
+  const { handleTaskEdit, onTaskEdit, setTaskData, taskData, reminderArray} = useTaskEditForm();
+
   //fet hire email for task editing
-  //fetchHireEmail(formData.email);
+
  
 
   const [isValid, setisValid] = useState(false);
@@ -106,6 +111,18 @@ const HireForm = () => {
         hireForm={formData}
         date = {selectedDate}
       />
+       {showTaskEdit ? (
+        <div onClick={closeEditTaskModalHandler} className="back-drop"></div>
+      ) : null}
+      <TaskEditModal
+        show={showTaskEdit}
+        close={closeEditTaskModalHandler}
+        taskForm={taskData}
+        hireForm={formData}
+         handleChange = {handleTaskEdit}
+         onSubmit = {onTaskEdit}
+         reminderArr={reminderArray}
+     />
 
       <header>
         <div className="spacer">&nbsp;</div>
@@ -354,54 +371,54 @@ const HireForm = () => {
                 Create a task
               </button>
             </div>
-            <>{ emails.length >0 ? (
+            <>{ tasks.length >0 ? (
                <div className="container email-preview-titles">
                 <div className="row email-preview">
                   <div
                     className="col-sm-3 email-titles"
                     style={{ margin: "8px" }}
                   >
-                    Subject
+                    Task
                   </div>
                   <div
                     className="col-sm-3 email-titles"
                     style={{ margin: "8px" }}
                   >
-                    To
+                    Person Responsible
                   </div>
                   <div
                     className="col-sm-3 email-titles"
                     style={{ margin: "8px" }}
                   >
-                    Scheduled For
+                    Due Date
                   </div>
                 </div>
               </div> 
             ) : null
 } 
-              {emails.map((email, i) => (
+              {tasks.map((task, i) => (
                 
                 <div key={i} className="container email-preview">
                   <div className="row email-preview">
                     <div className="col-sm-3 email-preview">
-                      {email.subject}
+                      {task.task}
                     </div>
                     <div
                       className="col-sm-3 email-preview"
                       style={{ margin: "8px" }}
                     >
-                      {email.hire.name}
+                      {task.to}
                       <br />
-                      <div className="email">{email.to}</div>
+                      <div className="email">{task.to_email}</div>
                     </div>
                     <div className="col-sm-3 email-preview">
                       {" "}
-                      {email.daysBefore} Days before
+                      {task.due_date} Days before
                     </div>
 
                     <div className="col-xs">
-                    <FontAwesomeIcon icon={faEdit} style = {{marginTop: '50%'}} className = "icons" onClick= {() => {setShowEmailEdit(true);  setEmailData(email)}}/> &nbsp;
-                    <FontAwesomeIcon icon={faTrash} style = {{marginTop: '50%'}} className = "icons" onClick= {()=> deleteEmail(email._id)} /> 
+                    <FontAwesomeIcon icon={faEdit} style = {{marginTop: '50%'}} className = "icons" onClick= {() => {setShowTaskEdit(true);  setTaskData(task)}} /> &nbsp;
+                    <FontAwesomeIcon icon={faTrash} style = {{marginTop: '50%'}} className = "icons" onClick= {()=> deleteTask(task._id)}  /> 
                     </div>  
                  
                   </div>
