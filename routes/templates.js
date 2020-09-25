@@ -2,6 +2,20 @@ const express = require("express");
 const router = express.Router();
 const Template = require("../models/Template");
 
+// @route GET /templates
+// @desc Retrieves all templates
+// @access Public
+
+router.get('/', 
+    async (req, res) => {
+        try {
+            const templates = await Template.find();
+            res.json(templates);
+        } catch (errors) {
+            res.send('Error' + errors)
+        }
+    }
+)
 // @route POST /templates
 // @desc Creates a template 
 // @access Public

@@ -1,15 +1,20 @@
-import React, { useState } from "react";
-import useEmailForm from "./formcontroller/useEmailForm";
-const EmailModalForm = ({ show, close, hireForm }) => {
-  const { handleChange, emailData, onSubmit} = useEmailForm();
-  
+import React, { useState, useEffect } from "react";
+import useEmailForm from "../formcontroller/useEmailForm";
+const EmailModalForm = ({ show, close, hireForm, render, submitting }) => {
+  const { handleChange, setEmailData,emailData, onSubmit} = useEmailForm();
+ // console.log('email modal rendered')
   //set emailData to 
-  emailData.to = hireForm.email;
+ //emailData.to = hireForm.email;
 
 
   // get  startDate and convert to date
-  emailData.date = hireForm.startDate;
- 
+ // emailData.date = hireForm.startDate;
+
+useEffect(() => {
+  
+  setEmailData(emailData => ({...emailData , to :hireForm.email, date: hireForm.startDate}))
+  console.log(emailData)
+}, [submitting, show]) 
 
   return (
     <div
@@ -140,7 +145,7 @@ const EmailModalForm = ({ show, close, hireForm }) => {
         </button>
         <button
           type="submit"
-          onClick = {() => close()}
+          onClick = {() => {close(); render(true)}}
           form="emailForm"
           className="btn btn-primary btn-sm mod"
         >

@@ -142,6 +142,7 @@
 .btn.btn-primary.px-4.float-right {
     height: 37px;
     width: 95px;
+    font-size: 0.9rem;
     position: absolute;
     margin-top: 20px;
     right: 0;
@@ -163,8 +164,8 @@
 }
 
 .btn.btn-primary.px-4.custom {
-    height: 37px;
     margin: 0;
+    font-size: 0.9rem;
     pointer-events: none;
     margin-bottom: 40px;
     opacity: 0.6;
@@ -172,6 +173,7 @@
 }
 .btn.btn-primary.px-4.custom.active {
     opacity: 1;
+    font-size: 0.9rem;
     background-color: #4a208e;
     pointer-events: auto;
 
@@ -188,6 +190,9 @@
     text-align: center;
     right: 0;
     padding-top: 20px;
+}
+.col-sm-3.float-right.workflow-submit {
+  text-align : right;
 }
 .bi.bi-calendar-event{
 z-index: 1;
@@ -255,7 +260,7 @@ z-index: 1;
   }
   
   .modal-wrapper {
-    top: 50%;
+    top: 30%;
     left: 50%;
     margin-top: -8px;
     margin-left: -400px;
@@ -263,15 +268,28 @@ z-index: 1;
     width: 100%;
     max-width: 800px;
     z-index: 1;
-    position: absolute;
+    position: fixed;
     transition: all .5s ease;
+  }
+  .modal-wrapper.delete{
+    text-align: center;
+  
+      top: 40%;
+      width : 30%;
+      margin: 0 auto;
+      left: 35%;
+      transition: none;
   }
   
   .modal-header {
       padding-bottom: 0;
     display: flex;
-    align-items: center;
+   // align-items: center;
     justify-content: space-between;
+  }
+  .modal-header.delete{
+    justify-content: center;
+    padding-bottom: 30px;
   }
   
   .modal-header span {
@@ -304,10 +322,14 @@ z-index: 1;
   .modal-footer button {
     
     padding: 0.2rem 1rem;
-    background: #DD501D;
   
   }
-  .btn.btn-primary.btn-sm.mod{
+  .modal-footer.delete{
+    text-align: center;
+ 
+    justify-content: center;
+  }
+  .btn.btn-primary.btn.mod{
     background-color: #4a208e;
     border-color: #4a208e;
   }
@@ -335,6 +357,9 @@ z-index: 1;
     padding:0;
     border-radius: 0;
     height:343.6px
+  }
+  .modal-content.column.tasks{
+    height:373.6px
   }
   .modal-content.row{
     border-radius: 0;
@@ -408,7 +433,7 @@ z-index: 1;
   width: 90%;
 }
 .col-sm-3.email-titles {
-  max-width: 100%;  
+  max-width: 20%;  
   font-weight: 450;
   margin: 8px;
   font-size: 14px;
@@ -416,7 +441,7 @@ z-index: 1;
  
 }
 .col-sm-3.email-preview {
-  max-width: 100%;  
+  max-width: 20%;  
   font-weight: 450;
   margin: auto 8px;
   font-size: 14px;
@@ -426,6 +451,12 @@ z-index: 1;
 .row.email-preview.p{
   margin:0;
 }
+.checkbox{
+  top: 15%;
+  margin: 0 0 0 5px;
+  position: absolute;
+}
+
 .email{
   font-size: 11px;
   opacity: 0.8;

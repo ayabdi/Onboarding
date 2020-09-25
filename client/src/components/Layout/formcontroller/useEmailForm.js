@@ -46,7 +46,7 @@ const onSubmit =  async e =>  {
       const body = JSON.stringify(emailData);
 
       const res = await axios.post('http://localhost:5000/emails', body, config)
-      console.log(res.data);
+    //  console.log(res.data);
       setEmailData(initialState);
 
       } catch (error) {
@@ -58,7 +58,7 @@ const onSubmit =  async e =>  {
    return {
     handleChange,
     emailData,
-    onSubmit,
+    onSubmit,setEmailData
 
 }}
 

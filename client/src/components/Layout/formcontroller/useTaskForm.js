@@ -4,7 +4,7 @@ import axios from 'axios'
 const useTaskForm = () => {
     
     const initialState = {
-    hire: "",
+    hire_email: "",
     from: "Tina West",
     task: "",
     to: "",
@@ -27,6 +27,7 @@ const useTaskForm = () => {
        if (name === 'reminder'){
            setReminderArr(value.split(','))
        }
+
    }
 
 
@@ -42,7 +43,7 @@ const onSubmit =  async e =>  {
       const body = JSON.stringify(taskData);
 
       const res = await axios.post('http://localhost:5000/tasks', body, config)
-      console.log(res.data);
+     // console.log(res.data);
       setTaskData(initialState);
 
       } catch (error) {
@@ -54,6 +55,7 @@ const onSubmit =  async e =>  {
    return {
     handleChange,
     taskData,
+    setTaskData,
     onSubmit,
     setReminderArr,
     reminderArr

@@ -1,11 +1,16 @@
-import React, { useState } from "react";
-import useEmailEditForm from "./formcontroller/useEmailEditForm";
+import React, { useState, useEffect } from "react";
+//import useEmailEditForm from "../formcontroller/useEmailEditForm";
 
 import { getTime, getDate, format } from "date-fns";
-const EditEmailModal = ({ show, close, emailForm, handleChange, onSubmits}) => {
-  
-  
-let date = new Date(emailForm.date)
+const EditEmailModal = ({ show, close, emailForm, handleChange, onSubmits, render}) => {
+  const [date, setDate] = useState(' ')
+useEffect(() => {
+  setDate(new Date(emailForm.date))
+  console.log("email modal rendered")
+}, [show])  
+
+
+//Save Template Data
 
   return (
     <div
@@ -137,7 +142,7 @@ let date = new Date(emailForm.date)
         </button>
         <button
           type="submit"
-          onClick = {() => close()}
+          onClick = {() => {close(); render(true)}}
           form="emailEditForm"
           className="btn btn-primary btn-sm mod"
         >

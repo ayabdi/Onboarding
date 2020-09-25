@@ -1,13 +1,16 @@
 import React, { Fragment, useState , useEffect} from "react";
+import { Link, useLocation } from "react-router-dom";
 import DatePicker from "react-datepicker";
 import { getTime, getDate, format } from "date-fns";
 
 import Stepper from "./stepper/Stepper";
 import useForm from "./formcontroller/useForm";
-import EmailModalForm from "./EmailModalForm";
-import TaskModalForm from "./TaskModalForm"
-import EditEmailModal from "./EditEmailModal";
-import TaskEditModal from "./TaskEditModal";
+import EmailModalForm from "./Modals/EmailModalForm";
+import TaskModalForm from "./Modals/TaskModalForm"
+import EditEmailModal from "./Modals/EditEmailModal";
+import TaskEditModal from "./Modals/TaskEditModal";
+import DeleteEmailModal from "./Modals/DeleteEmailModal";
+import DeleteTaskModal from "./Modals/DeleteTaskModal";
 import validate from "./validation/validateForm";
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -28,19 +31,40 @@ const HireForm = () => {
     currentStep,
     increment,
     decrement,
+    templateData,
     emails,
     tasks,
     isSubmitting,
     deleteEmail,
-    deleteTask
+    setRenderEmails,
+    deleteTask,
+    setRenderTasks,
+    setTemplateName,
+    createTemplate,
+    newTemplateData
   } = useForm(submit, validate);
+ //console.log()
+  //catching template passed from previous page
+  const location = useLocation();
+  //console.log()
+  useEffect(() => {
+    
+    if(location.state.selectedValue != null){
+    templateData.name = location.state.selectedValue;
+    }else if(location.state.newWorkflow!=null){
+      setTemplateName(location.state.newWorkflow)
+    }else{
+      setTemplateName('default workflow')
+    }
+    
+  }, [])
   
+  //console.log(location.state.selectedValue)
+  console.log('hireform')
+  //form controllers
   const { handleEmailEdit, onEmailEdit, setEmailData, emailData} = useEmailEditForm();
   const { handleTaskEdit, onTaskEdit, setTaskData, taskData, reminderArray} = useTaskEditForm();
-
-  //fet hire email for task editing
-
- 
+  
 
   const [isValid, setisValid] = useState(false);
   function submit() {
@@ -62,6 +86,16 @@ const HireForm = () => {
   //edit Task  modal form
   const [showTaskEdit, setShowTaskEdit] = useState(false);
   const closeEditTaskModalHandler = () => setShowTaskEdit(false);
+
+  //Delete Email Modal 
+  const [showDeleteEmailModal, setShowDeleteEmailModal] = useState(false);
+  const closeDeleteEmailModalHandler = () => setShowDeleteEmailModal(false);
+  const [emailToDelete, setEmailToDelete] = useState()
+  //Delete Task Modal 
+  const [showDeleteTaskModal, setShowDeleteTaskModal] = useState(false);
+  const closeDeleteTaskModalHandler = () => setShowDeleteTaskModal(false);
+  const [taskToDelete, setTaskToDelete] = useState()
+
 
 
   /// Stepper
@@ -90,7 +124,9 @@ const HireForm = () => {
       <EmailModalForm
         show={showEmail}
         close={closeEmailModalHandler}
+        render={setRenderEmails}
         hireForm={formData}
+        submitting = {isSubmitting}
       />
       {showEmailEdit ? (
         <div onClick={closeEditEmailModalHandler} className="back-drop"></div>
@@ -99,6 +135,7 @@ const HireForm = () => {
         show={showEmailEdit}
         close={closeEditEmailModalHandler}
         emailForm={emailData}
+        render={setRenderEmails}
          handleChange = {handleEmailEdit}
          onSubmits = {onEmailEdit}
      />
@@ -109,6 +146,8 @@ const HireForm = () => {
         show={showTask}
         close={closeTaskModalHandler}
         hireForm={formData}
+        render={setRenderTasks}
+        submitting={isSubmitting}
         date = {selectedDate}
       />
        {showTaskEdit ? (
@@ -119,17 +158,36 @@ const HireForm = () => {
         close={closeEditTaskModalHandler}
         taskForm={taskData}
         hireForm={formData}
+        render={setRenderTasks}
          handleChange = {handleTaskEdit}
          onSubmit = {onTaskEdit}
          reminderArr={reminderArray}
      />
+     {showDeleteEmailModal ? (
+        <div onClick={closeDeleteEmailModalHandler} className="back-drop"></div>
+      ) : null}
+      <DeleteEmailModal
+        show={showDeleteEmailModal}
+        close={closeDeleteEmailModalHandler}
+        ID = {emailToDelete}
+        onDelete = {deleteEmail}
+      />
+       {showDeleteTaskModal ? (
+        <div onClick={closeDeleteTaskModalHandler} className="back-drop"></div>
+      ) : null}
+      <DeleteTaskModal
+        show={showDeleteTaskModal}
+        close={closeDeleteTaskModalHandler}
+        ID = {taskToDelete}
+        onDelete = {deleteTask}
+      />
 
       <header>
         <div className="spacer">&nbsp;</div>
         <br />
         <br /> <br/>
 
-        <div className="container-small">Jane Doe's Workflow</div>
+       <div className="container-small">{location.state.selectedValue!=null ? location.state.selectedValue: location.state.newWorkflow}</div>
       </header>
       <div className="stepper-container-horizontal">
         <Stepper
@@ -287,7 +345,7 @@ const HireForm = () => {
               </button>
             </div>
 
-            <>{ emails.length >0 ? (
+            <>{ emails.length >0 && isSubmitting && currentStep === 2? (
                <div className="container email-preview-titles">
                 <div className="row email-preview">
                   <div
@@ -312,7 +370,7 @@ const HireForm = () => {
               </div> 
             ) : null
 } 
-              {emails.map((email, i) => (
+              {isSubmitting ? emails.map((email, i) => (
                 
                 <div key={i} className="container email-preview">
                   <div className="row email-preview">
@@ -334,12 +392,12 @@ const HireForm = () => {
 
                     <div className="col-xs">
                     <FontAwesomeIcon icon={faEdit} style = {{marginTop: '50%'}} className = "icons" onClick= {() => {setShowEmailEdit(true);  setEmailData(email)}}/> &nbsp;
-                    <FontAwesomeIcon icon={faTrash} style = {{marginTop: '50%'}} className = "icons" onClick= {()=> deleteEmail(email._id)} /> 
+                    <FontAwesomeIcon icon={faTrash} style = {{marginTop: '50%'}} className = "icons" onClick= {()=> {setShowDeleteEmailModal(true); setEmailToDelete(email._id)}} /> 
                     </div>  
                  
                   </div>
                 </div>
-              ))}{" "}
+              )): null}
             </>
           </div>
         </div>
@@ -371,7 +429,7 @@ const HireForm = () => {
                 Create a task
               </button>
             </div>
-            <>{ tasks.length >0 ? (
+            <>{ tasks.length >0  && isSubmitting && currentStep === 3? (
                <div className="container email-preview-titles">
                 <div className="row email-preview">
                   <div
@@ -396,7 +454,7 @@ const HireForm = () => {
               </div> 
             ) : null
 } 
-              {tasks.map((task, i) => (
+              {isSubmitting && currentStep === 3? tasks.map((task, i) => (
                 
                 <div key={i} className="container email-preview">
                   <div className="row email-preview">
@@ -418,14 +476,36 @@ const HireForm = () => {
 
                     <div className="col-xs">
                     <FontAwesomeIcon icon={faEdit} style = {{marginTop: '50%'}} className = "icons" onClick= {() => {setShowTaskEdit(true);  setTaskData(task)}} /> &nbsp;
-                    <FontAwesomeIcon icon={faTrash} style = {{marginTop: '50%'}} className = "icons" onClick= {()=> deleteTask(task._id)}  /> 
+                    <FontAwesomeIcon icon={faTrash} style = {{marginTop: '50%'}} className = "icons" onClick= {()=> {setTaskToDelete(task._id); setShowDeleteTaskModal(true)}}  /> 
                     </div>  
                  
                   </div>
                 </div>
-              ))}{" "}
+              )): null}
             </>
           </div>
+        </div>
+        <div className = 'row'>
+          <div className = 'col-sm-3 float-right workflow-submit ' style ={{marginRight: '150px'}}>
+      
+        <button
+                type="button"
+                className={`btn btn-primary px-4  custom active`}
+                onClick = {()=> createTemplate(newTemplateData)}
+              >
+                Save Workflow
+              </button>
+                    
+          </div>
+          <div className = 'col-sm-3 float-right workflow-submit ' style ={{paddingRight: '0'}}>
+              <button
+                type="button"
+                className={`btn btn-primary px-4 custom active `}
+              >
+                <Link to="/dashboard"> Set up Workflow </Link>
+                
+              </button>
+              </div>
         </div>
       </div>
     </Fragment>

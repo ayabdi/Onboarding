@@ -1,15 +1,21 @@
-PATCH  http://localhost:5000/emails/5f4ea6e57cd09e2e74ec14ff
+POST http://localhost:5000/emails
 Content-Type: application/json
 
-{  
+{ 
+   "hire": "5f67dea8b2ba5e1d04624be1"
+    "name" : "Template for HR",
    
-   "email" : "abdulrahmanabdi98@gmail.com",
-   "subject": "Not Wselcome to the Team",
-   "message" : "NON3",
-   "date" : "2020-08-30T01:00:00",
-   "daysBefore": "1"
+     "emails" : [
+		{ "subject": "TestSubject1", "message": "TestMessage1", "daysBefore": "1" },
+		{ "subject": "TestSubject2", "message": "TestMessage2", "daysBefore":"3" },
+		{ "subject": "TestSubject3", "message": "TestMessage3", "daysBefore":"5" }
+	],
 
-    
-     
+	"tasks" : [
+		{ "name": "TestName1", "note": "TestNote1", "due_date": "1", "reminder": "1,3" },
+		{ "name": "TestName2", "note": "TestNote2", "due_date": "2", "reminder": "1,3" },
+		{ "name": "TestName3", "note": "TestNote3", "due_date": "3", "reminder":"1,3" }
+	]
+
 }
 

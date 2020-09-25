@@ -5,12 +5,27 @@ const Task = require("../models/Task");
 const Hire = require("../models/Hire");
 
 
+//@route GET /task
+//@desc  GET all task
+//@access Public
+
+
+router.get('/', async(req, res) => {
+    try {
+        const task = await Task.find();
+        res.json(task);
+
+    } catch (errors) {
+        res.send('Error' + errors)
+    }
+});
+
 ////@route GET /tasks/:hire
 //@desc  Fetch Tasks per hire ID
 //@access Public
-router.get('/find/:id', async(req, res) => {
+router.get('/find/:hire', async(req, res) => {
     try {
-        const task = await Task.find({id: req.body.hire}).populate('hire', ['name', 'email'])
+        const task = await Task.find({hire: req.params.hire}).populate('hire', ['name', 'email', 'job_title', 'startDate', 'hiring_manager','hm_email'])
         
         res.json(task);
     } catch (err) {
@@ -31,7 +46,7 @@ async function getHire(req, res, next) {
     let hire
      try {
      
-         hire = await Hire.findOne({email : req.body.hire});
+         hire = await Hire.findOne({email : req.body.hire_email});
          
          if (hire == null) {
              return res.status(404).json({ message: 'Cannot Find hire' })

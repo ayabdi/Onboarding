@@ -1,11 +1,14 @@
 import React, { useState } from "react";
-import useTaskForm from "./formcontroller/useTaskForm";
-import {addDays} from 'date-fns'
-const TaskModalForm = ({ show, close, hireForm }) => {
-  const { handleChange, taskData, onSubmit, setReminderArr, reminderArr} = useTaskForm();
-  
-  taskData.hire = hireForm.email 
+import useTaskEditForm from "../formcontroller/useTaskEditForm";
 
+import { getTime, getDate, addDays, format, parseISO } from "date-fns";
+import moment from 'moment'
+
+const TaskEditModal = ({ show, close, taskForm, hireForm, handleChange, onSubmit, setIsEdit, reminderArr, render}) => {
+  
+  
+
+   
   return (
     <div
       className="modal-wrapper"
@@ -23,10 +26,10 @@ const TaskModalForm = ({ show, close, hireForm }) => {
 
       <div className="row">
         <div className="col left">
-          <div className="modal-content column">
+          <div className="modal-content column tasks">
             <form
               className="modal-form"
-              id="taskForm"
+              id="taskFormEdit"
               onSubmit={(e) => onSubmit(e)}
             >
               <div className="form-group row">
@@ -35,7 +38,7 @@ const TaskModalForm = ({ show, close, hireForm }) => {
                   <input
                    className="form-control text-box-sm"
                    name = "task"
-                   value={taskData.task} 
+                   value={taskForm.task} 
                    onChange = {handleChange}
                     
                   />
@@ -48,7 +51,7 @@ const TaskModalForm = ({ show, close, hireForm }) => {
                     type="text"
                     className="form-control text-box-sm"
                     name="to"
-                    value={taskData.to}
+                    value={taskForm.to}
                     onChange={handleChange}
                   />
                 </div>
@@ -60,7 +63,7 @@ const TaskModalForm = ({ show, close, hireForm }) => {
                     type="text"
                     className="form-control text-box-sm"
                     name="to_email"
-                    value={taskData.to_email}
+                    value={taskForm.to_email}
                     onChange={handleChange}
                   />
                 </div>
@@ -72,11 +75,25 @@ const TaskModalForm = ({ show, close, hireForm }) => {
                     type="textarea"
                     className="form-control text-box-med"
                     name="note"
-                    value={taskData.note}
+                    value={taskForm.note}
                     onChange={handleChange}
                   ></textarea>
                 </div>
               </div>
+              <div className="form-group row">
+                <div className="col">
+                  <label className="conrol-label">Task Completed ?</label>
+                  <input
+                    type="checkbox"
+                    className = "checkbox"
+                    checked = {taskForm.isCompleted}
+                    value={taskForm.isCompleted}
+                    onChange={handleChange}
+                  ></input>
+                </div>
+              </div>    
+                  
+
               <div className="form-group row">
                 <div className="col">
                   
@@ -85,7 +102,7 @@ const TaskModalForm = ({ show, close, hireForm }) => {
                     type="text"
                     className="form-control text-box-sml"
                     name="due_date"
-                    value={taskData.due_date}
+                    value={taskForm.due_date}
                     onChange={handleChange}
                   />{" "}
                   &nbsp; Days before start date
@@ -99,7 +116,7 @@ const TaskModalForm = ({ show, close, hireForm }) => {
                     type="text"
                     className="form-control text-box-sml"
                     name="reminder"
-                    value={taskData.reminder}
+                    value={taskForm.reminder}
                     onChange={handleChange}
                   />{" "}
                   &nbsp; Days before start date
@@ -109,16 +126,16 @@ const TaskModalForm = ({ show, close, hireForm }) => {
           </div>
         </div>
         <div className="col right">
-          <div className="modal-content column">
+          <div className="modal-content column tasks">
             <div className="modal-content row">Preview email reminder</div>
             <div className="modal-content row" style={{ border: "0" }}>
               <div className="preview row">
-                <p style={{ fontWeight: "bold" }}>To: </p> &nbsp; {taskData.to}
+                <p style={{ fontWeight: "bold" }}>To: </p> &nbsp; {taskForm.to}
                 {/* add to name */}
               </div>
               <div className="preview row">
                 <p style={{ fontWeight: "bold" }}>From: </p>  &nbsp;
-                {taskData.from}
+                {taskForm.from}
               </div>
               <div className="preview row">
                 <p style={{ fontWeight: "bold" }}>Date: </p> &nbsp; 
@@ -126,11 +143,11 @@ const TaskModalForm = ({ show, close, hireForm }) => {
                   
                 <div key = {i}> 
                 &nbsp;{i===0? null : `  & ` }
-                  { i<3? addDays(hireForm.startDate, (-reminderArr[i]-taskData.due_date)).toLocaleString("default", {
+                  { i<3? addDays(moment(parseISO(hireForm.startDate)).toDate(), (-taskForm.due_date- reminderArr[i]) ).toLocaleString("default", {
                   month: "long",
                   day: "numeric",
                   year: "numeric",
-                 }): null} 
+                }): null} 
                 
                 </div> 
                 )  ) 
@@ -142,17 +159,19 @@ const TaskModalForm = ({ show, close, hireForm }) => {
               <br />
               <div className="preview row">
                 <p style={{ fontWeight: "bold" }}>Subject: </p> &nbsp;
-                Automated Email Reminder from {taskData.from}
+                Automated Email Reminder from {taskForm.from}
               </div>
               <div className="preview row">
                 <br />
-                Task: {taskData.task} <br/>
-                Due Date : {addDays(hireForm.startDate, -taskData.due_date).toLocaleString("default", {
+                Task: {taskForm.task} <br/>
+                Due Date : {addDays(parseISO(hireForm.startDate), -taskForm.due_date).toLocaleString("default", {
                   month: "long",
                   day: "numeric",
                   year: "numeric",
                 })} <br/>
-                {taskData.note}
+                {taskForm.note}
+
+                {taskForm.isCompleted}
               </div>
             </div>
           </div>
@@ -168,8 +187,8 @@ const TaskModalForm = ({ show, close, hireForm }) => {
         </button>
         <button
           type="submit"
-          onClick = {() => close()}
-          form="taskForm"
+          onClick = {() => {close(); render(true)}}
+          form="taskFormEdit"
           className="btn btn-primary btn-sm mod"
         >
           Send
@@ -178,4 +197,4 @@ const TaskModalForm = ({ show, close, hireForm }) => {
     </div>
   );
 };
-export default TaskModalForm;
+export default TaskEditModal;

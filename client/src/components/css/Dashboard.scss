@@ -1,0 +1,50 @@
+.container.dashboard{
+    margin-top: 10px;
+   padding:0;
+    height: 70px;
+    
+   
+}
+.col.db{
+    position: relative;
+    margin: 25px 0 ;
+}
+.accordion{
+    width: 100%;
+    padding: 0;
+    color: black;
+ 
+    margin-right: -15px;
+    text-align: left;
+    
+}
+.card-body.accordion{
+    border:1px solid #707070;
+    border-radius: 13px;
+    padding: 0;
+}
+.card-body.accordion-body{
+    border-top:1px  solid #707070;
+    border-left: 0;
+    border-bottom: 0;
+    border-right: 0;
+    padding-top: 0;
+}
+.row.hire-info{
+    padding-left: 20px;
+}
+.col-xs.inProgress{
+    width: 113.6px;
+    height: 40.4px;
+    text-align: center;
+    border-radius: 11px;
+    border: solid 1px #fcf7e4;
+    background-color: #fcf7e4;  
+    font-size: 13px; 
+    color: #8a6d3b; 
+    margin-top: -5px;
+    -webkit-text-stroke: 1px #8a6d3b;
+
+}.in-Progress{
+    margin-top: 10px;
+}

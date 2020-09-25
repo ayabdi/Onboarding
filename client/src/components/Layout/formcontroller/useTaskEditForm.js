@@ -24,10 +24,13 @@ const useTaskEditForm = () => {
    const handleTaskEdit = event => {
     
        const {name, value} = event.target;
+       const checked = event.target.checked;
        setTaskData({
            ...taskData, 
-           [name]: value
+           [name]: value,
+           isCompleted : checked,
        });
+       
        if (name === 'reminder'){
         setReminderArr(value.split(','))
     }

@@ -1,12 +1,15 @@
-import React, { useState } from "react";
-import useTaskEditForm from "./formcontroller/useTaskEditForm";
-
-import { getTime, getDate, addDays} from "date-fns";
-const TaskEditModal = ({ show, close, taskForm, hireForm, handleChange, onSubmit, reminderArr}) => {
+import React, { useEffect } from "react";
+import useTaskForm from "../formcontroller/useTaskForm";
+import {addDays, parseISO} from 'date-fns'
+const TaskModalForm = ({ show, close, hireForm , render, submitting,}) => {
+  const { handleChange, taskData,setTaskData, onSubmit, setReminderArr, reminderArr} = useTaskForm();
   
-  
+  useEffect(() => {
+    setTaskData({...taskData, hire_email: hireForm.email})
 
-   
+  }, [show])
+ 
+
   return (
     <div
       className="modal-wrapper"
@@ -27,7 +30,7 @@ const TaskEditModal = ({ show, close, taskForm, hireForm, handleChange, onSubmit
           <div className="modal-content column">
             <form
               className="modal-form"
-              id="taskFormEdit"
+              id="taskForm"
               onSubmit={(e) => onSubmit(e)}
             >
               <div className="form-group row">
@@ -36,7 +39,7 @@ const TaskEditModal = ({ show, close, taskForm, hireForm, handleChange, onSubmit
                   <input
                    className="form-control text-box-sm"
                    name = "task"
-                   value={taskForm.task} 
+                   value={taskData.task} 
                    onChange = {handleChange}
                     
                   />
@@ -49,7 +52,7 @@ const TaskEditModal = ({ show, close, taskForm, hireForm, handleChange, onSubmit
                     type="text"
                     className="form-control text-box-sm"
                     name="to"
-                    value={taskForm.to}
+                    value={taskData.to}
                     onChange={handleChange}
                   />
                 </div>
@@ -61,7 +64,7 @@ const TaskEditModal = ({ show, close, taskForm, hireForm, handleChange, onSubmit
                     type="text"
                     className="form-control text-box-sm"
                     name="to_email"
-                    value={taskForm.to_email}
+                    value={taskData.to_email}
                     onChange={handleChange}
                   />
                 </div>
@@ -73,7 +76,7 @@ const TaskEditModal = ({ show, close, taskForm, hireForm, handleChange, onSubmit
                     type="textarea"
                     className="form-control text-box-med"
                     name="note"
-                    value={taskForm.note}
+                    value={taskData.note}
                     onChange={handleChange}
                   ></textarea>
                 </div>
@@ -86,7 +89,7 @@ const TaskEditModal = ({ show, close, taskForm, hireForm, handleChange, onSubmit
                     type="text"
                     className="form-control text-box-sml"
                     name="due_date"
-                    value={taskForm.due_date}
+                    value={taskData.due_date}
                     onChange={handleChange}
                   />{" "}
                   &nbsp; Days before start date
@@ -100,7 +103,7 @@ const TaskEditModal = ({ show, close, taskForm, hireForm, handleChange, onSubmit
                     type="text"
                     className="form-control text-box-sml"
                     name="reminder"
-                    value={taskForm.reminder}
+                    value={taskData.reminder}
                     onChange={handleChange}
                   />{" "}
                   &nbsp; Days before start date
@@ -114,12 +117,12 @@ const TaskEditModal = ({ show, close, taskForm, hireForm, handleChange, onSubmit
             <div className="modal-content row">Preview email reminder</div>
             <div className="modal-content row" style={{ border: "0" }}>
               <div className="preview row">
-                <p style={{ fontWeight: "bold" }}>To: </p> &nbsp; {taskForm.to}
+                <p style={{ fontWeight: "bold" }}>To: </p> &nbsp; {taskData.to}
                 {/* add to name */}
               </div>
               <div className="preview row">
                 <p style={{ fontWeight: "bold" }}>From: </p>  &nbsp;
-                {taskForm.from}
+                {taskData.from}
               </div>
               <div className="preview row">
                 <p style={{ fontWeight: "bold" }}>Date: </p> &nbsp; 
@@ -127,7 +130,7 @@ const TaskEditModal = ({ show, close, taskForm, hireForm, handleChange, onSubmit
                   
                 <div key = {i}> 
                 &nbsp;{i===0? null : `  & ` }
-                  { i<4? addDays(hireForm.startDate, (-reminder[i]-taskForm.due_date)).toLocaleString("default", {
+                  { i<3? addDays(parseISO(hireForm.startDate), (-reminderArr[i]-taskData.due_date)).toLocaleString("default", {
                   month: "long",
                   day: "numeric",
                   year: "numeric",
@@ -143,17 +146,17 @@ const TaskEditModal = ({ show, close, taskForm, hireForm, handleChange, onSubmit
               <br />
               <div className="preview row">
                 <p style={{ fontWeight: "bold" }}>Subject: </p> &nbsp;
-                Automated Email Reminder from {taskForm.from}
+                Automated Email Reminder from {taskData.from}
               </div>
               <div className="preview row">
                 <br />
-                Task: {taskForm.task} <br/>
-                Due Date : {addDays(hireForm.startDate, -taskForm.due_date).toLocaleString("default", {
+                Task: {taskData.task} <br/>
+                Due Date : {addDays(parseISO(hireForm.startDate), -taskData.due_date).toLocaleString("default", {
                   month: "long",
                   day: "numeric",
                   year: "numeric",
                 })} <br/>
-                {taskForm.note}
+                {taskData.note}
               </div>
             </div>
           </div>
@@ -169,8 +172,8 @@ const TaskEditModal = ({ show, close, taskForm, hireForm, handleChange, onSubmit
         </button>
         <button
           type="submit"
-          onClick = {() => close()}
-          form="taskFormEdit"
+          onClick = {() => {close(); render(true)}}
+          form="taskForm"
           className="btn btn-primary btn-sm mod"
         >
           Send
@@ -179,4 +182,4 @@ const TaskEditModal = ({ show, close, taskForm, hireForm, handleChange, onSubmit
     </div>
   );
 };
-export default TaskEditModal;
+export default TaskModalForm;

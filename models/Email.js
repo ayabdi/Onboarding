@@ -8,7 +8,7 @@ const emailSchema = new mongoose.Schema({
     },
     to:{
         type: String,
-        required: true
+       // required: true
     },
     email:{
         type:String
@@ -30,7 +30,7 @@ const emailSchema = new mongoose.Schema({
         type: String,
     },
     date: {
-        type: Date,
+        type: String,
         //required: true,
     },
     daysBefore : {

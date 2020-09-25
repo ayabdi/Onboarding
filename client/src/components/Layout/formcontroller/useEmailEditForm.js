@@ -4,7 +4,7 @@ import axios from 'axios'
 /// Email Edit controller
 const useEmailEditForm = () => {
     
-    const [isSubmittingEmail, setIsSubmittingEmail] = useState(false) 
+   
     const initialState = {
         _id: " ",
         hire: " ",
