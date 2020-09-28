@@ -14,10 +14,10 @@ export default function  validate(formData, isUnique, setIsUnique){
      else if(!pattern.test(String(formData.email).toLowerCase())){
         errors.email = 'Email address is invalid'
      }  
-    //  else if(isUnique === 'E-mail already in use'){
-    //     errors.email = 'Email address already exists'
-    //     setIsUnique('')
-    // }
+     else if(isUnique === 'E-mail already in use'){
+        errors.email = 'Email address already exists'
+        setIsUnique('')
+    }
     if(!pattern.test(String(formData.hm_email).toLowerCase())){
         errors.Hm_email = 'Email address is invalid'
     } 

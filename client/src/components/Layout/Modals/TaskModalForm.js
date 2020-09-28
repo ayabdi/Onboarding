@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import useTaskForm from "../formcontroller/useTaskForm";
-import {addDays, parseISO} from 'date-fns'
+import {addDays, compareDesc} from 'date-fns'
 import moment from 'moment'
 const TaskModalForm = ({ show, close, hireForm , render, submitting,}) => {
   const { handleChange, taskData,setTaskData, onSubmit, setReminderArr, reminderArr} = useTaskForm();

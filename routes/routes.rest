@@ -1,8 +1,7 @@
-POST http://localhost:5000/emails
+POST http://localhost:5000/templates
 Content-Type: application/json
 
 { 
-   "hire": "5f67dea8b2ba5e1d04624be1"
     "name" : "Template for HR",
    
      "emails" : [
@@ -12,9 +11,9 @@ Content-Type: application/json
 	],
 
 	"tasks" : [
-		{ "name": "TestName1", "note": "TestNote1", "due_date": "1", "reminder": "1,3" },
-		{ "name": "TestName2", "note": "TestNote2", "due_date": "2", "reminder": "1,3" },
-		{ "name": "TestName3", "note": "TestNote3", "due_date": "3", "reminder":"1,3" }
+		{ "task": "TestName1", "note": "TestNote1", "due_date": "1", "reminder": "1,3", "to": "John Smith", "to_email": "johnSmith@ggmail.com" },
+		{ "task": "TestName2", "note": "TestNote2", "due_date": "2", "reminder": "1,3","to": "John Smith", "to_email": "johnSmith@ggmail.com"  },
+		{ "task": "TestName3", "note": "TestNote3", "due_date": "3", "reminder":"1,3","to": "John Smith", "to_email": "johnSmith@ggmail.com"  }
 	]
 
 }
