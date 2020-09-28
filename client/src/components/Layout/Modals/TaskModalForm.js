@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import useTaskForm from "../formcontroller/useTaskForm";
 import {addDays, parseISO} from 'date-fns'
+import moment from 'moment'
 const TaskModalForm = ({ show, close, hireForm , render, submitting,}) => {
   const { handleChange, taskData,setTaskData, onSubmit, setReminderArr, reminderArr} = useTaskForm();
   
@@ -8,6 +9,7 @@ const TaskModalForm = ({ show, close, hireForm , render, submitting,}) => {
     setTaskData({...taskData, hire_email: hireForm.email})
 
   }, [show])
+ // console.log(addDahireForm.startDate)
  
 
   return (
@@ -130,7 +132,7 @@ const TaskModalForm = ({ show, close, hireForm , render, submitting,}) => {
                   
                 <div key = {i}> 
                 &nbsp;{i===0? null : `  & ` }
-                  { i<3? addDays(parseISO(hireForm.startDate), (-reminderArr[i]-taskData.due_date)).toLocaleString("default", {
+                  { i<3? addDays(hireForm.startDate, (-reminderArr[i]-taskData.due_date)).toLocaleString("default", {
                   month: "long",
                   day: "numeric",
                   year: "numeric",
@@ -151,7 +153,7 @@ const TaskModalForm = ({ show, close, hireForm , render, submitting,}) => {
               <div className="preview row">
                 <br />
                 Task: {taskData.task} <br/>
-                Due Date : {addDays(parseISO(hireForm.startDate), -taskData.due_date).toLocaleString("default", {
+                Due Date : {addDays(hireForm.startDate, -taskData.due_date).toLocaleString("default", {
                   month: "long",
                   day: "numeric",
                   year: "numeric",

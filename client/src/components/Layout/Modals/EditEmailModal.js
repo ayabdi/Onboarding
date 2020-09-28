@@ -6,7 +6,7 @@ const EditEmailModal = ({ show, close, emailForm, handleChange, onSubmits, rende
   const [date, setDate] = useState(' ')
 useEffect(() => {
   setDate(new Date(emailForm.date))
-  console.log("email modal rendered")
+ // console.log("email modal rendered")
 }, [show])  
 
 

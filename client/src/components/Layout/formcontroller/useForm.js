@@ -50,12 +50,14 @@ const useForm = (callback, validate) => {
   };
 
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [isUnique, setIsUnique] = useState()
   const [hireID, fetchHireID] = useState({ _id: " " });
 
   const onSubmit = async (e) => {
     e.preventDefault();
     //handle errors
     setIsSubmitting(true);
+   
     setErrors(validate(formData));
     if (!isSubmitted) {
       try {
@@ -70,22 +72,30 @@ const useForm = (callback, validate) => {
           body,
           config
         );
-        //setIsSubmitting(false);
-        //console.log(res.data);
+        setIsSubmitted(true);
+        console.log(res.data);
+        setErrors({})
+       
+       
       } catch (error) {
         console.error(error.response.data.errors[0].msg);
+        setIsSubmitted(false);
+        console.log(isSubmitted);
+        setErrors((errors)=> ({...errors, email: error.response.data.errors[0].msg}))
       }
-      // if(error.response.data.errors[0].msg=== 'E-mail already in use'){
-
-      //     setIsUnique(false)
-      //     console.log(isUnique)
-      // }
+      console.log(errors)
+      
+    //   if(error.response.data.errors[0].msg=== 'E-mail already in use'){
+          
+    //       setIsUnique(false)
+    //       console.log(isUnique)
+    //   }}
       //else patch form
     }
   };
 
   useEffect(() => {
-    if (Object.keys(errors).length === 0 && isSubmitting) {
+    if (Object.keys(errors).length === 0 && isSubmitted) {
       callback();
       //move to next step
       increment();
@@ -111,8 +121,10 @@ const useForm = (callback, validate) => {
     });
   };
   useEffect(() => {
+  if(isSubmitted){
     fetchEmails(emails);
-    console.log('emailse rendedered fetched')
+  }
+    ///console.log('emailse rendedered fetched')
   }, [isSubmitting, renderEmails, currentStep]);
 
   //Delete Email
@@ -180,7 +192,7 @@ const useForm = (callback, validate) => {
     ]);
     let i;
     for (i = 0; i <= res.data[0].emails.length; i++) {
-      setIsSubmitted(true);
+     // setIsSubmitted(true);
       setEmailTemplates((emailTemplates) => [
         ...emailTemplates,
         {
@@ -222,14 +234,14 @@ const useForm = (callback, validate) => {
     }
     setRenderTasks(true);
     setRenderEmails(true)
-    settest(true);
+     settest(true);
   }
 
   //fetch selected template data
   useEffect(() => {
-    if (isSubmitting) {
+    if (isSubmitted) {
       try {
-        setIsSubmitted(true);
+       // setIsSubmitted(true);
         axios({
           method: "GET",
           url: `http://localhost:5000/templates/name/${templateData.name}`,
@@ -238,6 +250,7 @@ const useForm = (callback, validate) => {
         });
       } catch (error) {
         console.error(error.response.data);
+        settest(true)
       }
     } else {
       console.log("fail");
@@ -292,10 +305,12 @@ const [templateName , setTemplateName] = useState(" ")
     currentStep,
     increment,
     decrement,
+    setCount,
     templateData,
     emails,
     tasks,
     isSubmitting,
+    isSubmitted,
     deleteEmail,
     setRenderEmails,
     deleteTask,

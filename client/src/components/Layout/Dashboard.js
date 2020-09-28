@@ -20,6 +20,7 @@ function CustomToggle({ children, eventKey }) {
     console.log("totally custom!")
   );
   return (
+    
     <button
       type="button"
       style={{ backgroundColor: "white" }}
@@ -59,8 +60,9 @@ const Dashboard = () => {
       hm_email: "",
     },
   ]);
-  const[loading, setloading] = useState(false)
-  const [isFetched, setIsFetched] = useState(false)
+  const[loading, setloading] = useState()
+
+  const [render, setRender] = useState(false)
   const [tasksData, getTaskData] = useState([]);
   useEffect(() => {
     
@@ -69,35 +71,39 @@ const Dashboard = () => {
 
       url: `http://localhost:5000/hires`,
     }).then((res) => {
+     if(!loading){ 
       getHireData(res.data);
-     // setloading(true)
-      setIsFetched(true)
-    //  console.log(res.data);
+      setloading(true)
+      setRender(true)
    
-    let i
-    for(i=0;i<res.data.length;i++){
+  }
+   
+  });
+  }, [ loading, render, hireData]);
+  useEffect(() => {
+   
+    getTaskData([])
+    if(render){
+    for(let i=0;i<hireData.length;i++){
       axios({
         method: "GET",
-        url: `http://localhost:5000/tasks/find/${res.data[i]._id}`,
+        url: `http://localhost:5000/tasks/find/${hireData[i]._id}`,
       }).then((res2) => {
-        
-        tasksData[i] = res2.data
-        console.log(tasksData[1][0]);
+       console.log('refressh')
+       console.log(tasksData[0])
+      getTaskData((tasksData)=> [...tasksData, res2.data])
+      
        
       });
     }
-    setLoader(loading)
-  });
-  }, [ loading, tasksData]);
-  const setLoader = async () => {
-    setloading(true)
-    
-  }
-
+  } 
+   setRender(false)
+  }, [render, loading])
+ 
   
   const [isEdited, setIsEdited] = useState();
  
-   console.log(tasksData)
+   
 
  const[isDashboard, setIsDashboard] = useState(false)
  
@@ -120,9 +126,10 @@ const Dashboard = () => {
         show={showTaskEdit}
         close={closeEditTaskModalHandler}
         taskForm={taskData}
-        hireForm={[index]}
+        hireForm={hireData[index]}
         handleChange={handleTaskEdit}
         onSubmit={onTaskEdit}
+        render ={setRender}
         reminderArr={reminderArray}
         setIsEdit={setIsEdited}
         allowEdit = {isDashboard}
@@ -156,24 +163,24 @@ const Dashboard = () => {
         </div>
         <>
         
-          {loading?  tasksData.map((task, i) => (
+          {loading?  tasksData.map((tasks, i) => (
             <div key={i} className="card-body accordion">
               <Accordion className="accordion">
                 <div className="row hire-info">
                   <div className="col db">
-                    <h6>{tasksData[i][0].hire.name}</h6>
-                    <div className="email">{tasksData[i][0].hire.email}</div>{" "}
+                    <h6>{tasks[0].hire.name}</h6>
+                    <div className="email">{tasks[0].hire.email}</div>{" "}
                   </div>
                   <div className="col db">
-                    <h6>{tasksData[i][0].hire.job_title}</h6>
+                    <h6>{tasks[0].hire.job_title}</h6>
                   </div>
                   <div className="col db">
-                    <h6>{tasksData[i][0].hire.hiring_manager}</h6>
+                    <h6>{tasks[0].hire.hiring_manager}</h6>
                     <div className="email"> Manager </div>{" "}
                   </div>
                   <div className="col db">
                     <h6>
-                      {moment(parseISO(tasksData[i][0].hire.startDate)).toDate().toLocaleString("default", {
+                      {moment(parseISO(tasks[0].hire.startDate)).toDate().toLocaleString("default", {
                   month: "long",
                   day: "numeric",
                   year: "numeric",

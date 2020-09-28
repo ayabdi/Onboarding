@@ -13,7 +13,7 @@ const EmailModalForm = ({ show, close, hireForm, render, submitting }) => {
 useEffect(() => {
   
   setEmailData(emailData => ({...emailData , to :hireForm.email, date: hireForm.startDate}))
-  console.log(emailData)
+ // console.log(emailData)
 }, [submitting, show]) 
 
   return (

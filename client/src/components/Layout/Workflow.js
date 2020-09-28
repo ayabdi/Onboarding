@@ -57,6 +57,7 @@ const [newWorkflow, setNewWorkflow] = useState();
             <Dropdown
               placeholder="Choose a workflow template"
               fluid
+              clearable
               selection
               options={workflowOptions}
               onChange={handleSelected}

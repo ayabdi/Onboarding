@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 const templateSchema = new mongoose.Schema({
     name: {
         type: String,
-        required: true,
+        
         unique: true
     },
 

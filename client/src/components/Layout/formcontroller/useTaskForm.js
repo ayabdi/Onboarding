@@ -6,13 +6,13 @@ const useTaskForm = () => {
     const initialState = {
     hire_email: "",
     from: "Tina West",
-    task: "",
-    to: "",
+    task: "Create Email Address for hire",
+    to: "John Smith",
     to_email: " ",
-    note: " ",
+    note: "Did You complete the Task? ",
     isCompleted: false,
-    due_date: " ",
-    reminder: '',
+    due_date: "20 ",
+    reminder: '2,1',
     }
     const [taskData, setTaskData] = useState(initialState)
     

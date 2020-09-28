@@ -11,6 +11,7 @@ import EditEmailModal from "./Modals/EditEmailModal";
 import TaskEditModal from "./Modals/TaskEditModal";
 import DeleteEmailModal from "./Modals/DeleteEmailModal";
 import DeleteTaskModal from "./Modals/DeleteTaskModal";
+import SaveTemplateModal from "./Modals/SaveTemplateModal";
 import validate from "./validation/validateForm";
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -31,10 +32,12 @@ const HireForm = () => {
     currentStep,
     increment,
     decrement,
+    setCount,
     templateData,
     emails,
     tasks,
     isSubmitting,
+    isSubmitted,
     deleteEmail,
     setRenderEmails,
     deleteTask,
@@ -60,7 +63,7 @@ const HireForm = () => {
   }, [])
   
   //console.log(location.state.selectedValue)
-  console.log('hireform')
+ // console.log('hireform')
   //form controllers
   const { handleEmailEdit, onEmailEdit, setEmailData, emailData} = useEmailEditForm();
   const { handleTaskEdit, onTaskEdit, setTaskData, taskData, reminderArray} = useTaskEditForm();
@@ -95,6 +98,9 @@ const HireForm = () => {
   const [showDeleteTaskModal, setShowDeleteTaskModal] = useState(false);
   const closeDeleteTaskModalHandler = () => setShowDeleteTaskModal(false);
   const [taskToDelete, setTaskToDelete] = useState()
+   //Save template modal form
+   const [showTemplate, setShowTemplate] = useState(false);
+   const closeTemplateModalHandler = () => setShowTemplate(false);
 
 
 
@@ -181,6 +187,15 @@ const HireForm = () => {
         ID = {taskToDelete}
         onDelete = {deleteTask}
       />
+     {showTemplate ? (
+        <div onClick={closeTemplateModalHandler} className="back-drop"></div>
+      ) : null}
+      <SaveTemplateModal
+        show={showTemplate}
+        close={closeTemplateModalHandler}
+        template={newTemplateData}
+        handleClick = {createTemplate}
+      />
 
       <header>
         <div className="spacer">&nbsp;</div>
@@ -203,7 +218,7 @@ const HireForm = () => {
           className={`card-body  ${
             currentStep === 1 ? "card-body-active" : "card-body"
           }  }`}
-           onClick={(e) => decrement(e)}
+           onClick={isSubmitted ? (() => setCount(1))   : null }
         >
           <h5 className="card-title ">New Hire Information</h5>
           <p className="card-text ">Please enter details for the new hires</p>
@@ -218,6 +233,7 @@ const HireForm = () => {
                       <DatePicker
                         selected={selectedDate}
                         onChange={(date) => setSelectedDate(getTime(date))}
+                        minDate = {new Date()}
                         className="form-control textbox-size"
                         dateFormat="MMMM dd,yyyy"
                       />
@@ -317,9 +333,11 @@ const HireForm = () => {
           </div>
         </div>
         <div
+         
           className={`card-body  ${
             currentStep === 2 ? "card-body-active" : "card-body"
           }  }`}
+          onClick = {isSubmitted ?(() => setCount(2)): null }
         >
           <div className="row">
             <div className="col-sm-7">
@@ -370,7 +388,7 @@ const HireForm = () => {
               </div> 
             ) : null
 } 
-              {isSubmitting ? emails.map((email, i) => (
+              {isSubmitted && currentStep === 2? emails.map((email, i) => (
                 
                 <div key={i} className="container email-preview">
                   <div className="row email-preview">
@@ -403,7 +421,7 @@ const HireForm = () => {
         </div>
         <div
          
-          onClick = {currentStep ===2 ? ( (e) => increment(e)) : null }
+          onClick = {isSubmitted ? (() => setCount(3))  : null }
           className={`card-body  ${
             currentStep === 3 ? "card-body-active" : "card-body"
           }  }`}
@@ -490,8 +508,8 @@ const HireForm = () => {
       
         <button
                 type="button"
-                className={`btn btn-primary px-4  custom active`}
-                onClick = {()=> createTemplate(newTemplateData)}
+                className={isSubmitted? `btn btn-primary px-4 custom active`: `btn btn-primary px-4 custom`}
+                onClick = {()=> setShowTemplate(true)}
               >
                 Save Workflow
               </button>
@@ -500,9 +518,9 @@ const HireForm = () => {
           <div className = 'col-sm-3 float-right workflow-submit ' style ={{paddingRight: '0'}}>
               <button
                 type="button"
-                className={`btn btn-primary px-4 custom active `}
+                className={isSubmitted? `btn btn-primary px-4 custom active`: `btn btn-primary px-4 custom`}
               >
-                <Link to="/dashboard"> Set up Workflow </Link>
+                <Link to="/dashboard"className= 'deco-none'> Set up Workflow </Link>
                 
               </button>
               </div>

@@ -143,7 +143,7 @@ const TaskEditModal = ({ show, close, taskForm, hireForm, handleChange, onSubmit
                   
                 <div key = {i}> 
                 &nbsp;{i===0? null : `  & ` }
-                  { i<3? addDays(moment(parseISO(hireForm.startDate)).toDate(), (-taskForm.due_date- reminderArr[i]) ).toLocaleString("default", {
+                  { i<3? addDays(moment(hireForm.startDate).toDate(), (-taskForm.due_date- reminderArr[i]) ).toLocaleString("default", {
                   month: "long",
                   day: "numeric",
                   year: "numeric",
@@ -164,7 +164,7 @@ const TaskEditModal = ({ show, close, taskForm, hireForm, handleChange, onSubmit
               <div className="preview row">
                 <br />
                 Task: {taskForm.task} <br/>
-                Due Date : {addDays(parseISO(hireForm.startDate), -taskForm.due_date).toLocaleString("default", {
+                Due Date : {addDays(hireForm.startDate, -taskForm.due_date).toLocaleString("default", {
                   month: "long",
                   day: "numeric",
                   year: "numeric",
