@@ -1,7 +1,11 @@
 import React from "react";
 
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faTwitter, faLinkedinIn, faMediumM } from '@fortawesome/free-brands-svg-icons'
+
 import HarmonizeLogo from "../../../assets/logo.png";
 import "./Footer.scss";
+import { faEnvelope } from "@fortawesome/free-solid-svg-icons";
 
 const Footer = () => {
   return (
@@ -15,7 +19,7 @@ const Footer = () => {
                   <img
                     src={HarmonizeLogo}
                     alt="Harmonize Logo"
-                    style={{ width: "50px" }}
+                    style={{ height: "50px" }}
                   />
                   <h3>Harmonize</h3>
                 </div>
@@ -80,7 +84,7 @@ const Footer = () => {
                           rel="noopener noreferrer"
                           href="https://www.harmonizehq.com/"
                         >
-                          harmonizehq.com
+                         Harmonize
                         </a>
                       </li>
                       <li>
@@ -131,7 +135,7 @@ const Footer = () => {
                       rel="noopener noreferrer"
                       href="https://twitter.com/harmonizehq"
                     >
-                      <i className="fab fa-twitter"></i>
+                       <FontAwesomeIcon  icon={faTwitter} ></FontAwesomeIcon>
                     </a>
                   </li>
                   <li>
@@ -140,7 +144,7 @@ const Footer = () => {
                       rel="noopener noreferrer"
                       href="https://www.linkedin.com/company/harmonizehq/"
                     >
-                      <i className="fab fa-linkedin"></i>
+                      <FontAwesomeIcon  icon={faLinkedinIn} ></FontAwesomeIcon>
                     </a>
                   </li>
                   <li>
@@ -149,7 +153,7 @@ const Footer = () => {
                       rel="noopener noreferrer"
                       href="mailto:hi@harmonizehq.com"
                     >
-                      <i className="far fa-envelope"></i>
+                      <FontAwesomeIcon  icon={faEnvelope} ></FontAwesomeIcon>
                     </a>
                   </li>
                   <li>
@@ -158,7 +162,7 @@ const Footer = () => {
                       rel="noopener noreferrer"
                       href="https://www.attendancebot.com/blog/"
                     >
-                      <i className="fab fa-medium-m"></i>
+                       <FontAwesomeIcon  icon={faMediumM} ></FontAwesomeIcon>
                     </a>
                   </li>
                 </ul>

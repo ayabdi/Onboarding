@@ -1,11 +1,13 @@
 .main-feature{
    padding-top: 4rem;
    padding-bottom: 4rem;
-   position: relative;
+  
 
+   position: relative;
+  
    background-color: #f9f2fc;
-   width: 1440px;
-   height: 486px;
+   width:100%;
+ 
    text-align: center;
 }
 
@@ -13,6 +15,7 @@
 .feature-section{
     line-height: 3;
     margin-top: 5rem;
+    margin-left:-5rem;
 }
 
 .feature-section h2{

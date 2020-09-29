@@ -2,7 +2,7 @@ import React from "react";
 import { Row, Col, Container } from "react-bootstrap";
 
 import AutomatedEmailing from "../../../assets/AutomatedEmailing.png";
-import TaskWorkflow from "../../../assets/TaskWorkflow.png";
+import TaskWorkflow from "../../../assets/rsz_task_workflow_photo.png";
 import Dashboard from "../../../assets/Dashboard.png";
 
 import "./Features.scss";
@@ -12,6 +12,7 @@ const Features = () => {
     <section className="landing-features text-center">
       <Container>
         <h2>Here's how it works</h2>
+        <br/>
 
         <Row>
           <Col className="mb-md-5 d-flex align-items-center" md={{ span: 6 }}>

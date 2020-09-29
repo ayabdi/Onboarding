@@ -1,7 +1,7 @@
 @import "../../css/Custom.scss";
 
 .landing-features {
-  background-color: #f8f8fd;
+ 
   .container {
     padding-top: 5rem;
 
@@ -46,6 +46,6 @@
 }
 
 .feature-img {
-  width: 503px;
+  max-width: 800px;
   height: 317px;
 }
