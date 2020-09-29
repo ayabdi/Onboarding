@@ -1,8 +1,18 @@
 .container.dashboard{
     margin-top: 10px;
    padding:0;
-    height: 70px;
+ 
+    h1{
+       height: 1.2px; 
+       color: #000000;
+       font-weight: 450;
     
+    }
+    hr{
+        margin-top: 30px;
+        width: 18%;
+        border-top: 2.5px solid rgba(0, 0, 0, 0.2);
+    }
    
 }
 .col.db{
@@ -22,6 +32,7 @@
     border:1px solid #707070;
     border-radius: 13px;
     padding: 0;
+    margin-bottom: 20px
 }
 .card-body.accordion-body{
     border-top:1px  solid #707070;

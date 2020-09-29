@@ -143,6 +143,8 @@ const Dashboard = () => {
         <br />
         <br />
         <div className="container dashboard">
+          <h1 style={{textAlign: 'center'}}>Dashboard</h1>
+          <hr></hr>
           <div className="row hire-info">
             <div className="col db">
               <h6>NEW HIRE</h6>{" "}
