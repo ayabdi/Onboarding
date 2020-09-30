@@ -427,7 +427,7 @@ const HireForm = () => {
           }  }`}
         >
           <div className="row">
-            <div className="col-md-10">
+            <div className="col-md-10" style= {{width: '60%'}}>
               <h5 className="card-title ">Tasks</h5>
               <p className="card-text ">
                 Email reminders will be sent out in # of days before task due

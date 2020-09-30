@@ -4,7 +4,7 @@ const bodyParser = require('body-parser');
 const nodemailer = require('nodemailer')
 const path = require('path');
 const cors = require('cors');
-const url = 'mongodb://localhost/Onboarding'
+const url = 'mongodb+srv://onboarding:onboarding@cluster0.needw.mongodb.net/<dbname>?retryWrites=true&w=majority'
 
 const app = express();
 
