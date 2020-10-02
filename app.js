@@ -46,7 +46,7 @@ app.use('/templates', require('./routes/templates'))
 
 module.exports = function(app) {
   // add other server routes to path array
-  app.use(proxy(['/templates' ], { target: 'http://localhost:3000' }));
+  app.use(proxy(['/templates' ], { target: 'http://localhost:5000' }));
 } 
 
 // Serve static assets in production
