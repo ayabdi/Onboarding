@@ -4,6 +4,7 @@ const bodyParser = require('body-parser');
 const nodemailer = require('nodemailer')
 const path = require('path');
 const cors = require('cors');
+const proxy = require('http-proxy-middleware')
 const url = 'mongodb+srv://onboarding:onboarding@cluster0.needw.mongodb.net/<dbname>?retryWrites=true&w=majority'
 
 const app = express();
@@ -41,6 +42,12 @@ app.use('/send_email', require('./routes/mailer'))
 app.use('/emails', require('./routes/emails'))
 app.use('/tasks', require('./routes/tasks'))
 app.use('/templates', require('./routes/templates'))
+
+
+module.exports = function(app) {
+  // add other server routes to path array
+  app.use(proxy(['/api' ], { target: 'http://localhost:5000' }));
+} 
 
 // Serve static assets in production
 if (process.env.NODE_ENV === 'production') {
