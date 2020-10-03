@@ -41,7 +41,7 @@ const onEmailEdit =  async e =>  {
       //Store email
       const body = JSON.stringify(emailData);
 
-      const res = await axios.patch(`http://localhost:5000/emails/${emailData._id}`, body, config)
+      const res = await axios.patch(`api/emails/${emailData._id}`, body, config)
       console.log(res.data);
 
       } catch (error) {

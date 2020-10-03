@@ -42,7 +42,7 @@ const onSubmit =  async e =>  {
       //Store task
       const body = JSON.stringify(taskData);
 
-      const res = await axios.post('http://localhost:5000/tasks', body, config)
+      const res = await axios.post('api/tasks', body, config)
      // console.log(res.data);
       setTaskData(initialState);
 

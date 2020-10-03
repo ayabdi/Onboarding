@@ -68,7 +68,7 @@ const useForm = (callback, validate) => {
         };
         const body = JSON.stringify(formData);
         const res = await axios.post(
-          "http://localhost:5000/hires",
+          "api/hires",
           body,
           config
         );
@@ -113,7 +113,7 @@ const useForm = (callback, validate) => {
     axios({
       method: "GET",
 
-      url: `http://localhost:5000/emails/find/${formData.email}`,
+      url: `api/emails/find/${formData.email}`,
     }).then((res) => {
       setEmails(res.data);
       //console.log("emails fetched");
@@ -137,7 +137,7 @@ const useForm = (callback, validate) => {
         Accept: "application/json",
         "Content-Type": "application/json",
       },
-      url: `http://localhost:5000/emails/${emailID}`,
+      url: `api/emails/${emailID}`,
     }).then((res) => {
       //console.log(res.data);
       setRenderEmails(true);
@@ -153,14 +153,14 @@ const useForm = (callback, validate) => {
     if (isSubmitting) {
       axios({
         method: "GET",
-        url: `http://localhost:5000/hires/${formData.email}`,
+        url: `api/hires/${formData.email}`,
       }).then((res) => {
         fetchHireID(res.data[0]);
        // console.log(hireID);
         if (res.data[0] != null) {
           axios({
             method: "GET",
-            url: `http://localhost:5000/tasks/find/${res.data[0]._id}`,
+            url: `api/tasks/find/${res.data[0]._id}`,
           }).then((res2) => {
             //setRenderTasks(true);
             setTasks(res2.data);
@@ -177,7 +177,7 @@ const useForm = (callback, validate) => {
 
   //Delete tasks
   function deleteTask(taskID) {
-    axios.delete(`http://localhost:5000/tasks/${taskID}`).then((res) => {
+    axios.delete(`api/tasks/${taskID}`).then((res) => {
      // console.log(res.data);
       setRenderTasks(true);
     });
@@ -203,7 +203,7 @@ const useForm = (callback, validate) => {
         },
       ]);
       axios
-        .post("http://localhost:5000/emails", emailTemplates[i])
+        .post("api/emails", emailTemplates[i])
         .then((res2) => {
           console.log(res2.data);
           console.log("template Emails posted");
@@ -226,7 +226,7 @@ const useForm = (callback, validate) => {
       ]);
 
       axios
-        .post("http://localhost:5000/tasks", taskTemplates[z])
+        .post("api/tasks", taskTemplates[z])
         .then((res3) => {
           console.log(res3.data);
           
@@ -244,7 +244,7 @@ const useForm = (callback, validate) => {
        // setIsSubmitted(true);
         axios({
           method: "GET",
-          url: `http://localhost:5000/templates/name/${templateData.name}`,
+          url: `api/templates/name/${templateData.name}`,
         }).then((res) => {
           postTemplates(res);
         });

@@ -45,7 +45,7 @@ const onSubmit =  async e =>  {
       //Store email
       const body = JSON.stringify(emailData);
 
-      const res = await axios.post('http://localhost:5000/emails', body, config)
+      const res = await axios.post('api/emails', body, config)
     //  console.log(res.data);
       setEmailData(initialState);
 
