@@ -14,8 +14,8 @@ const Workflow = () => {
   useEffect(() => {
     axios({
       method: "GET",
-      baseURL : '/api',
-      url: `/templates`,
+   
+      url: `/api/templates`,
     }).then((res) => {
       getWorkflows(res.data);
       //setloading(true)
