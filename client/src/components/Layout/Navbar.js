@@ -1,6 +1,8 @@
 import React, { useState, useEffect, useRef } from "react";
 import '../css/Navbar.scss'
 import HarmonizeLogo from "../../assets/logo.png";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faChevronDown } from "@fortawesome/free-solid-svg-icons";
 
 const _Navbar = () => {
   const dropdownRef = useRef(null);
@@ -45,10 +47,13 @@ const _Navbar = () => {
                 onMouseLeave={() => setShowDropdown(false)}
               >
                 Products{" "}
-                <i
-                  className="fas fa-chevron-down"
-                  style={{ marginLeft: "2.5px" }}
-                ></i>
+                <FontAwesomeIcon
+                          icon={faChevronDown}
+                         // className="chevron-down"
+                         style={{ marginLeft: "2.5px" }}
+                        
+                        ></FontAwesomeIcon>
+    
                 {showDropdown && (
                   <div className="product-dropdown" ref={dropdownRef}>
                     <div className="dropdown-content">

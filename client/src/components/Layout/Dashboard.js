@@ -21,13 +21,14 @@ function CustomToggle({ children, eventKey }) {
   );
   return (
     
-    <button
-      type="button"
+    <div
+      
       style={{ backgroundColor: "white" }}
+      className="chevron-down"
       onClick={decoratedOnClick}
     >
       {children}
-    </button>
+    </div>
   );
 }
 const Dashboard = () => {
@@ -196,9 +197,10 @@ const Dashboard = () => {
                       In Progress 
                       </div>
                       </div>
-                      <CustomToggle as={Button} variant="link" eventKey="0">
+                      <CustomToggle as={Button}className="chevron-down" variant="link" eventKey="0">
                         <FontAwesomeIcon
                           icon={faChevronDown}
+                          className="chevron-down"
                           type="button"
                           onClick={() => { setIsEdited(false)} }
                         ></FontAwesomeIcon>
