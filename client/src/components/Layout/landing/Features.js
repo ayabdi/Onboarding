@@ -42,10 +42,10 @@ const Features = () => {
             <img src={TaskWorkflow} alt="TaskWorkflow" className="feature-img" />
           </Col>
 
-          <Col className="mb-md-5 d-flex align-items-center" md={{ span: 7 }}>
+          <Col className="mb-md-5 d-flex align-items-center" md={{ span: 8 }}>
             <img src={Dashboard} alt="Dashboard" className="feature-img" />
           </Col>
-          <Col className="mb-md-5 d-flex align-items-center" md={{ span: 5 }}>
+          <Col className="mb-md-5 d-flex align-items-center" md={{ span: 4 }}>
             <div className="feature-card">
               <p className='feature-list'>Status Dashboard</p>
               <h3 className="feature-title">Quick Scan new hires in one place</h3>
