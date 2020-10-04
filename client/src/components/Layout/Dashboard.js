@@ -69,7 +69,7 @@ const Dashboard = () => {
     axios({
       method: "GET",
 
-      url: `http://localhost:5000/hires`,
+      url: `api/hires`,
     }).then((res) => {
      if(!loading){ 
       getHireData(res.data);
@@ -87,7 +87,7 @@ const Dashboard = () => {
     for(let i=0;i<hireData.length;i++){
       axios({
         method: "GET",
-        url: `http://localhost:5000/tasks/find/${hireData[i]._id}`,
+        url: `api/tasks/find/${hireData[i]._id}`,
       }).then((res2) => {
        console.log('refressh')
        console.log(tasksData[0])

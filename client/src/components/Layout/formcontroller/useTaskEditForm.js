@@ -51,7 +51,7 @@ const onTaskEdit =  async e =>  {
       //Store email
       const body = JSON.stringify(taskData);
 
-      const res = await axios.patch(`http://localhost:5000/tasks/${taskData._id}`, body, config)
+      const res = await axios.patch(`api/tasks/${taskData._id}`, body, config)
       console.log(res.data);
 
       } catch (error) {

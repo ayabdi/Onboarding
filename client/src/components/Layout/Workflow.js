@@ -10,12 +10,12 @@ import "../css/Workflow.scss";
 const Workflow = () => {
   //fetch workflow names from database
   const [workflows, getWorkflows] = useState([{ name: "" }]);
-  const baseUrl = process.env.baseURL || "http://localhost:5000"
+  //const baseUrl = process.env.baseURL || "http://localhost:5000"
   useEffect(() => {
     axios({
       method: "GET",
-      baseURL : baseUrl,
-      url: `/templates`,
+   
+      url: `/api/templates`,
     }).then((res) => {
       getWorkflows(res.data);
       //setloading(true)
