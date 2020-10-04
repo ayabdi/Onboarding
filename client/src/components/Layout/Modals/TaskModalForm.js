@@ -178,7 +178,7 @@ const TaskModalForm = ({ show, close, hireForm , render, submitting,}) => {
           form="taskForm"
           className="btn btn-primary btn-sm mod"
         >
-          Send
+          Schedule
         </button>
       </div>
     </div>

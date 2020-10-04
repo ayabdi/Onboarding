@@ -191,7 +191,7 @@ const TaskEditModal = ({ show, close, taskForm, hireForm, handleChange, onSubmit
           form="taskFormEdit"
           className="btn btn-primary btn-sm mod"
         >
-          Send
+          Schedule
         </button>
       </div>
     </div>

@@ -146,7 +146,7 @@ useEffect(() => {
           form="emailEditForm"
           className="btn btn-primary btn-sm mod"
         >
-          Send
+          Schedule
         </button>
       </div>
     </div>
