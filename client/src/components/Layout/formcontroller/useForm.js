@@ -257,7 +257,7 @@ const useForm = (callback, validate) => {
     }
   }, [isSubmitting, isSubmitted, test]);
 
-const [templateName , setTemplateName] = useState(" ")
+const [templateName , setTemplateName] = useState()
   const createTemplate = async () => {
 
     //  setNewTemplateData(...newTemplateData, { name: "Template" });
@@ -316,8 +316,9 @@ const [templateName , setTemplateName] = useState(" ")
     deleteTask,
     setRenderTasks,
     setTemplateName,
+    templateName,
     createTemplate,
-    newTemplateData
+    newTemplateData,
   };
 };
 

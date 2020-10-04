@@ -43,6 +43,7 @@ const HireForm = () => {
     deleteTask,
     setRenderTasks,
     setTemplateName,
+    templateName,
     createTemplate,
     newTemplateData
   } = useForm(submit, validate);
@@ -57,7 +58,7 @@ const HireForm = () => {
     }else if(location.state.newWorkflow!=null){
       setTemplateName(location.state.newWorkflow)
     }else{
-      setTemplateName('default workflow')
+      setTemplateName("Default Workflow")
     }
     
   }, [])
@@ -202,7 +203,7 @@ const HireForm = () => {
         <br />
         <br /> <br/>
 
-       <div className="container-small">{location.state.selectedValue!=null ? location.state.selectedValue: location.state.newWorkflow}</div>
+       <div className="container-small">{location.state.selectedValue!=null ? location.state.selectedValue: templateName}</div>
       </header>
       <div className="stepper-container-horizontal">
         <Stepper

@@ -40,11 +40,11 @@ const Workflow = () => {
     console.log(selectedValue);
   };
 //handle new workflow name
-const [newWorkflow, setNewWorkflow] = useState();
+const [newWorkflow, setNewWorkflow] = useState(null);
   const handleNewWorkflow = (event) => {
     const {value} = event.target;
     setNewWorkflow(value);
-   // console.log(newWorkflow);
+    console.log(newWorkflow);
   };
   return (
     <section>
