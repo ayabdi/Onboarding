@@ -24,14 +24,7 @@ const useEmailForm = () => {
            [name]: value
        });
    }
-//    const [emailFormEdit, setEmailForm] = useState(initialState);
-//   const handleEdit = event => {
-//     const {name, value} = event.target;
-//     setEmailData({
-//         ...emailFormEdit, 
-//         [name]: value
-//     });
-// }
+
 
 
 const onSubmit =  async e =>  {
@@ -53,12 +46,33 @@ const onSubmit =  async e =>  {
           console.error(error.response.data)
       }}
 
+const scheduleEmails = async (emails)  =>{
+  emails.map(email => {
+    try {
+        const config = {
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    }
+    
+    const res =  axios.post('api/send_email', email, config)
+    console.log(email)
+    console.log("email scheduled");
+
+    } catch (error) {
+        console.error(error.response.data)
+    }
+  })
+  
+}
 
 
    return {
     handleChange,
     emailData,
-    onSubmit,setEmailData
+    onSubmit,
+    setEmailData,
+    scheduleEmails
 
 }}
 

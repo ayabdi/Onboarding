@@ -20,6 +20,7 @@ import { faTrash } from '@fortawesome/free-solid-svg-icons'
 
 import "react-datepicker/dist/react-datepicker.css";
 import useEmailEditForm from "./formcontroller/useEmailEditForm";
+import useEmailForm from "./formcontroller/useEmailForm";
 import useTaskEditForm from "./formcontroller/useTaskEditForm";
 import useTaskForm from "./formcontroller/useTaskForm";
 
@@ -66,6 +67,7 @@ const HireForm = () => {
   //console.log(location.state.selectedValue)
  // console.log('hireform')
   //form controllers
+  const { scheduleEmails }= useEmailForm();
   const { handleEmailEdit, onEmailEdit, setEmailData, emailData} = useEmailEditForm();
   const { handleTaskEdit, onTaskEdit, setTaskData, taskData, reminderArray} = useTaskEditForm();
   
@@ -519,6 +521,7 @@ const HireForm = () => {
           <div className = 'col-sm-3 float-right workflow-submit ' style ={{paddingRight: '0'}}>
               <button
                 type="button"
+                onClick ={()=> scheduleEmails(emails)}
                 className={isSubmitted? `btn btn-primary px-4 custom active`: `btn btn-primary px-4 custom`}
               >
                 <Link to="/dashboard"className= 'deco-none'> Set up Workflow </Link>
