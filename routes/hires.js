@@ -27,26 +27,26 @@ router.post(
     '/', [
         //Validating entries
         check("name", "Name is required").not().isEmpty(),
-        check('email')
-        .not()
-        .isEmpty()
-        .withMessage('Email is required')
-        .isEmail()
-        .withMessage('Invalid Email')
-        .custom((value, {req}) => {
-          return new Promise((resolve, reject) => {
-            Hire.findOne({email:req.body.email}, function(err, user){
-              if(err) {
-                reject(new Error('Server Error'))
-              }
-              if(Boolean(user)) {
-                reject(new Error('E-mail already in use'))
+        // check('email')
+        // .not()
+        // .isEmpty()
+        // .withMessage('Email is required')
+        // .isEmail()
+        // .withMessage('Invalid Email')
+        // .custom((value, {req}) => {
+        //   return new Promise((resolve, reject) => {
+        //     Hire.findOne({email:req.body.email}, function(err, user){
+        //       if(err) {
+        //         reject(new Error('Server Error'))
+        //       }
+        //       if(Boolean(user)) {
+        //         reject(new Error('E-mail already in use'))
                 
-              }
-              resolve(true)
-            });
-          });
-        }),
+        //       }
+        //       resolve(true)
+        //     });
+        //   });
+        // }),
         // check("email", "Please include a valid email").isEmail(),
         // check("job_title", "Name is required").not().isEmpty(),
         // check("department", "Name is required").not().isEmpty(),
