@@ -43,23 +43,27 @@ const transport = {
     //make mailable object
     const mail = {
       from: 'testharmonizehq123@gmail.com',
-      to: req.body.email,
+      to: req.body.to,
       subject: req.body.subject,
       text: req.body.message,
       date :req.body.date,
-      daysBefore: req.body.daysBefore
+      daysBefore: req.body.daysBefore,
+      hire: req.body.hire
 
 
     }
+   
     //calculate email date and set month and day
     var emaildate = addDays(parseISO(req.body.date),  -req.body.daysBefore)
     var day = datefns.getDate(emaildate)
     var month = datefns.getMonth(emaildate)+1
-    
-
+    var minute = datefns.getMinutes(new Date())+1
+    var hour = datefns.getHours(new Date())-1
+  
     //scheduler
-cron.schedule(` 48 12 ${day} ${month} *`, () => {
+cron.schedule(`${minute} ${hour} ${day} ${month} *`, () => {
     console.log('email sent');
+    console.log(day)
 transporter.sendMail(mail, (err,data) => {
     // error handling goes here. 
     if(err) {
