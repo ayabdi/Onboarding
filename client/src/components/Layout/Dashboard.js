@@ -166,7 +166,7 @@ const Dashboard = () => {
         </div>
         <>
         
-          {loading?  tasksData.map((tasks, i) => (
+          {loading && tasksData.length!=0?  tasksData.map((tasks, i) => (
             <div key={i} className="card-body accordion">
               <Accordion className="accordion">
                 <div className="row hire-info">
