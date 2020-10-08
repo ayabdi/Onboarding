@@ -34,8 +34,10 @@ const useForm = (callback, validate) => {
   //Create Template Data
   const [newTemplateData, setNewTemplateData] = useState({
     name: "",
-    emails: [{subject:'', daysBefore: ' ', message: ' '}],
-    tasks: [{task: '', note: '', due_date:'', reminder: '', to: '', to_email: ''}],
+    emails: [{ subject: "", daysBefore: " ", message: " " }],
+    tasks: [
+      { task: "", note: "", due_date: "", reminder: "", to: "", to_email: "" },
+    ],
   });
   /// Stepper
   const [currentStep, setCount] = useState(1);
@@ -50,14 +52,12 @@ const useForm = (callback, validate) => {
   };
 
   const [isSubmitted, setIsSubmitted] = useState(false);
-  const [isUnique, setIsUnique] = useState()
   const [hireID, fetchHireID] = useState({ _id: " " });
 
   const onSubmit = async (e) => {
     e.preventDefault();
     //handle errors
     setIsSubmitting(true);
-   
     setErrors(validate(formData));
     if (!isSubmitted) {
       try {
@@ -67,29 +67,23 @@ const useForm = (callback, validate) => {
           },
         };
         const body = JSON.stringify(formData);
-        const res = await axios.post(
-          "api/hires",
-          body,
-          config
-        );
+        const res = await axios.post("api/hires", body, config);
         setIsSubmitted(true);
         console.log(res.data);
-        setErrors({})
-       
-       
+        setErrors({});
       } catch (error) {
         console.error(error.response.data.errors[0].msg);
         // setIsSubmitted(false);
-     //   console.log(isSubmitted);
-      //  setErrors((errors)=> ({...errors, email: error.response.data.errors[0].msg}))
+        //   console.log(isSubmitted);
+        //  setErrors((errors)=> ({...errors, email: error.response.data.errors[0].msg}))
       }
-      console.log(errors)
-      
-    //   if(error.response.data.errors[0].msg=== 'E-mail already in use'){
-          
-    //       setIsUnique(false)
-    //       console.log(isUnique)
-    //   }}
+      console.log(errors);
+
+      //   if(error.response.data.errors[0].msg=== 'E-mail already in use'){
+
+      //       setIsUnique(false)
+      //       console.log(isUnique)
+      //   }}
       //else patch form
     }
   };
@@ -99,12 +93,11 @@ const useForm = (callback, validate) => {
       callback();
       //move to next step
       increment();
-      console.log('errors')
+      console.log("errors");
     }
   }, [errors]);
 
   //Fetching Emails
-
   const [emails, setEmails] = useState([]);
   const [renderEmails, setRenderEmails] = useState(false);
 
@@ -117,18 +110,15 @@ const useForm = (callback, validate) => {
     }).then((res) => {
       setEmails(res.data);
       //console.log("emails fetched");
-      
     });
   };
   useEffect(() => {
-  if(isSubmitted){
-    fetchEmails(emails);
-  }
-    ///console.log('emailse rendedered fetched')
+    if (isSubmitted) {
+      fetchEmails(emails);
+    }
   }, [isSubmitting, renderEmails, currentStep]);
 
   //Delete Email
-
   function deleteEmail(emailID) {
     axios({
       method: "DELETE",
@@ -139,12 +129,10 @@ const useForm = (callback, validate) => {
       },
       url: `api/emails/${emailID}`,
     }).then((res) => {
-      //console.log(res.data);
       setRenderEmails(true);
     });
     setRenderEmails(false);
   }
-  //Fetching hire id by hire email
 
   //Fetching Tasks
   const [tasks, setTasks] = useState([]);
@@ -156,16 +144,14 @@ const useForm = (callback, validate) => {
         url: `api/hires/${formData.email}`,
       }).then((res) => {
         fetchHireID(res.data[0]);
-       // console.log(hireID);
+        // console.log(hireID);
         if (res.data[0] != null) {
           axios({
             method: "GET",
             url: `api/tasks/find/${res.data[0]._id}`,
           }).then((res2) => {
-            //setRenderTasks(true);
             setTasks(res2.data);
           });
-          
         }
         setRenderTasks(false);
       });
@@ -178,7 +164,7 @@ const useForm = (callback, validate) => {
   //Delete tasks
   function deleteTask(taskID) {
     axios.delete(`api/tasks/${taskID}`).then((res) => {
-     // console.log(res.data);
+      // console.log(res.data);
       setRenderTasks(true);
     });
   }
@@ -186,13 +172,13 @@ const useForm = (callback, validate) => {
   //function to post template email
   const [test, settest] = useState();
   function postTemplates(res) {
+
     //emails
     setEmailTemplates((emailTemplates) => [
       { ...emailTemplates, emails: res.data[0].emails },
     ]);
     let i;
     for (i = 0; i <= res.data[0].emails.length; i++) {
-     // setIsSubmitted(true);
       setEmailTemplates((emailTemplates) => [
         ...emailTemplates,
         {
@@ -202,13 +188,13 @@ const useForm = (callback, validate) => {
           to: formData.email,
         },
       ]);
-      axios
-        .post("api/emails", emailTemplates[i])
-        .then((res2) => {
-          console.log(res2.data);
-          console.log("template Emails posted");
-        });
+      axios.post("api/emails", emailTemplates[i]).then((res2) => {
+        console.log(res2.data);
+        console.log("template Emails posted");
+      });
     }
+
+
     //tasks
     setTaskTemplates((taskTemplates) => [
       { ...taskTemplates, tasks: res.data[0].tasks },
@@ -225,23 +211,20 @@ const useForm = (callback, validate) => {
         },
       ]);
 
-      axios
-        .post("api/tasks", taskTemplates[z])
-        .then((res3) => {
-          console.log(res3.data);
-          
-        });
+      axios.post("api/tasks", taskTemplates[z]).then((res3) => {
+        console.log(res3.data);
+      });
     }
     setRenderTasks(true);
-    setRenderEmails(true)
-     settest(true);
+    setRenderEmails(true);
+    settest(true);
   }
 
   //fetch selected template data
   useEffect(() => {
     if (isSubmitted) {
       try {
-       // setIsSubmitted(true);
+        // setIsSubmitted(true);
         axios({
           method: "GET",
           url: `api/templates/name/${templateData.name}`,
@@ -250,52 +233,46 @@ const useForm = (callback, validate) => {
         });
       } catch (error) {
         console.error(error.response.data);
-        settest(true)
+        settest(true);
       }
     } else {
       console.log("fail");
     }
   }, [isSubmitting, isSubmitted, test]);
 
-const [templateName , setTemplateName] = useState()
+  const [templateName, setTemplateName] = useState();
   const createTemplate = async () => {
-
-    //  setNewTemplateData(...newTemplateData, { name: "Template" });
-       newTemplateData.name = templateName
-       if(emails.length!=0){
-        let i
-        for(i = 0; i<emails.length; i++){   
-          newTemplateData.emails[i].subject= emails[i].subject;
-          newTemplateData.emails[i].message = emails[i].message;
-          newTemplateData.emails[i].daysBefore=  emails[i].daysBefore;
-        }
-      
-       }
-       if(tasks.length!=0){
-        let d
-        for(d = 0; d<tasks.length; d++){   
-          newTemplateData.tasks[d].task= tasks[d].task;
-          newTemplateData.tasks[d].note = tasks[d].note;
-          newTemplateData.tasks[d].due_date=  tasks[d].due_date;
-          newTemplateData.tasks[d].reminder = tasks[d].reminder;
-          newTemplateData.tasks[d].to = tasks[d].to;
-          newTemplateData.tasks[d].to_email = tasks[d].to_email;
-        }
-       }
-       if(emails.length!=0){
-       axios.post("http://localhost:5000/templates", newTemplateData)
-       .then((res) => {
-        console.log(res.data);
+    newTemplateData.name = templateName;
+    if (emails.length != 0) {
+      let i;
+      for (i = 0; i < emails.length; i++) {
+        newTemplateData.emails[i].subject = emails[i].subject;
+        newTemplateData.emails[i].message = emails[i].message;
+        newTemplateData.emails[i].daysBefore = emails[i].daysBefore;
+      }
+    }
+    if (tasks.length != 0) {
+      let d;
+      for (d = 0; d < tasks.length; d++) {
+        newTemplateData.tasks[d].task = tasks[d].task;
+        newTemplateData.tasks[d].note = tasks[d].note;
+        newTemplateData.tasks[d].due_date = tasks[d].due_date;
+        newTemplateData.tasks[d].reminder = tasks[d].reminder;
+        newTemplateData.tasks[d].to = tasks[d].to;
+        newTemplateData.tasks[d].to_email = tasks[d].to_email;
+      }
+    }
+    if (emails.length != 0) {
+      axios
+        .post("api/templates", newTemplateData)
+        .then((res) => {
+          console.log(res.data);
         });
     }
-          console.log(newTemplateData)
-          console.log("ASDAS")
-    
+    console.log(newTemplateData);
+
   };
-  
 
-
-  //create a new Template
 
   return {
     handleChange,

@@ -55,7 +55,7 @@ const scheduleEmails = async (emails)  =>{
         }
     }
     
-    const res =  axios.post('api/send_email', email, config)
+    const res =  axios.post('api/send_email/email', email, config)
     console.log(email)
     console.log("email scheduled");
 

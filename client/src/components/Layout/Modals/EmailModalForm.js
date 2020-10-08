@@ -2,18 +2,10 @@ import React, { useState, useEffect } from "react";
 import useEmailForm from "../formcontroller/useEmailForm";
 const EmailModalForm = ({ show, close, hireForm, render, submitting }) => {
   const { handleChange, setEmailData,emailData, onSubmit} = useEmailForm();
- // console.log('email modal rendered')
-  //set emailData to 
- //emailData.to = hireForm.email;
-
-
-  // get  startDate and convert to date
- // emailData.date = hireForm.startDate;
+ 
 
 useEffect(() => {
-  
   setEmailData(emailData => ({...emailData , to :hireForm.email, date: hireForm.startDate}))
- // console.log(emailData)
 }, [submitting, show]) 
 
   return (
