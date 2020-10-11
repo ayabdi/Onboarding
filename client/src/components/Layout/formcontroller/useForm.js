@@ -72,8 +72,8 @@ const useForm = (callback, validate) => {
         console.log(res.data);
         setErrors({});
       } catch (error) {
-        console.error(error.response.data.errors[0].msg);
-        // setIsSubmitted(false);
+      //  console.error(error.response.data.errors[0].msg);
+         setIsSubmitted(true);
         //   console.log(isSubmitted);
         //  setErrors((errors)=> ({...errors, email: error.response.data.errors[0].msg}))
       }
