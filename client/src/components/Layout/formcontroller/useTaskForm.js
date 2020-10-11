@@ -50,6 +50,25 @@ const onSubmit =  async e =>  {
           console.error(error.response.data)
       }}
 
+      const scheduleTasks = async (tasks)  =>{
+        tasks.map(task => {
+          try {
+              const config = {
+              headers: {
+                  'Content-Type': 'application/json'
+              }
+          }
+          
+          const res =  axios.post('api/send_email/task', task, config)
+          console.log(task)
+          console.log("task scheduled");
+      
+          } catch (error) {
+              console.error(error.response.data)
+          }
+        })
+        
+      }
 
 
    return {
@@ -58,6 +77,7 @@ const onSubmit =  async e =>  {
     setTaskData,
     onSubmit,
     setReminderArr,
+    scheduleTasks,
     reminderArr
 
 }}

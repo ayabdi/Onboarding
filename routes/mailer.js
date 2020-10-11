@@ -93,7 +93,7 @@ sendmailRouter.post("/task", (req, res, next) => {
     due_date: req.body.due_date,
     html: `<p>${req.body.task}
              <br></br>
-             Due Date: ${req.body.date}
+             Due Date: ${req.body.hire.startDate}
              <br></br>
              ${req.body.note}
           </p>`,
@@ -115,8 +115,8 @@ sendmailRouter.post("/task", (req, res, next) => {
     cron.schedule(
       `${minute} ${hour} ${day} ${month} *`,
       () => {
-        console.log("email sent");
-        console.log(day);
+        console.log("task sent");
+        console.log(req.body.hire.startDate);
         transporter.sendMail(mail, (err, data) => {
           // error handling goes here.
           if (err) {

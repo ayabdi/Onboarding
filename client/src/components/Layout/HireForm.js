@@ -68,6 +68,7 @@ const HireForm = () => {
  // console.log('hireform')
   //form controllers
   const { scheduleEmails }= useEmailForm();
+  const { scheduleTasks }= useTaskForm();
   const { handleEmailEdit, onEmailEdit, setEmailData, emailData} = useEmailEditForm();
   const { handleTaskEdit, onTaskEdit, setTaskData, taskData, reminderArray} = useTaskEditForm();
   
@@ -521,7 +522,7 @@ const HireForm = () => {
           <div className = 'col-sm-3 float-right workflow-submit ' style ={{paddingRight: '0'}}>
               <button
                 type="button"
-                onClick ={()=> scheduleEmails(emails)}
+                onClick ={()=> {scheduleEmails(emails); scheduleTasks(tasks)}}
                 className={isSubmitted? `btn btn-primary px-4 custom active`: `btn btn-primary px-4 custom`}
               >
                 <Link to="/dashboard"className= 'deco-none'> Set up Workflow </Link>
