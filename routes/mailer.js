@@ -7,10 +7,20 @@ const datefns = require("date-fns");
 
 const sendmailRouter = express.Router();
 const bodyParser = require("body-parser");
+const { google } = require("googleapis");
+const OAuth2 = google.auth.OAuth2;
 // //bodyparser
 // router.use(bodyParser.json())
 // router.use(bodyParser.urlencoded({extended: true}))
 
+const myOAuth2Client = new OAuth2(
+  "427228709758-5ig3aced21f9hdf4efo5nukthpmjl2cn.apps.googleusercontent.com",
+  "8E1N_PpAfi4FYH-2UAvs3M3l",
+  )
+myOAuth2Client.setCredentials({
+  refresh_token:"1//04MM62P5vS-bhCgYIARAAGAQSNwF-L9Irv0WvbdAx9YADWbIylb0Sbbr-Xj01S07YxT8i2zwvB-vP6Eus8vlypA6xN-QeHWomeI0"
+  });
+  const myAccessToken = myOAuth2Client.getAccessToken()
 const transport = {
   //all of the configuration for making a site send an email.
 
@@ -18,9 +28,13 @@ const transport = {
   port: 587,
   secure: false,
   auth: {
-    type: 'OAuth2',
+    type: "OAuth2",
     user: "testharmonizehq123@gmail.com",
-    pass: "harmonizehq@12345",
+    clientId: " 427228709758-5ig3aced21f9hdf4efo5nukthpmjl2cn.apps.googleusercontent.com",
+          clientSecret: " 8E1N_PpAfi4FYH-2UAvs3M3l",
+          refreshToken: "1//04MM62P5vS-bhCgYIARAAGAQSNwF-L9Irv0WvbdAx9YADWbIylb0Sbbr-Xj01S07YxT8i2zwvB-vP6Eus8vlypA6xN-QeHWomeI0",
+          accessToken: myAccessToken //access token variable we defined earlier
+   
   },
   tls: { rejectUnauthorized: false }
 };
