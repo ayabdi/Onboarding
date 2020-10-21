@@ -38,8 +38,7 @@ app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({extended: true}))
 
 app.use('/api/hires', require('./routes/hires'));
-app.use('/api/send_email/email', require('./routes/mailer'))
-app.use('/api/send_email/task', require('./routes/mailer'))
+app.use('/api/send_email', require('./routes/mailer'))
 app.use('/api/emails', require('./routes/emails'))
 app.use('/api/tasks', require('./routes/tasks'))
 app.use('/api/templates', require('./routes/templates'))
