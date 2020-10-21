@@ -21,6 +21,7 @@ const transport = {
     user: "testharmonizehq123@gmail.com",
     pass: "harmonizehq@12345",
   },
+  tls: { rejectUnauthorized: false }
 };
 
 const transporter = nodemailer.createTransport(transport);
@@ -75,6 +76,7 @@ sendmailRouter.post("/email", (req, res, next) => {
     {
       scheduled: true,
       timezone: "Europe/London",
+
     }
   );
 });
