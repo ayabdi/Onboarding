@@ -367,7 +367,7 @@ const HireForm = () => {
               </button>
             </div>
 
-            <>{ emails.length >0 && isSubmitting && currentStep >= 2? (
+            <>{ emails.length >0 && isSubmitting && currentStep === 2? (
                <div className="container email-preview-titles">
                 <div className="row email-preview">
                   <div
@@ -451,7 +451,7 @@ const HireForm = () => {
                 Create a task
               </button>
             </div>
-            <>{ tasks.length >0  && isSubmitting && currentStep > 1? (
+            <>{ tasks.length >0  && isSubmitting && currentStep === 3? (
                <div className="container email-preview-titles">
                 <div className="row email-preview">
                   <div
