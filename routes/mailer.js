@@ -18,6 +18,7 @@ const transport = {
   port: 587,
   secure: false,
   auth: {
+    type: 'OAuth2',
     user: "testharmonizehq123@gmail.com",
     pass: "harmonizehq@12345",
   },
