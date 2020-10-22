@@ -69,12 +69,13 @@ sendmailRouter.post("/email", (req, res, next) => {
   var emaildate = addDays(parseISO(req.body.date), -req.body.daysBefore);
   var day = datefns.getDate(emaildate);
   var month = datefns.getMonth(emaildate) + 1;
-  var minute = datefns.getMinutes(new Date()) + 1;
+  var minute = datefns.getMinutes(new Date()) ;
   var hour = datefns.getHours(new Date()) - 1;
+  var second = datefns.getSeconds(new Date()) + 2
 
   //scheduler
   cron.schedule(
-    `${minute} ${hour} ${day} ${month} *`,
+    `${second} ${minute} ${hour} ${day} ${month} *`,
     () => {
       console.log("email sent");
       console.log(day);
@@ -121,8 +122,9 @@ sendmailRouter.post("/task", (req, res, next) => {
 
   //calculate email date and set month and day
   var reminderArr = req.body.reminder.split(",");
-  var minute = datefns.getMinutes(new Date()) + 1;
+  var minute = datefns.getMinutes(new Date()) ;
   var hour = datefns.getHours(new Date()) - 1;
+  var second = datefns.getSeconds(new Date()) + 2
 
   //scheduler
   reminderArr.map((reminder) => {
@@ -133,7 +135,7 @@ sendmailRouter.post("/task", (req, res, next) => {
     var day = datefns.getDate(emaildate);
     var month = datefns.getMonth(emaildate) + 1;
     cron.schedule(
-      `${minute} ${hour} ${day} ${month} *`,
+      `${second} ${minute} ${hour} ${day} ${month} *`,
       () => {
         console.log("task sent");
         console.log(req.body.hire.startDate);
