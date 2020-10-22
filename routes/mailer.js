@@ -28,7 +28,7 @@ const transport = {
     pool : true,
     service: 'Gmail',
   // host: "smtp.gmail.com",
-  // port: 587,
+   port: process.env.PORT2,
   // secure: false,
   auth: {
     type: "OAuth2",
