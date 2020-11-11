@@ -105,7 +105,6 @@ const useForm = (callback, validate) => {
     setRenderEmails(false);
     axios({
       method: "GET",
-
       url: `api/emails/find/${formData.email}`,
     }).then((res) => {
       setEmails(res.data);

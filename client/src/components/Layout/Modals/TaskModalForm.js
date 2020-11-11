@@ -174,7 +174,7 @@ const TaskModalForm = ({ show, close, hireForm , render, submitting,}) => {
         </button>
         <button
           type="submit"
-          onClick = {() => {close();}}
+          onClick = {() => {close(); render(true)}}
           form="taskForm"
           className="btn btn-primary btn-sm mod"
         >

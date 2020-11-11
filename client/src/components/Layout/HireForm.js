@@ -367,7 +367,7 @@ const HireForm = () => {
               </button>
             </div>
 
-            <>{ emails.length >0 && isSubmitting && currentStep === 2? (
+            <>{ emails.length >0 && isSubmitting? (
                <div className="container email-preview-titles">
                 <div className="row email-preview">
                   <div
@@ -392,7 +392,7 @@ const HireForm = () => {
               </div> 
             ) : null
 } 
-              {isSubmitted && currentStep === 2? emails.map((email, i) => (
+              {isSubmitted ? emails.map((email, i) => (
                 
                 <div key={i} className="container email-preview">
                   <div className="row email-preview">
@@ -451,7 +451,7 @@ const HireForm = () => {
                 Create a task
               </button>
             </div>
-            <>{ tasks.length >0  && isSubmitting && currentStep === 3? (
+            <>{ tasks.length >0  && isSubmitting? (
                <div className="container email-preview-titles">
                 <div className="row email-preview">
                   <div
@@ -476,7 +476,7 @@ const HireForm = () => {
               </div> 
             ) : null
 } 
-              {isSubmitting && currentStep === 3? tasks.map((task, i) => (
+              {isSubmitting ? tasks.map((task, i) => (
                 
                 <div key={i} className="container email-preview">
                   <div className="row email-preview">
