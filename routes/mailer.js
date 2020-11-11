@@ -9,37 +9,29 @@ require('dotenv').config()
 
 const sendmailRouter = express.Router();
 const bodyParser = require("body-parser");
-const { google } = require("googleapis");
-const OAuth2 = google.auth.OAuth2;
-// //bodyparser
-// router.use(bodyParser.json())
-// router.use(bodyParser.urlencoded({extended: true}))
+// const { google } = require("googleapis");
+//const OAuth2 = google.auth.OAuth2;
 
-const myOAuth2Client = new OAuth2(
-  process.env.CLIENTID,
-  process.env.CLIENT_SECRET,
-  )
-myOAuth2Client.setCredentials({
-  refresh_token: process.env.REFRESH_TOKEN,
-  });
-  const myAccessToken = myOAuth2Client.getAccessToken()
+
+// const myOAuth2Client = new OAuth2(
+//   process.env.CLIENTID,
+//   process.env.CLIENT_SECRET,
+//   )
+// myOAuth2Client.setCredentials({
+//   refresh_token: process.env.REFRESH_TOKEN,
+//   });
+//   const myAccessToken = myOAuth2Client.getAccessToken()
+
 const transport = {
   //all of the configuration for making a site send an email.
-    pool : true,
-    service: 'Gmail',
-  // host: "smtp.gmail.com",
-   port: process.env.PORT2,
-  // secure: false,
+  host: "smtp.gmail.com",
+  port: 587,
+  secure: false,
   auth: {
-    type: "OAuth2",
-    user: process.env.EMAIL,
-    clientId: process.env.CLIENTID,
-          clientSecret: process.env.CLIENT_SECRET,
-          refreshToken: process.env.REFRESH_TOKEN,
-          accessToken: myAccessToken //access token variable we defined earlier
    
+    user: process.env.EMAIL,
+    pass: process.env.PASSWORD,
   },
-
 };
 
 const transporter = nodemailer.createTransport(transport);
@@ -70,7 +62,7 @@ sendmailRouter.post("/email", (req, res, next) => {
   var day = datefns.getDate(emaildate);
   var month = datefns.getMonth(emaildate) + 1;
   var minute = datefns.getMinutes(new Date()) ;
-  var hour = datefns.getHours(new Date()) - 1;
+  var hour = datefns.getHours(new Date());
   var second = datefns.getSeconds(new Date()) + 2
 
   //scheduler
@@ -123,7 +115,7 @@ sendmailRouter.post("/task", (req, res, next) => {
   //calculate email date and set month and day
   var reminderArr = req.body.reminder.split(",");
   var minute = datefns.getMinutes(new Date()) ;
-  var hour = datefns.getHours(new Date()) - 1;
+  var hour = datefns.getHours(new Date()) ;
   var second = datefns.getSeconds(new Date()) + 2
 
   //scheduler
