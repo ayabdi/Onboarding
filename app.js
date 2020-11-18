@@ -5,7 +5,7 @@ const nodemailer = require('nodemailer')
 const path = require('path');
 const cors = require('cors');
 const proxy = require('http-proxy-middleware')
-const url = 'mongodb+srv://onboarding:onboarding@cluster0.needw.mongodb.net/<dbname>?retryWrites=true&w=majority'
+const url = 'mongodb+srv://onboarding:onboarding@cluster0.needw.mongodb.net/onboarding?retryWrites=true&w=majority'
 
 const app = express();
 
