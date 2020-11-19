@@ -1,10 +1,16 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import useTaskForm from "../formcontroller/useTaskForm";
 import {addDays, compareDesc} from 'date-fns'
+import {Modal, Button} from "react-bootstrap";
 import moment from 'moment'
-const TaskModalForm = ({ show, close, hireForm , render, submitting,}) => {
+const TaskModalForm = ({  hireForm , render, currentStep}) => {
   const { handleChange, taskData,setTaskData, onSubmit, setReminderArr, reminderArr} = useTaskForm();
   
+  const [show, setShow] = useState(false);
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
+
+
   useEffect(() => {
     setTaskData({...taskData, hire_email: hireForm.email})
 
@@ -13,19 +19,29 @@ const TaskModalForm = ({ show, close, hireForm , render, submitting,}) => {
  
 
   return (
-    <div
-      className="modal-wrapper"
-      style={{
-        transform: show ? "translateY(0vh)" : "translateY(-100vh)",
-        opacity: show ? "1" : "0",
-      }}
-    >
-      <div className="modal-header">
-        <p>Create a Task</p>
-        <span onClick={close} className="close-modal-btn">
-          x
-        </span>
-      </div>
+    <>
+      <div className="col-sm-3 float-right">
+              <button
+                onClick={handleShow}
+                type="button"
+                className={`btn btn-primary px-4 custom ${
+                  currentStep === 3
+                    ? "btn btn-primary px-4 custom active "
+                    : `btn btn-primary px-4 custom`
+                } `}
+              >
+                Create a task
+              </button>
+            </div>
+     <Modal
+        show={show}
+        onHide={handleClose}
+        style={{ top: "50%", left: "50%"  ,marginLeft: '-450px', marginTop: '-255.5px', width: '900px'}}
+      >
+        <Modal.Header closeButton>
+          <Modal.Title> Create a Task</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
 
       <div className="row">
         <div className="col left">
@@ -119,15 +135,15 @@ const TaskModalForm = ({ show, close, hireForm , render, submitting,}) => {
             <div className="modal-content row">Preview email reminder</div>
             <div className="modal-content row" style={{ border: "0" }}>
               <div className="preview row">
-                <p style={{ fontWeight: "bold" }}>To: </p> &nbsp; {taskData.to}
+                <p className = 'preview-labels'>To: </p> &nbsp; {taskData.to}
                 {/* add to name */}
               </div>
               <div className="preview row">
-                <p style={{ fontWeight: "bold" }}>From: </p>  &nbsp;
+                <p className = 'preview-labels'>From: </p>  &nbsp;
                 {taskData.from}
               </div>
               <div className="preview row">
-                <p style={{ fontWeight: "bold" }}>Date: </p> &nbsp; 
+                <p className = 'preview-labels'>Date: </p> &nbsp; 
                 {reminderArr.map((reminder, i) => (
                   
                 <div key = {i}> 
@@ -147,7 +163,7 @@ const TaskModalForm = ({ show, close, hireForm , render, submitting,}) => {
               </div>
               <br />
               <div className="preview row">
-                <p style={{ fontWeight: "bold" }}>Subject: </p> &nbsp;
+                <p className = 'preview-labels'>Subject: </p> &nbsp;
                 Automated Email Reminder from {taskData.from}
               </div>
               <div className="preview row">
@@ -164,24 +180,31 @@ const TaskModalForm = ({ show, close, hireForm , render, submitting,}) => {
           </div>
         </div>
       </div>
-      <div className="modal-footer">
-        <button
-          onClick={close}
-          className="btn btn-primary btn-sm mod"
-          style={{ backgroundColor: " #4a208e" }}
-        >
-          Close
-        </button>
-        <button
-          type="submit"
-          onClick = {() => {close(); render(true)}}
-          form="taskForm"
-          className="btn btn-primary btn-sm mod"
-        >
-          Schedule
-        </button>
-      </div>
-    </div>
+      
+    </Modal.Body>
+        <Modal.Footer>
+          <Button
+            variant="secondary"
+            className="btn gray block"
+            onClick={handleClose}
+          >
+            Close
+          </Button>
+          <Button
+            className="btn btn-primary btn-sm mod"
+            type="submit"
+            form="taskForm"
+            onClick={() => {
+              handleClose();
+              render(true);
+            }}
+          >
+            Schedule
+          </Button>
+        </Modal.Footer>
+      </Modal>
+    </>
+    
   );
 };
 export default TaskModalForm;

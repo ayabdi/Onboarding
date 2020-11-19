@@ -53,8 +53,9 @@
   background-color:#4E1390;
   cursor: pointer;
   border: none;
-  border-radius: 10px;
-  width: 120px;
+  
+  border-radius: 10px !important;
+  font-weight: 400 !important;
   height: 52.3px;
   margin-top: 25px;
 }

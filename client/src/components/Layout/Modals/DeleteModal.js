@@ -1,7 +1,9 @@
-import React , {useState} from "react";
+import React, { useState } from "react";
 import { Modal, Button } from "react-bootstrap";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faTrash } from "@fortawesome/free-solid-svg-icons";
+const DeleteModal = ({ ID, Delete }) => {
 
-const SaveTemplateModal = ({ save , isSubmitted}) => {
   const [show, setShow] = useState(false);
 
   const handleClose = () => setShow(false);
@@ -9,18 +11,14 @@ const SaveTemplateModal = ({ save , isSubmitted}) => {
 
   return (
     <>
-    <Button
-          type="button"
-          className={
-            isSubmitted
-              ? `btn btn-primary px-4 custom active`
-              : `btn btn-primary px-4 custom`
-          }
-          onClick={handleShow}
-        >
-          Save Workflow
-        </Button>
-        <Modal
+      <FontAwesomeIcon
+        icon={faTrash}
+        style={{ marginTop: "50%" }}
+        className="icons"
+        onClick={handleShow}
+      />
+
+      <Modal
         show={show}
         onHide={handleClose}
         style={{ top: "50%", left: "50%" , width: '400px', padding: '0.7em' ,marginLeft: '-200px', marginTop: '-150px'}}
@@ -28,30 +26,28 @@ const SaveTemplateModal = ({ save , isSubmitted}) => {
         <Modal.Header closeButton>
           <Modal.Title>Delete</Modal.Title>
         </Modal.Header>
-        <Modal.Body>Are You Sure You Want To Save This As a Template?</Modal.Body>
-        <Modal.Footer >
+        <Modal.Body>Are you sure you want to Delete This</Modal.Body>
+        <Modal.Footer>
           <Button
             variant="secondary"
             className="btn gray block"
             onClick={handleClose}
           >
-            Cancel
+            Close
           </Button>
           <Button
             onClick={() => {
               handleClose();
-              save()
+              Delete(ID);
             }}
             className="btn btn-primary btn mod"
           >
-            Save
+            Delete
           </Button>
         </Modal.Footer>
       </Modal>
-   
-     
     </>
   );
 };
 
-export default SaveTemplateModal;
+export default DeleteModal;

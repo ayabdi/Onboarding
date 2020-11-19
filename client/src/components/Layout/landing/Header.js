@@ -20,7 +20,7 @@ const Header = () => {
                   transition to become engaging and productive team members.
                 </p>
                 <div>
-                  <button className="call-to-action"><Link to="/workflow">Try Now</Link></button>
+                  <button className="ob-btn call-to-action"><Link to="/workflow">Try Now</Link></button>
                 </div>
               </div>
             </div>

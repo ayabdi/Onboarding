@@ -1,31 +1,43 @@
 import React, { useState, useEffect } from "react";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faEdit } from '@fortawesome/free-solid-svg-icons'
+import {Modal, Button} from "react-bootstrap";
+import useEmailEditForm from "../formcontroller/useEmailEditForm";
 //import useEmailEditForm from "../formcontroller/useEmailEditForm";
 
 import { getTime, getDate, format } from "date-fns";
-const EditEmailModal = ({ show, close, emailForm, handleChange, onSubmits, render}) => {
+const EditEmailModal = ({ render, email}) => {
+
+  const {
+    handleEmailEdit,
+    onEmailEdit,
+    setEmailData,
+    emailData,
+  } = useEmailEditForm();
+
   const [date, setDate] = useState(' ')
 useEffect(() => {
-  setDate(new Date(emailForm.date))
+  setDate(new Date(emailData.date))
  // console.log("email modal rendered")
-}, [show])  
+}, [])  
 
+const [show, setShow] = useState(false);
+const handleClose = () => setShow(false);
+const handleShow = () => setShow(true);
 
-//Save Template Data
 
   return (
-    <div
-      className="modal-wrapper"
-      style={{
-        transform: show ? "translateY(0vh)" : "translateY(-100vh)",
-        opacity: show ? "1" : "0",
-      }}
+    <>
+    <FontAwesomeIcon icon={faEdit} style = {{marginTop: '50%'}} className = "icons" onClick= {() => {handleShow() ; setEmailData(email)}}/> &nbsp;
+    <Modal
+      show={show}
+      onHide={handleClose}
+      style={{ top: "33%", left: "8%" }}
     >
-      <div className="modal-header">
-        <p>Schedule an email</p>
-        <span onClick={close} className="close-modal-btn">
-          x
-        </span>
-      </div>
+      <Modal.Header closeButton>
+        <Modal.Title> Schedule an email</Modal.Title>
+      </Modal.Header>
+      <Modal.Body>
 
       <div className="row">
         <div className="col left">
@@ -33,14 +45,14 @@ useEffect(() => {
             <form
               className="modal-form"
               id="emailEditForm"
-               onSubmit={(e) => onSubmits(e)}
+               onSubmit={(e) => onEmailEdit(e)}
             >
               <div className="form-group row">
                 <div className="col-sm-6">
                   <label className="conrol-label">To</label>
                   <input
                    className="form-control text-box-sm"
-                    value={emailForm.hire.name} 
+                    value={emailData.hire.name} 
                     readOnly
                   />
                 </div>
@@ -50,8 +62,8 @@ useEffect(() => {
                     type="text"
                     className="form-control text-box-sm"
                     name="fromName"
-                  value={emailForm.fromName}
-                    onChange={handleChange}
+                   value={emailData.fromName}
+                    onChange={handleEmailEdit}
                   />
                 </div>
               </div>
@@ -63,8 +75,8 @@ useEffect(() => {
                     className="form-control text-box-sm"
                     name="subject"
                     
-                  value={emailForm.subject}
-                    onChange={handleChange}
+                  value={emailData.subject}
+                    onChange={handleEmailEdit}
                   />
                 </div>
               </div>
@@ -75,8 +87,8 @@ useEffect(() => {
                     type="textarea"
                     className="form-control text-box-large"
                     name="message"
-                   value={emailForm.message}
-                    onChange={handleChange}
+                   value={emailData.message}
+                    onChange={handleEmailEdit}
                   ></textarea>
                 </div>
               </div>
@@ -88,8 +100,8 @@ useEffect(() => {
                     type="text"
                     className="form-control text-box-sml"
                     name="daysBefore"
-                   value={emailForm.daysBefore}
-                    onChange={handleChange}
+                   value={emailData.daysBefore}
+                    onChange={handleEmailEdit}
                   />{" "}
                   &nbsp; Days before start date
                 </div>
@@ -102,12 +114,12 @@ useEffect(() => {
             <div className="modal-content row">Preview Email</div>
             <div className="modal-content row" style={{ border: "0" }}>
               <div className="preview row">
-                <p style={{ fontWeight: "bold" }}>To: </p> &nbsp; {emailForm.hire.name}
+                <p style={{ fontWeight: "bold" }}>To: </p> &nbsp; {emailData.hire.name}
                 {/* add to name */}
               </div>
               <div className="preview row">
                 <p style={{ fontWeight: "bold" }}>From: </p> &nbsp;
-                {emailForm.fromName}
+                {emailData.fromName}
               </div>
               <div className="preview row">
                 <p style={{ fontWeight: "bold" }}>Date: </p> &nbsp;
@@ -121,35 +133,40 @@ useEffect(() => {
               <br />
               <div className="preview row">
                 <p style={{ fontWeight: "bold" }}>Subject: </p> &nbsp;
-                {/* add subject*/} {emailForm.subject}
+                {/* add subject*/} {emailData.subject}
               </div>
               <div className="preview row">
                 <br />
                 {/* add message */}
-                {emailForm.message}
+                {emailData.message}
               </div>
             </div>
           </div>
         </div>
       </div>
-      <div className="modal-footer">
-        <button
-          onClick={close}
-          className="btn btn-primary btn-sm mod"
-          style={{ backgroundColor: " #4a208e" }}
-        >
-          Close
-        </button>
-        <button
-          type="submit"
-          onClick = {() => {close(); render(true)}}
-          form="emailEditForm"
-          className="btn btn-primary btn-sm mod"
-        >
-          Schedule
-        </button>
-      </div>
-    </div>
+      </Modal.Body>
+        <Modal.Footer>
+          <Button
+            variant="secondary"
+            className="btn gray block"
+            onClick={handleClose}
+          >
+            Close
+          </Button>
+          <Button
+            className="btn btn-primary btn-sm mod"
+            type="submit"
+            form="emailEditForm"
+            onClick={() => {
+              handleClose();
+              render(true);
+            }}
+          >
+            Schedule
+          </Button>
+        </Modal.Footer>
+      </Modal>
+    </>
   );
 };
 export default EditEmailModal;

@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
-import classNames from 'classnames';
+import classNames from "classnames";
 import "./stepper.scss";
 
 export default class Stepper extends Component {
@@ -10,7 +10,7 @@ export default class Stepper extends Component {
       // Completed - to add a check mark
       // Selected - to fill step with color
       // Highlighted - to make text of selected step bold
-      steps: []
+      steps: [],
     };
   }
 
@@ -29,7 +29,7 @@ export default class Stepper extends Component {
     const currentSteps = this.updateStep(currentStepNumber, stepsState);
 
     this.setState({
-      steps: currentSteps
+      steps: currentSteps,
     });
   }
 
@@ -39,7 +39,7 @@ export default class Stepper extends Component {
 
     if (prevProps.currentStepNumber !== this.props.currentStepNumber)
       this.setState({
-        steps: currentSteps
+        steps: currentSteps,
       });
   }
 
@@ -47,23 +47,20 @@ export default class Stepper extends Component {
     const newSteps = [...steps];
     let stepCounter = 0;
 
-    
-
     // Completed - to add a check mark
     // Selected - to fill step with color
     // Highlighted - to make text of selected step bold
 
     while (stepCounter < newSteps.length) {
       //First Step
-      if(stepCounter === 1 && stepCounter === stepNumber ){
+      if (stepCounter === 1 && stepCounter === stepNumber) {
         newSteps[stepCounter] = {
           ...newSteps[stepCounter],
           highlighted: true,
           selected: true,
-          completed: false
+          completed: false,
         };
         stepCounter++;
-
       }
       // Current step
       if (stepCounter === stepNumber) {
@@ -71,7 +68,7 @@ export default class Stepper extends Component {
           ...newSteps[stepCounter],
           highlighted: true,
           selected: true,
-          completed: false
+          completed: false,
         };
         stepCounter++;
       }
@@ -81,7 +78,7 @@ export default class Stepper extends Component {
           ...newSteps[stepCounter],
           highlighted: false,
           selected: true,
-          completed: true
+          completed: true,
         };
         stepCounter++;
       }
@@ -91,7 +88,7 @@ export default class Stepper extends Component {
           ...newSteps[stepCounter],
           highlighted: false,
           selected: false,
-          completed: false
+          completed: false,
         };
         stepCounter++;
       }
@@ -99,40 +96,47 @@ export default class Stepper extends Component {
 
     return newSteps;
   }
-  
-  
 
   render() {
     const { direction, stepColor } = this.props;
     const { steps } = this.state;
-
-   
 
     const stepsJSX = steps.map((step, index) => {
       return (
         <div className="step-wrapper" key={index}>
           <div
             className={`step-number ${
-              step.selected ? "step-number step-number-selected" : "step-number-disabled"
+              step.selected
+                ? "step-number step-number-selected"
+                : "step-number-disabled"
             }`}
             style={{ background: `${step.selected ? stepColor : "none"}` }}
-          >
-            
-          </div>
+          ></div>
           <div
-            className={`step-description ${step.highlighted &&
-              "step-description-active"}`}
+            className={`step-description ${
+              step.highlighted && "step-description-active"
+            }`}
           >
             {step.description}
           </div>
           {index !== steps.length - 1 && (
-            <div className={`divider-line ${step.completed ? 'divider-line divider-line-completed' : 'divider-line'  }`} />
+            <div
+              className={`divider-line ${
+                step.completed
+                  ? "divider-line divider-line-completed"
+                  : "divider-line"
+              }`}
+            />
           )}
         </div>
       );
     });
 
-    return <div className={`stepper-wrapper-${direction}`}>{stepsJSX}</div>;
+    return (
+      <div className="stepper-container-horizontal">
+        <div className={`stepper-wrapper-${direction}`}>{stepsJSX}</div>
+      </div>
+    );
   }
 }
 
@@ -140,5 +144,5 @@ Stepper.propTypes = {
   direction: PropTypes.string.isRequired,
   currentStepNumber: PropTypes.number.isRequired,
   steps: PropTypes.array.isRequired,
-  stepColor: PropTypes.string.isRequired
+  stepColor: PropTypes.string.isRequired,
 };

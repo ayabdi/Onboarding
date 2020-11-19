@@ -74,7 +74,6 @@ const useForm = (callback, validate) => {
       } catch (error) {
       //  console.error(error.response.data.errors[0].msg);
          setIsSubmitted(true);
-        //   console.log(isSubmitted);
         //  setErrors((errors)=> ({...errors, email: error.response.data.errors[0].msg}))
       }
       console.log(errors);
@@ -100,7 +99,7 @@ const useForm = (callback, validate) => {
   //Fetching Emails
   const [emails, setEmails] = useState([]);
   const [renderEmails, setRenderEmails] = useState(false);
-
+  
   const fetchEmails = async () => {
     setRenderEmails(false);
     axios({
@@ -158,7 +157,7 @@ const useForm = (callback, validate) => {
   };
   useEffect(() => {
     fetchTasks(tasks);
-  }, [isSubmitting, renderTasks, currentStep]);
+  }, [isSubmitting, renderTasks]);
 
   //Delete tasks
   function deleteTask(taskID) {

@@ -3,13 +3,8 @@ import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import Navbar from "./components/Layout/Navbar";
 import Landing from "./components/Layout/Landing";
 import Workflow from "./components/Layout/Workflow";
-import HireForm from "./components/Layout/HireForm";
+import NewHirePage from "./components/Layout/NewHirePage";
 import Dashboard from "./components/Layout/Dashboard";
-
-
-
-
-
 
 import "./App.scss"
 
@@ -18,14 +13,11 @@ function App() {
 
     <Router>
       <Fragment>
-        <Navbar />
-  
-     
-        
+        <Navbar />   
         <section>
           <Switch>
            <Route exact path ="/" component={Landing}/> 
-            <Route exact path ="/hire" component={HireForm}/>
+            <Route exact path ="/hire" component={NewHirePage}/>
             <Route exact path ='/dashboard' component={Dashboard}/>
             <Route exact path = '/workflow' component = {Workflow}/>
           </Switch>
