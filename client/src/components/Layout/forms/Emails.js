@@ -36,25 +36,31 @@ const Emails = ({currentStep, setCount,formData,
 
             <>
               {emails.length > 0 && isSubmitting ? (
-                <div className="container email-preview-titles">
+                <div className="container email-preview titles">
                   <div className="row email-preview">
                     <div
-                      className="col-sm-3 email-titles"
+                      className="col-sm-3 email-preview"
                       style={{ margin: "8px" }}
                     >
                       Subject
                     </div>
                     <div
-                      className="col-sm-3 email-titles"
+                      className="col-sm-3 email-preview"
                       style={{ margin: "8px" }}
                     >
                       To
                     </div>
                     <div
-                      className="col-sm-3 email-titles"
+                      className="col-sm-3 email-preview"
                       style={{ margin: "8px" }}
                     >
                       Scheduled For
+                    </div>
+                    <div
+                      className="col-sm-3 email-preview"
+                      style={{ margin: "8px" }}
+                    >
+                      
                     </div>
                   </div>
                 </div>
@@ -79,7 +85,7 @@ const Emails = ({currentStep, setCount,formData,
                           {email.daysBefore} Days before
                         </div>
 
-                        <div className="col-xs">
+                        <div className="col-xs" style={{maxWidth: '21%' , marginTop: '10px'}}>
                           <EditEmailModal
                             render={setRenderEmails}
                             email={email}

@@ -442,13 +442,14 @@ z-index: 1;
   border: solid 1px #707070;
   padding: 8px 12px;
   margin: 12px;
-  margin: 0 0 12px 12px;
+  margin: 0 0 12px 25px;
   width: 90%;
 }
-.container.email-preview-titles {
-
-  margin: 15px 8px 0px 12px;
-  width: 90%;
+.container.email-preview.titles {
+  border: none ;
+  box-shadow: none;
+  padding-top: 15px;
+  padding-bottom: 0;
 }
 .col-sm-3.email-titles {
   max-width: 20%;  
@@ -459,7 +460,7 @@ z-index: 1;
   height: 40px
 }
 .col-sm-3.email-preview {
-  max-width: 20%;  
+  max-width: 21%;  
   font-weight: 450;
   margin: auto 8px;
   font-size: 14px;

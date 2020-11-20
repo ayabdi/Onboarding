@@ -1,5 +1,5 @@
 import React, { Fragment, useState, useEffect } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link, Redirect, useLocation } from "react-router-dom";
 
 import Stepper from "./stepper/Stepper";
 import useForm from "./formcontroller/useForm";
@@ -22,8 +22,6 @@ const NewHirePage = () => {
     formData,
     errors,
     currentStep,
-    increment,
-    decrement,
     setCount,
     templateData,
     emails,
@@ -60,61 +58,66 @@ const NewHirePage = () => {
     "Create Tasks",
   ];
 
+  const hirepage = (
+    <Fragment>
+    <Header
+    setTemplateName={setTemplateName}
+    templateName={templateName}
+    templateData={templateData}
+    location={location}
+  />
+  <Stepper
+    direction="horizontal"
+    currentStepNumber={currentStep - 1}
+    steps={stepsArray}
+    stepColor="purple"
+  />
+
+  <div className="card" style={{ width: "53rem" }}>
+    <NewHireform
+      handleChange={handleChange}
+      onSubmit={onSubmit}
+      formData={formData}
+      errors={errors}
+      currentStep={currentStep}
+      setCount={setCount}
+      isSubmitting={isSubmitting}
+      isSubmitted={isSubmitted}
+    />
+    <Emails
+      currentStep={currentStep}
+      setCount={setCount}
+      formData={formData}
+      setRenderEmails={setRenderEmails}
+      emails={emails}
+      deleteEmail={deleteEmail}
+      isSubmitting={isSubmitting}
+      isSubmitted={isSubmitted}
+    />
+    <Tasks
+      currentStep={currentStep}
+      setCount={setCount}
+      formData={formData}
+      setRenderTasks={setRenderTasks}
+      tasks={tasks}
+      deleteTask={deleteTask}
+      isSubmitting={isSubmitting}
+      isSubmitted={isSubmitted}
+    />
+    <Footer
+      scheduleEmails={scheduleEmails}
+      emails={emails}
+      scheduleTasks={scheduleTasks}
+      tasks={tasks}
+      isSubmitted={isSubmitted}
+      createTemplate = {createTemplate}
+    />
+  </div>
+  </Fragment>)
+
   return (
     <Fragment>
-      <Header
-        setTemplateName={setTemplateName}
-        templateName={templateName}
-        templateData={templateData}
-        location={location}
-      />
-      <Stepper
-        direction="horizontal"
-        currentStepNumber={currentStep - 1}
-        steps={stepsArray}
-        stepColor="purple"
-      />
-
-      <div className="card" style={{ width: "53rem" }}>
-        <NewHireform
-          handleChange={handleChange}
-          onSubmit={onSubmit}
-          formData={formData}
-          errors={errors}
-          currentStep={currentStep}
-          setCount={setCount}
-          isSubmitting={isSubmitting}
-          isSubmitted={isSubmitted}
-        />
-        <Emails
-          currentStep={currentStep}
-          setCount={setCount}
-          formData={formData}
-          setRenderEmails={setRenderEmails}
-          emails={emails}
-          deleteEmail={deleteEmail}
-          isSubmitting={isSubmitting}
-          isSubmitted={isSubmitted}
-        />
-        <Tasks
-          currentStep={currentStep}
-          setCount={setCount}
-          formData={formData}
-          setRenderTasks={setRenderTasks}
-          tasks={tasks}
-          deleteTask={deleteTask}
-          isSubmitting={isSubmitting}
-          isSubmitted={isSubmitted}
-        />
-        <Footer
-          scheduleEmails={scheduleEmails}
-          emails={emails}
-          scheduleTasks={scheduleTasks}
-          tasks={tasks}
-          isSubmitted={isSubmitted}
-          createTemplate = {createTemplate}
-        />
-      </div>
+      {location.state!=null? hirepage : <Redirect to="/workflow"/>}
     </Fragment>
   );
 };
