@@ -42,7 +42,7 @@ app.use('/api/send_email', require('./routes/mailer'))
 app.use('/api/emails', require('./routes/emails'))
 app.use('/api/tasks', require('./routes/tasks'))
 app.use('/api/templates', require('./routes/templates'))
-
+app.use('/api/auth', require('./routes/auth'))
 
 // module.exports = function(app) {
 //   // add other server routes to path array
