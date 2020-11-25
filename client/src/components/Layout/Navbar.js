@@ -3,6 +3,7 @@ import '../css/Navbar.scss'
 import HarmonizeLogo from "../../assets/logo.png";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faChevronDown } from "@fortawesome/free-solid-svg-icons";
+import { Link } from "react-router-dom";
 
 const _Navbar = () => {
   const dropdownRef = useRef(null);
@@ -40,6 +41,12 @@ const _Navbar = () => {
             <img src={HarmonizeLogo} alt="logo" /> Harmonize
           </a>
           <ul>
+          <li>
+            <Link to= '/dashboard'>Dashboard</Link>
+            </li>
+            <li>
+            <Link to= '/workflow'>new Workflow</Link>
+            </li>
             <li>
               <button
                 className="products-drop"
@@ -72,10 +79,13 @@ const _Navbar = () => {
                 )}
               </button>
             </li>
+           
             <li>
-              <a target="_blank" rel="oopener noreferrer" href="https://www.attendancebot.com/blog/">
+              
+              <Link target="_blank" rel="oopener noreferrer" to="https://www.attendancebot.com/blog/">
                 Blog
-              </a>
+              </Link>
+              
             </li>
           </ul>
         </div>
