@@ -28,8 +28,6 @@ const useForm = (callback, validate) => {
     emails: [{}],
     tasks: [{}],
   });
-  const [emailTemplates, setEmailTemplates] = useState({ emails: [] });
-  const [taskTemplates, setTaskTemplates] = useState({ tasks: [] });
 
   //Create Template Data
   const [newTemplateData, setNewTemplateData] = useState({
@@ -72,18 +70,11 @@ const useForm = (callback, validate) => {
         console.log(res.data);
         setErrors({});
       } catch (error) {
-      //  console.error(error.response.data.errors[0].msg);
-         setIsSubmitted(true);
+        //  console.error(error.response.data.errors[0].msg);
+        setIsSubmitted(true);
         //  setErrors((errors)=> ({...errors, email: error.response.data.errors[0].msg}))
       }
       console.log(errors);
-
-      //   if(error.response.data.errors[0].msg=== 'E-mail already in use'){
-
-      //       setIsUnique(false)
-      //       console.log(isUnique)
-      //   }}
-      //else patch form
     }
   };
 
@@ -99,15 +90,14 @@ const useForm = (callback, validate) => {
   //Fetching Emails
   const [emails, setEmails] = useState([]);
   const [renderEmails, setRenderEmails] = useState(false);
-  
+
   const fetchEmails = async () => {
     setRenderEmails(false);
-    axios({
+    await axios({
       method: "GET",
       url: `api/emails/find/${formData.email}`,
     }).then((res) => {
       setEmails(res.data);
-      //console.log("emails fetched");
     });
   };
   useEffect(() => {
@@ -117,27 +107,18 @@ const useForm = (callback, validate) => {
   }, [isSubmitting, renderEmails, currentStep]);
 
   //Delete Email
-  function deleteEmail(emailID) {
-    axios({
-      method: "DELETE",
-      mode: "no-cors",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-      },
-      url: `api/emails/${emailID}`,
-    }).then((res) => {
+  const deleteEmail = async (emailID) => {
+    await axios.delete(`api/emails/${emailID}`).then((res) => {
       setRenderEmails(true);
     });
-    setRenderEmails(false);
-  }
+  };
 
   //Fetching Tasks
   const [tasks, setTasks] = useState([]);
   const [renderTasks, setRenderTasks] = useState(false);
   const fetchTasks = async () => {
     if (isSubmitting) {
-      axios({
+      await axios({
         method: "GET",
         url: `api/hires/${formData.email}`,
       }).then((res) => {
@@ -160,84 +141,68 @@ const useForm = (callback, validate) => {
   }, [isSubmitting, renderTasks]);
 
   //Delete tasks
-  function deleteTask(taskID) {
-    axios.delete(`api/tasks/${taskID}`).then((res) => {
-      // console.log(res.data);
+  const deleteTask = async (taskID) => {
+    await axios.delete(`api/tasks/${taskID}`).then((res) => {
       setRenderTasks(true);
     });
-  }
+  };
 
   //function to post template email
   const [test, settest] = useState();
-  function postTemplates(res) {
+  const [emailTemplates, setEmailTemplates] = useState({ emails: [] });
+  const [taskTemplates, setTaskTemplates] = useState({ tasks: [] });
+  const addEmailTemplate = (res) => {
+    var emails = res.data[0].emails;
+    emails.map(async (email) => [
+      (email.date = formData.startDate),
+      (email.from = "Tom Hall"),
+      (email.to = formData.email),
 
-    //emails
-    setEmailTemplates((emailTemplates) => [
-      { ...emailTemplates, emails: res.data[0].emails },
-    ]);
-    let i;
-    for (i = 0; i <= res.data[0].emails.length; i++) {
-      setEmailTemplates((emailTemplates) => [
-        ...emailTemplates,
-        {
-          ...emailTemplates[0].emails[i],
-          date: formData.startDate,
-          from: "Tom Hall",
-          to: formData.email,
-        },
-      ]);
-      axios.post("api/emails", emailTemplates[i]).then((res2) => {
+      await axios.post("api/emails", email).then((res2) => {
         console.log(res2.data);
         console.log("template Emails posted");
-      });
-    }
-
-
-    //tasks
-    setTaskTemplates((taskTemplates) => [
-      { ...taskTemplates, tasks: res.data[0].tasks },
+      }),
     ]);
-    let z;
-    for (z = 0; z <= res.data[0].tasks.length; z++) {
-      setTaskTemplates((taskTemplates) => [
-        ...taskTemplates,
-        {
-          ...taskTemplates[0].tasks[z],
-          hire_email: formData.email,
-          from: "Tom Hall",
-          isCompleted: false,
-        },
-      ]);
 
-      axios.post("api/tasks", taskTemplates[z]).then((res3) => {
-        console.log(res3.data);
-      });
-    }
-    setRenderTasks(true);
     setRenderEmails(true);
-    settest(true);
-  }
+  };
+
+  const addTaskTemplate = (res) => {
+    var tasks = res.data[0].tasks;
+    tasks.map(async (task) => [
+      (task.isCompleted = false),
+      (task.from = "Tom Hall"),
+      (task.hire_email = formData.email),
+
+     await axios.post("api/tasks", task).then((res) => {
+        console.log(res.data);
+        console.log("template tasks posted");
+      }),
+    ]);
+    setRenderTasks(true);
+  };
 
   //fetch selected template data
+  const fetchtemplate = async () => {
+    try {
+      await axios({
+        method: "GET",
+        url: `api/templates/name/${templateData.name}`,
+      }).then((res) => {
+        addEmailTemplate(res);
+        addTaskTemplate(res);
+      });
+    } catch (error) {
+      console.error(error.response.data);
+    }
+  };
   useEffect(() => {
     if (isSubmitted) {
-      try {
-        // setIsSubmitted(true);
-        axios({
-          method: "GET",
-          url: `api/templates/name/${templateData.name}`,
-        }).then((res) => {
-          postTemplates(res);
-        });
-      } catch (error) {
-        console.error(error.response.data);
-        settest(true);
-      }
-    } else {
-      console.log("fail");
+      fetchtemplate();
     }
-  }, [isSubmitting, isSubmitted, test]);
+  }, [isSubmitting, isSubmitted]);
 
+  //Creating Templates
   const [templateName, setTemplateName] = useState();
   const createTemplate = async () => {
     newTemplateData.name = templateName;
@@ -261,16 +226,12 @@ const useForm = (callback, validate) => {
       }
     }
     if (emails.length != 0) {
-      axios
-        .post("api/templates", newTemplateData)
-        .then((res) => {
-          console.log(res.data);
-        });
+      await axios.post("api/templates", newTemplateData).then((res) => {
+        console.log(res.data);
+      });
     }
     console.log(newTemplateData);
-
   };
-
 
   return {
     handleChange,
