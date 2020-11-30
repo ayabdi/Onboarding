@@ -15,6 +15,10 @@ import Tasks from "./forms/Tasks";
 import Footer from "./forms/Footer";
 import Header from "./forms/Header";
 
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faAngleDoubleLeft } from '@fortawesome/free-solid-svg-icons'
+import { Col, Container, Row } from "react-bootstrap";
+
 const NewHirePage = () => {
   const {
     handleChange,
@@ -72,8 +76,18 @@ const NewHirePage = () => {
     steps={stepsArray}
     stepColor="purple"
   />
+  <Container style={{margin: '0 auto', width: "53rem" }}>
 
+  <Row >
+  <Col style ={{marginBottom:'20px' , maxWidth: '125px', height: '20px', padding: '0', justifyContent: 'center' ,fontSize: '18px'}}>
+    <Link to='/workflow' className ='link'>
+  <FontAwesomeIcon icon={faAngleDoubleLeft} style ={{height: '20px', width: '18px', margin:'auto'}}/> &nbsp; Previous
+  </Link>
+  </Col>
+  </Row>
+  </Container>
   <div className="card" style={{ width: "53rem" }}>
+
     <NewHireform
       handleChange={handleChange}
       onSubmit={onSubmit}

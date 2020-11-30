@@ -504,7 +504,12 @@ z-index: 1;
   text-decoration: inherit;
   font-size: 0.96rem !important;
 }
-
+.link{
+  color: #1f0e3a !important;
+}
+.link:hover{
+  color: #4a208e !important;
+}
 .deco-none:link {
   color: inherit;
   text-decoration: inherit;
