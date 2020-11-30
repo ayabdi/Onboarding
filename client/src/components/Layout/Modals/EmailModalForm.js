@@ -37,6 +37,7 @@ const EmailModalForm = ({ hireForm, render, submitting , currentStep}) => {
       
         show={show}
         onHide={handleClose}
+        
         style={{ top: "50%", left: "50%"  ,marginLeft: '-450px', marginTop: '-255.5px', width: '900px'}}
       >
         <Modal.Header closeButton>
