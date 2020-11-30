@@ -15,8 +15,8 @@ import Tasks from "./forms/Tasks";
 import Footer from "./forms/Footer";
 import Header from "./forms/Header";
 
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faAngleDoubleLeft } from '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faAngleDoubleLeft } from "@fortawesome/free-solid-svg-icons";
 import { Col, Container, Row } from "react-bootstrap";
 
 const NewHirePage = () => {
@@ -54,7 +54,6 @@ const NewHirePage = () => {
     setisValid(true);
   }
 
-
   /// Stepper
   const stepsArray = [
     "Add new hire information",
@@ -64,74 +63,87 @@ const NewHirePage = () => {
 
   const hirepage = (
     <Fragment>
-    <Header
-    setTemplateName={setTemplateName}
-    templateName={templateName}
-    templateData={templateData}
-    location={location}
-  />
-  <Stepper
-    direction="horizontal"
-    currentStepNumber={currentStep - 1}
-    steps={stepsArray}
-    stepColor="purple"
-  />
-  <Container style={{margin: '0 auto', width: "53rem" }}>
+      <Header
+        setTemplateName={setTemplateName}
+        templateName={templateName}
+        templateData={templateData}
+        location={location}
+      />
+      <Stepper
+        direction="horizontal"
+        currentStepNumber={currentStep - 1}
+        steps={stepsArray}
+        stepColor="purple"
+      />
+      <Container style={{ margin: "0 auto", width: "53rem" }}>
+        <Row>
+          <Col
+            style={{
+              marginBottom: "20px",
+              maxWidth: "125px",
+              height: "20px",
+              padding: "0",
+              justifyContent: "center",
+              fontSize: "18px",
+            }}
+          >
+            <Link to="/workflow" className="link">
+              <FontAwesomeIcon
+                icon={faAngleDoubleLeft}
+                style={{ height: "20px", width: "18px", margin: "auto" }}
+              />{" "}
+               Previous
+            </Link>
+          </Col>
+        </Row>
+      </Container>
 
-  <Row >
-  <Col style ={{marginBottom:'20px' , maxWidth: '125px', height: '20px', padding: '0', justifyContent: 'center' ,fontSize: '18px'}}>
-    <Link to='/workflow' className ='link'>
-  <FontAwesomeIcon icon={faAngleDoubleLeft} style ={{height: '20px', width: '18px', margin:'auto'}}/> &nbsp; Previous
-  </Link>
-  </Col>
-  </Row>
-  </Container>
-  <div className="card" style={{ width: "53rem" }}>
-
-    <NewHireform
-      handleChange={handleChange}
-      onSubmit={onSubmit}
-      formData={formData}
-      errors={errors}
-      currentStep={currentStep}
-      setCount={setCount}
-      isSubmitting={isSubmitting}
-      isSubmitted={isSubmitted}
-    />
-    <Emails
-      currentStep={currentStep}
-      setCount={setCount}
-      formData={formData}
-      setRenderEmails={setRenderEmails}
-      emails={emails}
-      deleteEmail={deleteEmail}
-      isSubmitting={isSubmitting}
-      isSubmitted={isSubmitted}
-    />
-    <Tasks
-      currentStep={currentStep}
-      setCount={setCount}
-      formData={formData}
-      setRenderTasks={setRenderTasks}
-      tasks={tasks}
-      deleteTask={deleteTask}
-      isSubmitting={isSubmitting}
-      isSubmitted={isSubmitted}
-    />
-    <Footer
-      scheduleEmails={scheduleEmails}
-      emails={emails}
-      scheduleTasks={scheduleTasks}
-      tasks={tasks}
-      isSubmitted={isSubmitted}
-      createTemplate = {createTemplate}
-    />
-  </div>
-  </Fragment>)
+      <div className="card" style={{ width: "53rem" }}>
+        <NewHireform
+          handleChange={handleChange}
+          onSubmit={onSubmit}
+          formData={formData}
+          errors={errors}
+          currentStep={currentStep}
+          setCount={setCount}
+          isSubmitting={isSubmitting}
+          isSubmitted={isSubmitted}
+        />
+        <Emails
+          currentStep={currentStep}
+          setCount={setCount}
+          formData={formData}
+          setRenderEmails={setRenderEmails}
+          emails={emails}
+          deleteEmail={deleteEmail}
+          isSubmitting={isSubmitting}
+          isSubmitted={isSubmitted}
+        />
+        <Tasks
+          currentStep={currentStep}
+          setCount={setCount}
+          formData={formData}
+          setRenderTasks={setRenderTasks}
+          tasks={tasks}
+          deleteTask={deleteTask}
+          isSubmitting={isSubmitting}
+          isSubmitted={isSubmitted}
+        />
+        <Footer
+          scheduleEmails={scheduleEmails}
+          emails={emails}
+          scheduleTasks={scheduleTasks}
+          tasks={tasks}
+          isSubmitted={isSubmitted}
+          createTemplate={createTemplate}
+        />
+      </div>
+    </Fragment>
+  );
 
   return (
     <Fragment>
-      {location.state!=null? hirepage : <Redirect to="/workflow"/>}
+      {location.state != null ? hirepage : <Redirect to="/workflow" />}
     </Fragment>
   );
 };
