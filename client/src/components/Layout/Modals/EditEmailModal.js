@@ -32,7 +32,7 @@ const handleShow = () => setShow(true);
     <Modal
       show={show}
       onHide={handleClose}
-      style={{ top: "33%", left: "8%" }}
+      style={{ top: "50%", left: "50%"  ,marginLeft: '-450px', marginTop: '-255.5px', width: '900px'}}
     >
       <Modal.Header closeButton>
         <Modal.Title> Schedule an email</Modal.Title>
@@ -114,15 +114,15 @@ const handleShow = () => setShow(true);
             <div className="modal-content row">Preview Email</div>
             <div className="modal-content row" style={{ border: "0" }}>
               <div className="preview row">
-                <p style={{ fontWeight: "bold" }}>To: </p> &nbsp; {emailData.hire.name}
+                <p className = 'preview-labels'>To: </p> &nbsp; {emailData.hire.name}
                 {/* add to name */}
               </div>
               <div className="preview row">
-                <p style={{ fontWeight: "bold" }}>From: </p> &nbsp;
+                <p className = 'preview-labels'>From: </p> &nbsp;
                 {emailData.fromName}
               </div>
               <div className="preview row">
-                <p style={{ fontWeight: "bold" }}>Date: </p> &nbsp;
+                <p className = 'preview-labels'>Date: </p> &nbsp;
                 {date.toLocaleString("default", {
                   month: "long",
                   day: "numeric",
@@ -132,7 +132,7 @@ const handleShow = () => setShow(true);
               </div>
               <br />
               <div className="preview row">
-                <p style={{ fontWeight: "bold" }}>Subject: </p> &nbsp;
+                <p className = 'preview-labels'>Subject: </p> &nbsp;
                 {/* add subject*/} {emailData.subject}
               </div>
               <div className="preview row">

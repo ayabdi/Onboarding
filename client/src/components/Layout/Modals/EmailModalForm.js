@@ -20,14 +20,14 @@ const EmailModalForm = ({ hireForm, render, submitting , currentStep}) => {
     <>
       <button
         onClick={handleShow}
-        className={`btn btn-primary px-4 custom ${
+        className={` ${
           currentStep === 2
-            ? "btn btn-primary px-4 custom active "
-            : `btn btn-primary px-4 custom`
+           ? "ob-btn formbtn custom active"
+            : "ob-btn formbtn custom"
         } ${
           currentStep > 2
-            ? "btn btn-primary px-4 float-right remove-button"
-            : ""
+            ? "ob-btn formbtn float-right remove-button"
+            : "ob-btn formbtn custom"
         }`}
       >
         Schedule an Email
@@ -37,6 +37,7 @@ const EmailModalForm = ({ hireForm, render, submitting , currentStep}) => {
       
         show={show}
         onHide={handleClose}
+        
         style={{ top: "50%", left: "50%"  ,marginLeft: '-450px', marginTop: '-255.5px', width: '900px'}}
       >
         <Modal.Header closeButton>

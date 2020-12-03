@@ -5,6 +5,7 @@
     font-size: 1.6rem;
     line-height: 1.5;
 }
+$color-main: #4e1390;
 
 .bg-custom-2 {
     background-color: #ffffff;
@@ -13,6 +14,55 @@
 
 .nav-link {
     color: #ffffff;
+}
+.ob-btn {
+  border: none;
+  outline: none;
+  background-color: $color-main;
+  border: $color-main;
+  color: #fff;
+  padding: 0.8rem 2rem;
+  border-radius: 5px;
+  font: inherit;
+  font-size: 18px;
+  font-weight: 300;
+  box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.16);
+  transition: transform 0.2s ease;
+
+  a {
+    color: #ffffff;
+    font-size: 18px;
+    text-decoration: none !important;
+  }
+  
+  a:hover{
+    color: #ffffff;
+  }
+  
+  &:hover {
+    transform: translateY(-2.2px);
+  }
+
+  &:active {
+    transform: translateY(2px);
+    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.3);
+  }
+
+  &:focus {
+    outline: none;
+  }
+}
+
+.ob-btn-sm {
+  @extend .ob-btn;
+  padding: 0.5rem 1.5rem;
+  font-size: 16px;
+}
+
+.ob-btn-lg {
+  @extend .ob-btn;
+  padding: 1.2rem 2.4rem;
+  font-size: 20px;
 }
 
 .container-small {
@@ -94,6 +144,9 @@
     border: 1px solid #707070;
     padding: 25px;
 }
+.card-title{
+  font-size: 1.24rem;
+}
 
 .card-body-active {
     border: solid 2px #4e1390;
@@ -141,18 +194,24 @@
     padding-left: 10px;
 }
 
-.btn.btn-primary.px-4.float-right {
-    height: 37px;
-    width: 95px;
-    font-size: 0.9rem;
+.ob-btn.formbtn {
+    height: 33px;
+    top:79%;
+    width: 85px;
+    font-size: 0.96rem;
     position: absolute;
     margin-top: 20px;
+    padding: 7px;
     right: 0;
     opacity: 1;
     background-color: #4a208e;
     transition: color 0s;
+    transform: none;
+    &:hover {
+      background-color: #491781;
+    }
 }
-.btn.btn-primary.px-4.float-right.remove-button{
+.ob-btn.formbtn.float-right.remove-button{
     content: none;
     background-color: #ffffff;
     border: 0;
@@ -165,22 +224,26 @@
   box-shadow: none;
 }
 
-.btn.btn-primary.px-4.custom {
+.ob-btn.formbtn.custom {
     margin: 0;
-    font-size: 0.85rem;
     pointer-events: none;
     margin-bottom: 40px;
+    margin-right: 12.6%;
+    height: 33px;
+    width: 160px;
+    padding: 5px;
     opacity: 0.6;
     background-color: #4a208e;
+    top: 45%;
 }
-.btn.btn-primary.px-4.custom.active {
+.ob-btn.formbtn.active {
     opacity: 1;
-    font-size: 0.85rem;
-    background-color: #4a208e;
     pointer-events: auto;
-
+    &:hover {
+      background-color: #491781;
+    }
 }
-.btn.btn-primary.px-4.notActive{
+.ob-btn.formbtn.notActive{
     height: 37px;
     margin: 0;
     margin-bottom: 40px;
@@ -195,61 +258,14 @@
 }
 .col-sm-3.float-right.workflow-submit {
   text-align : right;
+  margin: 12px 0
 }
 .bi.bi-calendar-event{
 z-index: 1;
   
 }
-//alerts
-.alert {
-    opacity: 0.8;
-    background: var(--light-color);
-    color: red;
-    padding:0;
-  }
-  
-  .btn-primary,
-  .bg-primary,
-  .badge-primary,
-  .alert-primary {
-    background: var(--primary-color);
-    color: #fff;
-  }
-  
-  .btn-light,
-  .bg-light,
-  .badge-light,
-  .alert-light {
-    background: var(--light-color);
-    color: #333;
-  }
-  
-  .btn-dark,
-  .bg-dark,
-  .badge-dark,
-  .alert-dark {
-    background: var(--dark-color);
-    color: #fff;
-  }
-  
-  .btn-danger,
-  .bg-danger,
-  .badge-danger,
-  .alert-danger {
-    background: var(--danger-color);
-    color: #fff;
-  }
-  
-  .btn-success,
-  .bg-success,
-  .badge-success,
-  .alert-success {
-    background: var(--success-color);
-    color: #fff;
-  }
-  //Modal
+//modals
 
-  
   .btn-openModal {
     background: #2c2c2c;
     color: #eee;
@@ -283,7 +299,7 @@ z-index: 1;
       transition: none;
   }
   .modal-dialog {
-    max-width: 900px;
+    min-width: 900px;
   }
   .modal-header {
       padding-bottom: 0;
@@ -483,11 +499,19 @@ z-index: 1;
 .icons{
   cursor: pointer;
 }
+
+.link{
+  color: #1f0e3a !important;
+}
+.link:hover{
+  color: #4a208e !important;
+  text-decoration: none;
+}
 .deco-none {
   color: inherit;
   text-decoration: inherit;
+  font-size: 0.96rem !important;
 }
-
 .deco-none:link {
   color: inherit;
   text-decoration: inherit;

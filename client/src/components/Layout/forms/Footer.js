@@ -2,6 +2,16 @@ import React from "react";
 import { Link} from "react-router-dom";
 import SaveTemplateModal from "../Modals/SaveTemplateModal";
 const Footer = ({ scheduleEmails, emails, scheduleTasks, tasks, isSubmitted, createTemplate}) => {
+  const btnStyle = {
+    width: "135px",height: '33px',
+    padding: "0 5px",
+    margin: "0px 0px 20px 10px",
+    opacity: '0.6',
+    pointerEvents: 'none'
+  };
+  const btnactive = {
+    ...btnStyle, opacity:'1',  pointerEvents: 'auto'
+  }
   return (
     <div className="row">
       <div
@@ -18,16 +28,13 @@ const Footer = ({ scheduleEmails, emails, scheduleTasks, tasks, isSubmitted, cre
         style={{ paddingRight: "0" }}
       >
         <button
-          type="button"
+         
           onClick={() => {
             scheduleEmails(emails);
             scheduleTasks(tasks);
           }}
-          className={
-            isSubmitted
-              ? `btn btn-primary px-4 custom active`
-              : `btn btn-primary px-4 custom`
-          }
+          className= 'ob-btn formbtn'
+          style={isSubmitted? btnactive: btnStyle}
         >
           <Link to="/dashboard" className="deco-none">
             {" "}

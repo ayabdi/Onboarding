@@ -129,11 +129,11 @@ const NewHireform = ({handleChange,
                     <div></div>
                     <button
                       type="submit"
-                      className={`"btn btn-primary px-4 float-right"  ${
+                      className={`"ob-btn formbtn float-right"  ${
                         currentStep === 1
-                          ? "btn btn-primary px-4 float-right"
-                          : "btn btn-primary px-4 float-right remove-button"
-                      }  }`}
+                          ? "ob-btn formbtn float-right"
+                          : "ob-btn formbtn float-right remove-button"
+                      }  `}
                     >
                       {" "}
                       Next
