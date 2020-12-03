@@ -8,6 +8,14 @@ const _Navbar = () => {
   const dropdownRef = useRef(null);
   const [showDropdown, setShowDropdown] = useState(false);
 
+  const If = ({ condition, children }) => {
+    if (condition) {
+      return children;
+    }
+
+    return null;
+  };
+
   const navigate = (href, newTab) => {
     const a = document.createElement("a");
     a.href = href;
@@ -26,6 +34,7 @@ const _Navbar = () => {
         setNavWhite(false);
       }
     }
+
     window.addEventListener("scroll", handleScroll);
     return () => {
       window.removeEventListener("scroll", handleScroll);
@@ -39,7 +48,7 @@ const _Navbar = () => {
           <a href="/" className="navbar-brand">
             <img src={HarmonizeLogo} alt="logo" /> Harmonize
           </a>
-          <ul>
+          <ul id="header">
             <li>
               <button
                 className="products-drop"
@@ -77,6 +86,13 @@ const _Navbar = () => {
                 Blog
               </a>
             </li>
+            <If condition={localStorage.getItem("ACCESS_TOKEN") != null && localStorage.getItem("REFRESH_TOKEN") != null}>
+              <li>
+                <a target="_self" rel="oopener noreferrer" href="/logout">
+                  Logout
+                </a>
+              </li>
+            </If>
           </ul>
         </div>
       </nav>
