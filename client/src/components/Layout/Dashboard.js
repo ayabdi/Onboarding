@@ -112,29 +112,6 @@ const Dashboard = () => {
   //const hireData
   return (
     <Fragment>
-      {showTask ? (
-        <div onClick={closeTaskModalHandler} className="back-drop"></div>
-      ) : null}
-      <TaskModalForm
-        show={showTask}
-        close={closeTaskModalHandler}
-        hireForm={hireData}
-      />
-      {/* {showTaskEdit ? (
-        <div onClick={closeEditTaskModalHandler} className="back-drop"></div>
-      ) : null}
-      <TaskEditModal
-        show={showTaskEdit}
-        close={closeEditTaskModalHandler}
-        taskForm={taskData}
-        hireForm={hireData[index]}
-        handleChange={handleTaskEdit}
-        onSubmit={onTaskEdit}
-        render ={setRender}
-        reminderArr={reminderArray}
-        setIsEdit={setIsEdited}
-        allowEdit = {isDashboard}
-      /> */}
 
       <div className="container" style={{ width: "100%" }}>
         <br />
@@ -166,7 +143,8 @@ const Dashboard = () => {
         </div>
         <>
         
-          {loading && tasksData.length!==0?  tasksData.map((tasks, i) => (
+          {loading && tasksData !=undefined?  tasksData.map((tasks, i) => tasks[0] !=undefined && (
+            
             <div key={i} className="card-body accordion">
               <Accordion className="accordion">
                 <div className="row hire-info">
