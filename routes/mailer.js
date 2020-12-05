@@ -4,6 +4,7 @@ const addDays = require("date-fns/addDays");
 const parseISO = require("date-fns/parseISO");
 const datefns = require("date-fns");
 const AWS = require("aws-sdk");
+const moment = require('moment')
 
 require("dotenv").config();
 
@@ -21,15 +22,15 @@ const AWS_SES = new AWS.SES(SES_CONFIG);
 var from = "testharmonizehq123@gmail.com";
 
 sendmailRouter.post("/email", (req, res, next) => {
-  var ses_mail = "From: 'Harmonize test' <" + from + ">\n";
-  ses_mail = ses_mail + "To: " + req.body.to + "\n";
-  ses_mail = ses_mail + `Subject: ${req.body.task}\n`;
+  var ses_mail = "From: 'Harmonize Test Email' <" + from + ">\n";
+  ses_mail = ses_mail + `To:  ${req.body.to} \n`;
+  ses_mail = ses_mail + `Subject: ${req.body.subject}\n`;
   ses_mail = ses_mail + "MIME-Version: 1.0\n";
   ses_mail =
     ses_mail + 'Content-Type: multipart/mixed; boundary="NextPart"\n\n';
   ses_mail = ses_mail + "--NextPart\n";
   ses_mail = ses_mail + "Content-Type: text/html; charset=us-ascii\n\n";
-  ses_mail = ses_mail + `${req.body.text}`;
+  ses_mail = ses_mail + `<p>${req.body.message} </p>\n\n`;
   ses_mail = ses_mail + "--NextPart\n";
 
   const mail = {
@@ -42,7 +43,7 @@ sendmailRouter.post("/email", (req, res, next) => {
   var emaildate = addDays(parseISO(req.body.date), -req.body.daysBefore);
   var day = datefns.getDate(emaildate);
   var month = datefns.getMonth(emaildate) + 1;
-  var minute = datefns.getMinutes(new Date());
+  var minute = datefns.getMinutes(new Date()) ;
   var hour = datefns.getHours(new Date());
   var second = datefns.getSeconds(new Date()) + 2;
 
@@ -74,7 +75,7 @@ sendmailRouter.post("/email", (req, res, next) => {
 
 sendmailRouter.post("/task", (req, res, next) => {
   //make mailable object
-  var ses_mail = "From: 'Harmonize test' <" + from + ">\n";
+  var ses_mail = "From: 'Harmonize Test Tasks' <" + from + ">\n";
   ses_mail = ses_mail + "To: " + req.body.to_email + "\n";
   ses_mail = ses_mail + `Subject: ${req.body.task}\n`;
   ses_mail = ses_mail + "MIME-Version: 1.0\n";
@@ -86,11 +87,15 @@ sendmailRouter.post("/task", (req, res, next) => {
     ses_mail +
     `<p>${req.body.task}
           <br></br>
-          Due Date: ${req.body.hire.startDate}
+          Due Date: ${moment(datefns.parseISO(req.body.hire.startDate)).toDate().toLocaleString("default", {
+            month: "long",
+            day: "numeric",
+            year: "numeric",
+           })}
           <br></br>
           ${req.body.note}
            </p>,\n\n`;
-  ses_mail = ses_mail + "--NextPart\n";
+  // ses_mail = ses_mail + "--NextPart\n";
 
   const mail = {
     Source: "testharmonizehq123@gmail.com",
@@ -100,13 +105,11 @@ sendmailRouter.post("/task", (req, res, next) => {
 
   //calculate email date and set month and day
   var reminderArr = req.body.reminder.split(",");
-  var minute = datefns.getMinutes(new Date());
+  var minute = datefns.getMinutes(new Date()) + 2 ;
   var hour = datefns.getHours(new Date());
   var second = datefns.getSeconds(new Date()) + 2;
 
   //scheduler
-
-  AWS_SES.sendRawEmail(mail, (err, data) => {
     reminderArr.map((reminder, i) => {
       var emaildate = addDays(
         parseISO(req.body.hire.startDate),
@@ -117,6 +120,7 @@ sendmailRouter.post("/task", (req, res, next) => {
       cron.schedule(
         `${second} ${minute} ${hour} ${day} ${month} *`,
         () => {
+          AWS_SES.sendRawEmail(mail, (err, data) => {
           if (err) {
             res.json({
               status: "fail",
@@ -127,6 +131,7 @@ sendmailRouter.post("/task", (req, res, next) => {
             //   status: "success",
             // });
           }
+        })
         },
         {
           scheduled: true,
@@ -134,6 +139,6 @@ sendmailRouter.post("/task", (req, res, next) => {
         }
       );
     });
-  });
+
 });
 module.exports = sendmailRouter;
