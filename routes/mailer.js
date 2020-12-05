@@ -18,11 +18,10 @@ const SES_CONFIG = {
 
 const AWS_SES = new AWS.SES(SES_CONFIG);
 
+var from = "testharmonizehq123@gmail.com";
 
-var from = 'testharmonizehq123@gmail.com'
 sendmailRouter.post("/email", (req, res, next) => {
-
-  var ses_mail = "From: 'AWS Tutorial Series' <"+ from + ">\n";
+  var ses_mail = "From: 'Harmonize test' <" + from + ">\n";
   ses_mail = ses_mail + "To: " + req.body.to + "\n";
   ses_mail = ses_mail + `Subject: ${req.body.task}\n`;
   ses_mail = ses_mail + "MIME-Version: 1.0\n";
@@ -30,14 +29,13 @@ sendmailRouter.post("/email", (req, res, next) => {
     ses_mail + 'Content-Type: multipart/mixed; boundary="NextPart"\n\n';
   ses_mail = ses_mail + "--NextPart\n";
   ses_mail = ses_mail + "Content-Type: text/html; charset=us-ascii\n\n";
-  ses_mail =ses_mail + `${req.body.text}`
+  ses_mail = ses_mail + `${req.body.text}`;
   ses_mail = ses_mail + "--NextPart\n";
 
   const mail = {
     Source: "testharmonizehq123@gmail.com",
-    Destination: [req.body.to],
-    RawMessage: { Data: new Buffer.from(ses_mail) }
-   
+    Destinations: [req.body.to],
+    RawMessage: { Data: new Buffer.from(ses_mail) },
   };
 
   //calculate email date and set month and day
@@ -52,15 +50,13 @@ sendmailRouter.post("/email", (req, res, next) => {
   cron.schedule(
     `${second} ${minute} ${hour} ${day} ${month} *`,
     () => {
-
       AWS_SES.sendRawEmail(mail, (err, data) => {
-        // error handling goes here.
         if (err) {
           res.json({
             status: "fail",
           });
         } else {
-          console.log('emails sent')
+          console.log("emails sent");
           // res.json({
           //   status: "success",
           // });
@@ -78,7 +74,7 @@ sendmailRouter.post("/email", (req, res, next) => {
 
 sendmailRouter.post("/task", (req, res, next) => {
   //make mailable object
-  var ses_mail = "From: 'AWS Tutorial Series' <" + from + ">\n";
+  var ses_mail = "From: 'Harmonize test' <" + from + ">\n";
   ses_mail = ses_mail + "To: " + req.body.to_email + "\n";
   ses_mail = ses_mail + `Subject: ${req.body.task}\n`;
   ses_mail = ses_mail + "MIME-Version: 1.0\n";
@@ -86,18 +82,19 @@ sendmailRouter.post("/task", (req, res, next) => {
     ses_mail + 'Content-Type: multipart/mixed; boundary="NextPart"\n\n';
   ses_mail = ses_mail + "--NextPart\n";
   ses_mail = ses_mail + "Content-Type: text/html; charset=us-ascii\n\n";
-  ses_mail =ses_mail +
-          `<p>${req.body.task}
+  ses_mail =
+    ses_mail +
+    `<p>${req.body.task}
           <br></br>
           Due Date: ${req.body.hire.startDate}
           <br></br>
           ${req.body.note}
            </p>,\n\n`;
-ses_mail = ses_mail + "--NextPart\n";
+  ses_mail = ses_mail + "--NextPart\n";
 
   const mail = {
     Source: "testharmonizehq123@gmail.com",
-    Destinations:  [req.body.to_email],
+    Destinations: [req.body.to_email],
     RawMessage: { Data: new Buffer.from(ses_mail) },
   };
 
@@ -120,7 +117,6 @@ ses_mail = ses_mail + "--NextPart\n";
       cron.schedule(
         `${second} ${minute} ${hour} ${day} ${month} *`,
         () => {
-          
           if (err) {
             res.json({
               status: "fail",
