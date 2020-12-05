@@ -105,7 +105,7 @@ sendmailRouter.post("/task", (req, res, next) => {
 
   //calculate email date and set month and day
   var reminderArr = req.body.reminder.split(",");
-  var minute = datefns.getMinutes(new Date()) + 2 ;
+  var minute = datefns.getMinutes(new Date())  ;
   var hour = datefns.getHours(new Date());
   var second = datefns.getSeconds(new Date()) + 2;
 
