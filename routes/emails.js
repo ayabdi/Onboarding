@@ -51,7 +51,7 @@ router.post("/", getHire, async (req, res) => {
     
   const email = new Email({
     hire: res.hire._id,
-    from: "ay.abdi1106@gmail.com",
+    from: "harmonize.onboarding@gmail.com",
     fromName: req.body.fromName,
     to: req.body.to,
     subject: req.body.subject,

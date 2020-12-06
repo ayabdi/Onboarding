@@ -90,12 +90,27 @@ const _Navbar = () => {
             </li>
            
             <li>
-              
               <Link target="_blank" rel="oopener noreferrer" to="https://www.attendancebot.com/blog/">
                 Blog
               </Link>
-              
             </li>
+
+            <If condition={localStorage.getItem("ACCESS_TOKEN") == null && localStorage.getItem("REFRESH_TOKEN") == null}>
+              <li>
+                <a target="_self" rel="oopener noreferrer" href="/login">
+                  Login
+                </a>
+              </li>
+            </If>
+
+            <If condition={localStorage.getItem("ACCESS_TOKEN") == null && localStorage.getItem("REFRESH_TOKEN") == null}>
+              <li>
+                <a target="_self" rel="oopener noreferrer" href="/signup">
+                  Register
+                </a>
+              </li>
+            </If>
+
             <If condition={localStorage.getItem("ACCESS_TOKEN") != null && localStorage.getItem("REFRESH_TOKEN") != null}>
               <li>
                 <a target="_self" rel="oopener noreferrer" href="/logout">

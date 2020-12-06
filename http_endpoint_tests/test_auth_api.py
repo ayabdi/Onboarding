@@ -15,7 +15,7 @@ def register(email, password, confirm_password):
 	data = {
 		"email": email,
 		"password": password,
-		"confirm_password": confirm_password
+		"passwordConfirm": confirm_password
 	}
 
 	r = requests.post("http://localhost:5000/api/auth/register", json=data)
@@ -37,6 +37,14 @@ def logout(refresh_token):
 	r = requests.post("http://localhost:5000/api/auth/logout", json=data)
 	return r.text
 
+def forgot(email):
+	data = {
+		"email": email
+	}
+
+	r = requests.post("http://localhost:5000/api/auth/forgot", json=data)
+	return r.text
+
 def main():
 	if len(sys.argv) != 4:
 		print("Usage: python3 " + sys.argv[0] + " [EMAIL] [PASSWORD] [CONFIRM-PASSWORD]")
@@ -50,6 +58,12 @@ def main():
 	register_resp = register(email, password, confirm_password)
 	print("Register response:")
 	print(register_resp)
+	print("")
+
+	print("Requesting forgotten password...")
+	forgot_resp = forgot(email)
+	print("Forgot response:")
+	print(forgot_resp)
 	print("")
 
 	print("Logging in...")

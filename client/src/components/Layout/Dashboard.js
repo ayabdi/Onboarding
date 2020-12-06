@@ -66,6 +66,7 @@ const Dashboard = () => {
   const [render, setRender] = useState(false)
   const [tasksData, getTaskData] = useState([]);
   useEffect(() => {
+    document.title = "Harmonize | Dashboard";
     
     axios({
       method: "GET",

@@ -20,6 +20,10 @@ import { faAngleDoubleLeft } from "@fortawesome/free-solid-svg-icons";
 import { Col, Container, Row } from "react-bootstrap";
 
 const NewHirePage = () => {
+  useEffect(() => { 
+    document.title = "Harmonize | Hire";
+  }, []);
+
   const {
     handleChange,
     onSubmit,

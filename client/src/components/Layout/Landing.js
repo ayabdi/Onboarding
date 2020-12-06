@@ -14,6 +14,10 @@ const Landing = ({ history }) => {
   //   ReactGA.pageview(window.location.pathname + window.location.search);
   // }, []);
 
+  useEffect(() => { 
+    document.title = "Harmonize | Landing";
+  }, []);
+
   return (
     <section className="landing">
       <Navbar />

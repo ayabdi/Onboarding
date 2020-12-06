@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
 
@@ -26,6 +26,10 @@ const config = {
 };
 
 const Signup = () => {
+  useEffect(() => { 
+    document.title = "Harmonize | Sign up";
+  }, []);
+
   const classes = useStyles();
 
   const [form, setForm] = useState({
@@ -64,9 +68,9 @@ const Signup = () => {
       } catch (error) {
         console.log(error.response.data);
 
-        if (error.response.status == 400) {
+        if (error.response.status === 400) {
           setErr(error.response.data);
-        } else if (error.response.status == 500) {
+        } else if (error.response.status === 500) {
           if (error.response.data.includes("duplicate key error collection")) 
             setErr("Email already exists!");
           else 

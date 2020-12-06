@@ -19,7 +19,9 @@ const config = {
 const Logout = () => {
   const classes = useStyles();
 
-  useEffect(async () => { 
+  useEffect(() => { 
+    document.title = "Harmonize | Logout";
+
     const url =
     process.env.NODE_ENV === "production"
       ? "/api/auth/logout"
@@ -32,13 +34,15 @@ const Logout = () => {
         token: refresh_token
       };
 
-      try {
-        const res = await axios.post(url, form, config);
-        console.log(res.data);
-      } catch (error) {
-        console.log(error.response.data);
-      }
-    }
+      (async function() {
+        try {
+          const res = await axios.post(url, form, config);
+          console.log(res.data);
+        } catch (error) {
+          console.log(error.response.data);
+        }
+      })();
+   }
 
     localStorage.removeItem("ACCESS_TOKEN");
     localStorage.removeItem("REFRESH_TOKEN");

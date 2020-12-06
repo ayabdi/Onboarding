@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
 
@@ -26,6 +26,10 @@ const config = {
 };
 
 const Login = () => {
+  useEffect(() => { 
+    document.title = "Harmonize | Login";
+  }, []);
+
   const classes = useStyles();
 
   const [form, setForm] = useState({
@@ -65,9 +69,9 @@ const Login = () => {
       } catch (error) {
         console.log(error.response.data);
 
-        if (error.response.status == 400) {
+        if (error.response.status === 400) {
           setErr(error.response.data);
-        } else if (error.response.status == 500) {
+        } else if (error.response.status === 500) {
           if (error.response.data.includes("Cannot read property 'password' of null"))
             setErr("Invalid email!");
           else 

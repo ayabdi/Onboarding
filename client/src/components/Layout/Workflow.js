@@ -12,6 +12,8 @@ const Workflow = () => {
   const [workflows, getWorkflows] = useState([{ name: "" }]);
   //const baseUrl = process.env.baseURL || "http://localhost:5000"
   useEffect(() => {
+    document.title = "Harmonize | Workflow";
+    
     axios({
       method: "GET",
    

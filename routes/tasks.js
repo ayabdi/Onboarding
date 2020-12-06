@@ -63,7 +63,7 @@ router.post("/", getHire ,async (req, res) => {
     
   const task = new Task({
     hire: res.hire._id,
-    from_email: "testharmonizehq123@gmail.com",
+    from_email: "harmonize.onboarding@gmail.com",
     from: req.body.from,
     task: req.body.task,
     to: req.body.to,

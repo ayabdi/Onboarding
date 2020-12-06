@@ -5,7 +5,7 @@ const addDays = require("date-fns/addDays");
 const parseISO = require("date-fns/parseISO");
 const datefns = require("date-fns");
 
-require('dotenv').config()
+require('dotenv').config();
 
 const sendmailRouter = express.Router();
 const bodyParser = require("body-parser");
@@ -41,14 +41,14 @@ transporter.verify((error, success) => {
     console.error(error);
   } else {
     //this means success
-    console.log("users ready to mail myself");
+    console.log("[mailer] users ready to mail myself");
   }
 });
 
 sendmailRouter.post("/email", (req, res, next) => {
   //make mailable object
   const mail = {
-    from: "testharmonizehq123@gmail.com",
+    from: "harmonize.onboarding@gmail.com",
     to: req.body.to,
     subject: req.body.subject,
     text: req.body.message,
@@ -97,7 +97,7 @@ sendmailRouter.post("/email", (req, res, next) => {
 sendmailRouter.post("/task", (req, res, next) => {
   //make mailable object
   const mail = {
-    from: "testharmonizehq123@gmail.com",
+    from: "harmonize.onboarding@gmail.com",
     to: req.body.to_email,
     subject: "Automated Email reminder from " + req.body.from,
     //text: req.body.message,
