@@ -6,11 +6,7 @@ const datefns = require("date-fns");
 const AWS = require("aws-sdk");
 const moment = require('moment')
 
-<<<<<<< HEAD
-require('dotenv').config();
-=======
 require("dotenv").config();
->>>>>>> 179e48c17e7e6dd429abb348181d4c2df47813d3
 
 const sendmailRouter = express.Router();
 //const bodyParser = require("body-parser");
