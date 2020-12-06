@@ -1,19 +1,11 @@
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
 import axios from "axios";
 
 import Box from "@material-ui/core/Box";
 import TextField from "@material-ui/core/TextField";
 import Paper from "@material-ui/core/Paper";
 import Button from "@material-ui/core/Button";
-import IconButton from "@material-ui/core/IconButton";
 import Typography from "@material-ui/core/Typography";
-import Divider from "@material-ui/core/Divider";
-
-import { ReactComponent as Google } from "../../assets/google.svg";
-import { ReactComponent as Facebook } from "../../assets/facebook.svg";
-import { ReactComponent as LinkedIn } from "../../assets/linkedin.svg";
-import { ReactComponent as Twitter } from "../../assets/twitter.svg";
 import Logo from "../../assets/logo.png";
 
 import useStyles from "./LoginSignupStyles";
@@ -25,18 +17,17 @@ const config = {
   },
 };
 
-const Login = () => {
+const ForgotPassword = () => {
   useEffect(() => { 
-    document.title = "Harmonize | Login";
+    document.title = "Harmonize | Forgot password";
   }, []);
 
   const classes = useStyles();
 
   const [form, setForm] = useState({
-    email: "",
-    password: "",
+    email: ""
   });
-  const { email, password } = form;
+  const { email } = form;
 
   const [err, setErr] = useState("");
 
@@ -49,33 +40,24 @@ const Login = () => {
     evt.preventDefault();
     const url =
       process.env.NODE_ENV === "production"
-        ? "/api/auth/login"
-        : "http://localhost:5000/api/auth/login";
+        ? "/api/auth/forgot"
+        : "http://localhost:5000/api/auth/forgot";
 
-    if (!(email, password)) {
-      setErr("Email and password are required.");
+    if (!(email)) {
+      setErr("Email is required.");
     } else {
       try {
         const res = await axios.post(url, form, config);
         console.log(res.data);
 
-        if (res.data.accessToken && res.data.refreshToken) {
-          localStorage.setItem("ACCESS_TOKEN", res.data.accessToken);
-          localStorage.setItem("REFRESH_TOKEN", res.data.refreshToken);
-          window.location = "/";
-        } else {
-          setErr("Something went wrong, try again later.");
-        }
+        //parse response
       } catch (error) {
         console.log(error.response.data);
 
         if (error.response.status === 400) {
           setErr(error.response.data);
         } else if (error.response.status === 500) {
-          if (error.response.data.includes("Cannot read property 'password' of null"))
-            setErr("Invalid email!");
-          else 
-            setErr("Something went wrong, try again later.");
+          
         } else {
           setErr("Something went wrong, try again later.");
         }
@@ -110,7 +92,7 @@ const Login = () => {
         <Paper className={classes.paper} elevation={7}>
           <Box component="form" onSubmit={handleSubmit}>
             <Typography align="center" gutterBottom className={classes.title}>
-              Welcome back!
+              Request your forgotten password...
             </Typography>
             <TextField
               fullWidth
@@ -118,14 +100,6 @@ const Login = () => {
               label="Email"
               inputProps={{ type: "email" }}
               value={email}
-              onChange={handleChange}
-            />
-            <TextField
-              fullWidth
-              id="password"
-              label="Password"
-              inputProps={{ type: "password" }}
-              value={password}
               onChange={handleChange}
             />
             {err && (
@@ -146,80 +120,15 @@ const Login = () => {
               fullWidth
               style={{ marginTop: "1rem" }}
               type="submit"
-              disabled={!(email && password)}
+              disabled={!(email)}
             >
-              Sign in
+              Request Password
             </Button>
           </Box>
-          <Divider style={{ marginTop: "1.2rem" }} />
-          <Typography
-            align="center"
-            color="textSecondary"
-            style={{
-              marginTop: "1rem",
-              marginBottom: "0.5rem",
-              fontSize: "0.8rem",
-            }}
-          >
-            Or sign in with your favorate social platform...
-          </Typography>
-          <Box className={classes.socialBox}>
-            <IconButton
-              onClick={() => {
-                window.location =
-                  process.env.NODE_ENV === "production"
-                    ? "/api/auth/google"
-                    : "http://localhost:5000/api/auth/google";
-              }}
-            >
-              <Google fill="#4285F4" />
-            </IconButton>
-            <IconButton
-              onClick={() => {
-                window.location =
-                  process.env.NODE_ENV === "production"
-                    ? "/api/auth/facebook"
-                    : "http://localhost:5000/api/auth/facebook";
-              }}
-            >
-              <Facebook fill="#3b5998" />
-            </IconButton>
-            <IconButton
-              onClick={() => {
-                window.location =
-                  process.env.NODE_ENV === "production"
-                    ? "/api/auth/twitter"
-                    : "http://localhost:5000/api/auth/twitter";
-              }}
-            >
-              <Twitter fill="#00acee" />
-            </IconButton>
-            <IconButton
-              onClick={() => {
-                window.location =
-                  process.env.NODE_ENV === "production"
-                    ? "/api/auth/linkedin"
-                    : "http://localhost:5000/api/auth/linkedin";
-              }}
-            >
-              <LinkedIn fill="#0e76a8" />
-            </IconButton>
-          </Box>
-          <Typography
-            align="center"
-            color="textSecondary"
-            style={{
-              marginTop: "1rem",
-              marginBottom: "0.5rem",
-              fontSize: "0.7rem",
-            }}
-          >
-            Don't have an account? <Link to="/signup">Sign up &rarr;</Link>
-          </Typography>
         </Paper>
       </Box>
     </div>
   );
 };
 
-export default Login;
+export default ForgotPassword;

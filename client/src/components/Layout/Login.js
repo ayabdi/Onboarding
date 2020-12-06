@@ -216,6 +216,17 @@ const Login = () => {
           >
             Don't have an account? <Link to="/signup">Sign up &rarr;</Link>
           </Typography>
+          <Typography
+            align="center"
+            color="textSecondary"
+            style={{
+              marginTop: "1rem",
+              marginBottom: "0.5rem",
+              fontSize: "0.7rem",
+            }}
+          >
+            Forgot your password? <Link to="/forgot">Request a reminder &rarr;</Link>
+          </Typography>
         </Paper>
       </Box>
     </div>
