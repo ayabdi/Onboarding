@@ -8,6 +8,7 @@ import Dashboard from "./components/Layout/Dashboard";
 import Login from "./components/Layout/Login";
 import Signup from "./components/Layout/Signup";
 import Logout from "./components/Layout/Logout";
+import ForgotPassword from "./components/Layout/ForgotPassword";
 
 import "./App.scss"
 
@@ -26,6 +27,7 @@ function App() {
             <Route exact path = '/login' component = {Login}/>
             <Route exact path = '/signup' component = {Signup}/>
             <Route exact path = '/logout' component = {Logout}/>
+            <Route exact path = '/forgot' component = {ForgotPassword}/>
           </Switch>
         </section>
         

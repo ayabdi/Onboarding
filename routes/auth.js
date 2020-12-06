@@ -3,36 +3,21 @@ const router = express.Router();
 const Auth = require("../models/Auth");
 const validator = require("email-validator");
 const jwt = require('jsonwebtoken');
-const nodemailer = require("nodemailer");
+const AWS = require("aws-sdk");
 
 require('dotenv').config();
+
+const SES_CONFIG = {
+    accessKeyId: "AKIAQ67PSZM2FI64BLE4",
+    secretAccessKey: "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",
+    region: "us-east-2",
+};
+
+const AWS_SES = new AWS.SES(SES_CONFIG);
 
 const refreshTokens = [];
 const accessTokenSecret = '`fq@clhv9jd*@W~efJUhW2^s+-cVa^vv';
 const refreshTokenSecret = 'E(H5#bEVt(xRDZp$pHI9t1ie544*Iw^P';
-
-const transport = {
-    //all of the configuration for making a site send an email.
-    host: "smtp.gmail.com",
-    port: 587,
-    secure: false,
-    auth: {
-     
-      user: process.env.EMAIL,
-      pass: process.env.PASSWORD,
-    },
-};
-
-const transporter = nodemailer.createTransport(transport);
-transporter.verify((error, success) => {
-    if (error) {
-      //if error happened code ends here
-      console.error(error);
-    } else {
-      //this means success
-      console.log("[auth] users ready to mail myself");
-    }
-  });
 
 function debug_log(message) {
     if (process.env.NODE_ENV === 'production') 
@@ -42,22 +27,33 @@ function debug_log(message) {
 }
 
 function email_forgotten_password(email, password) {
-    //make mailable object
+    var ses_mail = "From: 'Harmonize' <" + process.env.EMAIL + ">\n";
+    ses_mail = ses_mail + `To: ` + email + `\n`;
+    ses_mail = ses_mail + `Subject: Your Requested Harmonize Password\n`;
+    ses_mail = ses_mail + "MIME-Version: 1.0\n";
+    ses_mail =
+      ses_mail + 'Content-Type: multipart/mixed; boundary="NextPart"\n\n';
+    ses_mail = ses_mail + "--NextPart\n";
+    ses_mail = ses_mail + "Content-Type: text/html; charset=us-ascii\n\n";
+    ses_mail = ses_mail + `<p>Your requested Harmonize password is ` + password + `</p><p>Someone used the Forgot Password feature to request your Harmonize password. If this wasn't you, please contact Harmonize support.</p>\n\n`;
+    ses_mail = ses_mail + "--NextPart\n";
+  
     const mail = {
-        from: "harmonize.onboarding@gmail.com",
-        to: email,
-        subject: "Your Requested Harmonize Password",
-        html: "<p>Your requested Harmonize password is " + password + "</p><p>Someone used the Forgot Password feature to request your Harmonize password. If this wasn't you, please contact Harmonize support.</p>"
+      Source: process.env.EMAIL,
+      Destinations: [ email ],
+      RawMessage: { Data: new Buffer.from(ses_mail) },
     };
 
-    transporter.sendMail(mail, (err, data) => {
-        // error handling goes here.
+    var result = false;
+    AWS_SES.sendRawEmail(mail, (err, data) => {
         if (err) {
-            return false;
+            result = false;
         } else {
-            return true;
+            result = true;
         }
       });
+
+      return result;
 }
 
 // @desc Authenticates a JWT token
@@ -247,7 +243,7 @@ router.post('/forgot',
                 return res.status(400).send("Email does not exist!");
             }
 
-            if (email_forgotten_password(email, user["password"]) == false) {
+            if (email_forgotten_password(email, user["password"]) === false) {
                 debug_log("Failed to send email!");
                 return res.status(400).send("Failed to send email!");
             }
