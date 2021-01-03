@@ -6,23 +6,45 @@ import { Dropdown, Input } from "semantic-ui-react";
 import "semantic-ui-css/semantic.min.css";
 
 import "../css/Workflow.scss";
+import { accessTokenCheck } from "./Utils";
 
 const Workflow = () => {
   //fetch workflow names from database
   const [workflows, getWorkflows] = useState([{ name: "" }]);
   //const baseUrl = process.env.baseURL || "http://localhost:5000"
   useEffect(() => {
-    document.title = "Harmonize | Workflow";
+    (async () => {
+      document.title = "Harmonize | Workflow";
+
+      await accessTokenCheck();
+      var access_token = localStorage.getItem("ACCESS_TOKEN");
     
-    axios({
-      method: "GET",
-   
-      url: `/api/templates`,
-    }).then((res) => {
-      getWorkflows(res.data);
-      //setloading(true)
-      console.log("fetched");
-    });
+      axios({
+        method: "GET",
+        headers: { Authorization: 'Bearer ' + access_token, },
+        url: `/api/templates`,
+      }).then((res) => {
+        getWorkflows(res.data);
+        //setloading(true)
+        console.log("fetched");
+      }).catch(function (error) {
+        console.log(error);
+
+        if (error.response) {
+          console.log(error.response.data);
+          console.log(error.response.status);
+          console.log(error.response.headers);
+        } else if (error.request) {
+          console.log(error.request);
+        } else {
+          console.log('Error ' + error.message);
+        }
+
+        localStorage.removeItem("ACCESS_TOKEN");
+        localStorage.removeItem("REFRESH_TOKEN");
+        window.location = "/login";
+      });
+    })();
   }, []);
 
   //set workflow options
@@ -48,6 +70,15 @@ const [newWorkflow, setNewWorkflow] = useState(null);
     setNewWorkflow(value);
     console.log(newWorkflow);
   };
+
+  const access_token = localStorage.getItem("ACCESS_TOKEN");
+  const refresh_token = localStorage.getItem("REFRESH_TOKEN");
+
+  if (access_token === null || refresh_token === null) {
+    window.location = "/login";
+    return (null);
+  }
+
   return (
     <section>
       <Container className="main-page">

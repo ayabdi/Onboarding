@@ -3,14 +3,14 @@ const router = express.Router();
 
 const Task = require("../models/Task");
 const Hire = require("../models/Hire");
-
+const authenticateJWT = require('../middleware/authenticateJWT');
 
 //@route GET /task
 //@desc  GET all task
 //@access Public
 
 
-router.get('/', async(req, res) => {
+router.get('/', authenticateJWT, async(req, res) => {
     try {
         const task = await Task.find();
         res.json(task);
@@ -23,7 +23,7 @@ router.get('/', async(req, res) => {
 ////@route GET /tasks/:hire
 //@desc  Fetch Tasks per hire ID
 //@access Public
-router.get('/find/:hire', async(req, res) => {
+router.get('/find/:hire', authenticateJWT, async(req, res) => {
     try {
         const task = await Task.find({hire: req.params.hire}).populate('hire', ['name', 'email', 'job_title', 'startDate', 'hiring_manager','hm_email'])
         
@@ -59,7 +59,7 @@ async function getHire(req, res, next) {
   
  }  
 
-router.post("/", getHire ,async (req, res) => {
+router.post("/", authenticateJWT, getHire ,async (req, res) => {
     
   const task = new Task({
     hire: res.hire._id,
@@ -87,7 +87,7 @@ router.post("/", getHire ,async (req, res) => {
 //@desc  DELETE Task
 //@access Public
 
-router.delete('/:id', async(req, res) => {
+router.delete('/:id', authenticateJWT, async(req, res) => {
     try {
         //delete email
         await Task.findByIdAndRemove(req.params.id);
@@ -118,7 +118,7 @@ async function getTask(req, res, next) {
     res.tasks = tasks
     next()
 }
-router.patch('/:id', getTask, async(req, res) => {
+router.patch('/:id', authenticateJWT, getTask, async(req, res) => {
     if (req.body.from != null) {
         res.tasks.from = req.body.from
     }

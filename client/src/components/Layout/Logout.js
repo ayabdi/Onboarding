@@ -9,48 +9,68 @@ import Logo from "../../assets/logo.png";
 
 import useStyles from "./LoginSignupStyles";
 import "../css/LoginSignupStyles.scss";
-
-const config = {
-  headers: {
-    "Content-Type": "application/json",
-  },
-};
+import { accessTokenCheck } from "./Utils";
 
 const Logout = () => {
   const classes = useStyles();
 
   useEffect(() => { 
-    document.title = "Harmonize | Logout";
+    (async () => {
+      document.title = "Harmonize | Logout";
 
-    const url =
-    process.env.NODE_ENV === "production"
-      ? "/api/auth/logout"
-      : "http://localhost:5000/api/auth/logout";
+      await accessTokenCheck();
+      var access_token = localStorage.getItem("ACCESS_TOKEN");
+      var refresh_token = localStorage.getItem("REFRESH_TOKEN");
 
-    const refresh_token = localStorage.getItem("REFRESH_TOKEN");
+      var timeout = 1000;
+      var redir_page = "/";
 
-    if (refresh_token != null) {
-      const form = {
-        token: refresh_token
-      };
+      if (refresh_token == null) {
+        timeout = 0;
+        redir_page = "/login";
+      } else {
+        const url =
+        process.env.NODE_ENV === "production"
+          ? "/api/auth/logout"
+          : "http://localhost:5000/api/auth/logout";
 
-      (async function() {
+        const form = {
+          token: refresh_token
+        };
+
+        const config = {
+          headers: {
+            "Content-Type": "application/json",
+            "Authorization": "Bearer " + access_token,
+          },
+        };
+
         try {
           const res = await axios.post(url, form, config);
           console.log(res.data);
         } catch (error) {
           console.log(error.response.data);
-        }
-      })();
-   }
+          redir_page = "/login";
+          timeout = 0;
+        } 
+      }
 
-    localStorage.removeItem("ACCESS_TOKEN");
-    localStorage.removeItem("REFRESH_TOKEN");
+      localStorage.removeItem("ACCESS_TOKEN");
+      localStorage.removeItem("REFRESH_TOKEN");
 
-    setTimeout(function (){
-      window.location = "/";
-    }, 1000);
+      setTimeout(function () {
+        window.location = redir_page;
+      }, timeout);
+    })();
   }, []);
+
+  const access_token = localStorage.getItem("ACCESS_TOKEN");
+  const refresh_token = localStorage.getItem("REFRESH_TOKEN");
+
+  if (access_token === null || refresh_token === null) {
+    window.location = "/login";
+    return (null);
+  }
 
   return (
     <div className="signup-page">

@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 //const auth = require("../../middleware/auth");
 const { check, validationResult } = require("express-validator");
+const authenticateJWT = require('../middleware/authenticateJWT');
 
 const Hire = require("../models/Hire");
 
@@ -10,11 +11,10 @@ const Hire = require("../models/Hire");
 //@access Public
 
 
-router.get('/', async(req, res) => {
+router.get('/', authenticateJWT, async(req, res) => {
     try {
         const hires = await Hire.find();
         res.json(hires);
-
     } catch (errors) {
         res.send('Error' + errors)
     }
@@ -24,7 +24,7 @@ router.get('/', async(req, res) => {
 //@access Public
 
 router.post(
-    '/', [
+    '/', authenticateJWT, [
         //Validating entries
         check("name", "Name is required").not().isEmpty(),
         // check('email')
@@ -93,7 +93,7 @@ router.post(
 //@route GET hire by email /hires/find/:email
 //@desc  Get hire data by email address
 //@access Public
-router.get('/:email', async(req, res) => {
+router.get('/:email', authenticateJWT, async(req, res) => {
     try {
         const hire = await Hire.find({email: req.params.email});
         res.json(hire);
@@ -122,7 +122,7 @@ async function getHire(req, res, next) {
     res.hire = hire
     next()
 }
-router.delete('/:id', async(req, res) => {
+router.delete('/:id', authenticateJWT, async(req, res) => {
     try {
         //Remove profile
         await Hire.findByIdAndRemove(req.params.id);
@@ -139,7 +139,7 @@ router.delete('/:id', async(req, res) => {
 //@route UPDATE /hires
 //@desc  UPDATE Hire
 //@access Public
-router.patch('/:id', getHire, async(req, res) => {
+router.patch('/:id', authenticateJWT, getHire, async(req, res) => {
     if (req.body.name != null) {
         res.hire.name = req.body.name
     }

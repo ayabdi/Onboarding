@@ -3,21 +3,37 @@ const router = express.Router();
 const Auth = require("../models/Auth");
 const validator = require("email-validator");
 const jwt = require('jsonwebtoken');
-const AWS = require("aws-sdk");
+const nodemailer = require("nodemailer");
+const authenticateJWT = require('../middleware/authenticateJWT');
 
 require('dotenv').config();
 
-const SES_CONFIG = {
-    accessKeyId: "AKIAQ67PSZM2FI64BLE4",
-    secretAccessKey: "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",
-    region: "us-east-2",
-};
-
-const AWS_SES = new AWS.SES(SES_CONFIG);
-
+const expiresIn = "30m";
 const refreshTokens = [];
 const accessTokenSecret = '`fq@clhv9jd*@W~efJUhW2^s+-cVa^vv';
 const refreshTokenSecret = 'E(H5#bEVt(xRDZp$pHI9t1ie544*Iw^P';
+
+const transport = {
+  //all of the configuration for making a site send an email.
+  host: "smtp.gmail.com",
+  port: 587,
+  secure: false,
+  auth: {
+    user: process.env.EMAIL,
+    pass: process.env.PASSWORD,
+  },
+};
+
+const transporter = nodemailer.createTransport(transport);
+transporter.verify((error, success) => {
+  if (error) {
+    //if error happened code ends here
+    console.error(error);
+  } else {
+    //this means success
+    console.log("[auth] users ready to mail");
+  }
+});
 
 function debug_log(message) {
     if (process.env.NODE_ENV === 'production') 
@@ -26,60 +42,31 @@ function debug_log(message) {
     console.log(message);
 }
 
-function email_forgotten_password(email, password) {
-    var ses_mail = "From: 'Harmonize' <" + process.env.EMAIL + ">\n";
-    ses_mail = ses_mail + `To: ` + email + `\n`;
-    ses_mail = ses_mail + `Subject: Your Requested Harmonize Password\n`;
-    ses_mail = ses_mail + "MIME-Version: 1.0\n";
-    ses_mail =
-      ses_mail + 'Content-Type: multipart/mixed; boundary="NextPart"\n\n';
-    ses_mail = ses_mail + "--NextPart\n";
-    ses_mail = ses_mail + "Content-Type: text/html; charset=us-ascii\n\n";
-    ses_mail = ses_mail + `<p>Your requested Harmonize password is ` + password + `</p><p>Someone used the Forgot Password feature to request your Harmonize password. If this wasn't you, please contact Harmonize support.</p>\n\n`;
-    ses_mail = ses_mail + "--NextPart\n";
-  
-    const mail = {
-      Source: process.env.EMAIL,
-      Destinations: [ email ],
-      RawMessage: { Data: new Buffer.from(ses_mail) },
-    };
+async function email_forgotten_password(email, password) {
+    try {
+        await new Promise((resolve, reject) => {
+            const mail = {
+                from: "Harmonize <" + process.env.EMAIL + ">",
+                to: email,
+                subject: "Your requested Harmonize password",
+                html: "<p>Your requested Harmonize password is " + password + "</p><p>Someone used the Forgot Password feature to request your Harmonize password. If this wasn't you, please contact Harmonize support.</p>",
+            };
 
-    var result = false;
-    AWS_SES.sendRawEmail(mail, (err, data) => {
-        if (err) {
-            result = false;
-        } else {
-            result = true;
-        }
-      });
-
-      return result;
-}
-
-// @desc Authenticates a JWT token
-// @access Public
-
-const authenticateJWT = (req, res, next) => {
-    const authHeader = req.headers.authorization;
-
-    if (!authHeader) {
-        debug_log("Authentication header is null!");
-        return res.status(401).send("Authentication header is null!");
+            transporter.sendMail(mail, function (err, data) {
+                if (err) {
+                    reject(err);
+                } else {
+                    resolve();
+                }
+            });
+        }); 
+    } catch (err) {
+        debug_log(err);
+        return false;
     }
 
-    const token = authHeader.split(' ')[1];
-
-    jwt.verify(token, accessTokenSecret, (err, user) => {
-        if (err) {
-            debug_log("Unable to verify token!");
-            return res.status(403).send("Unable to verify token!");
-        }
-
-        debug_log("Token verified!");
-        req.user = user;
-        next();
-    });
-};
+    return true;
+}
 
 // @route POST /auth
 // @desc Logs a user in
@@ -113,7 +100,7 @@ router.post('/login',
                 return res.status(400).send("Invalid password!");
             }
 
-            const accessToken = jwt.sign({ email: email }, accessTokenSecret, { expiresIn: '30m' });
+            const accessToken = jwt.sign({ email: email }, accessTokenSecret, { expiresIn: expiresIn });
             const refreshToken = jwt.sign({ email: email }, refreshTokenSecret);
 
             refreshTokens.push(refreshToken);
@@ -186,7 +173,7 @@ router.post('/register',
 // @desc Generates a new access token
 // @access Public
 
-router.post('/token', 
+router.post('/token',
     async (req, res) => {
         token = req.body.token;
 
@@ -206,7 +193,7 @@ router.post('/token',
                 return res.status(400).send("Unable to verify token!");
             }
         
-            const accessToken = jwt.sign({ email: user.email }, accessTokenSecret, { expiresIn: '30m' });
+            const accessToken = jwt.sign({ email: user.email }, accessTokenSecret, { expiresIn: expiresIn });
 
             debug_log("Access token generated!");
 
@@ -224,7 +211,7 @@ router.post('/token',
 router.post('/forgot', 
     async (req, res) => {
         email = req.body.email;
-
+        
         if (!email) {
             debug_log("Email is null!");
             return res.status(400).send("Email is null!");
@@ -243,7 +230,8 @@ router.post('/forgot',
                 return res.status(400).send("Email does not exist!");
             }
 
-            if (email_forgotten_password(email, user["password"]) === false) {
+            var email_result = await email_forgotten_password(email, user["password"]);
+            if (email_result === false) {
                 debug_log("Failed to send email!");
                 return res.status(400).send("Failed to send email!");
             }
@@ -261,7 +249,7 @@ router.post('/forgot',
 // @desc Logs a user out
 // @access Public
 
-router.post('/logout', 
+router.post('/logout', authenticateJWT,
     async (req, res) => {
         token = req.body.token;
 

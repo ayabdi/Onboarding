@@ -50,12 +50,16 @@ const _Navbar = () => {
             <img src={HarmonizeLogo} alt="logo" /> Harmonize
           </a>
           <ul id="header">
-          <li>
-            <Link to= '/dashboard'>Dashboard</Link>
-            </li>
-            <li>
-            <Link to= '/workflow'>new Workflow</Link>
-            </li>
+            <If condition={localStorage.getItem("ACCESS_TOKEN") != null && localStorage.getItem("REFRESH_TOKEN") != null}>
+              <li>
+                <Link to= '/dashboard'>Dashboard</Link>
+              </li>
+            </If>
+            <If condition={localStorage.getItem("ACCESS_TOKEN") != null && localStorage.getItem("REFRESH_TOKEN") != null}>
+              <li>
+                <Link to= '/workflow'>New Workflow</Link>
+              </li>
+            </If>
             <li>
               <button
                 className="products-drop"

@@ -28,7 +28,7 @@ transporter.verify((error, success) => {
     console.error(error);
   } else {
     //this means success
-    console.log("users ready to mail");
+    console.log("[mailer] users ready to mail");
   }
 });
 

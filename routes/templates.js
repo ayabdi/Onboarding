@@ -1,12 +1,13 @@
 const express = require("express");
 const router = express.Router();
 const Template = require("../models/Template");
+const authenticateJWT = require('../middleware/authenticateJWT');
 
 // @route GET /templates
 // @desc Retrieves all templates
 // @access Public
 
-router.get('/', 
+router.get('/', authenticateJWT,
     async (req, res) => {
         try {
             const templates = await Template.find();
@@ -20,7 +21,7 @@ router.get('/',
 // @desc Creates a template 
 // @access Public
 
-router.post('/', 
+router.post('/', authenticateJWT,
     async (req, res) => {
         params = req.body
         name = params["name"]
@@ -47,7 +48,7 @@ router.post('/',
 // @desc Retrieves a template 
 // @access Public
 
-router.get('/name/:name', 
+router.get('/name/:name', authenticateJWT,
     async (req, res) => {
         params = req.params
         name = params["name"]
@@ -65,7 +66,7 @@ router.get('/name/:name',
 // @desc Deletes a template 
 // @access Public
 
-router.delete('/name/:name', 
+router.delete('/name/:name', authenticateJWT,
     async (req, res) => {
         params = req.params
         name = params["name"]
@@ -83,7 +84,7 @@ router.delete('/name/:name',
 // @desc Updates a template
 // @access Public
 
-router.patch('/', async(req, res) => {
+router.patch('/', authenticateJWT, async(req, res) => {
     params = req.body
     name = params["name"]
     new_name = params["new_name"]

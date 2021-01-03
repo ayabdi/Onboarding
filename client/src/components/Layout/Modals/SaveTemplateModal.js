@@ -35,29 +35,17 @@ const SaveTemplateModal = ({ save, isSubmitted }) => {
         }}
       >
         <Modal.Header closeButton>
-          <Modal.Title>Delete</Modal.Title>
+          <Modal.Title>Save</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          Are You Sure You Want To Save This As a Template?
+          <div>Are You Sure You Want To Save This As a Template?</div>
+          <br></br>
+          <div>
+            <Button variant="secondary" className="btn gray block" onClick={handleClose}>Cancel</Button>
+            <div class="btn-divider"/>
+            <Button onClick={() => { handleClose(); save(); }} className="btn btn-primary btn mod">Save</Button>
+          </div>
         </Modal.Body>
-        <Modal.Footer>
-          <Button
-            variant="secondary"
-            className="btn gray block"
-            onClick={handleClose}
-          >
-            Cancel
-          </Button>
-          <Button
-            onClick={() => {
-              handleClose();
-              save();
-            }}
-            className="btn btn-primary btn mod"
-          >
-            Save
-          </Button>
-        </Modal.Footer>
       </Modal>
     </>
   );

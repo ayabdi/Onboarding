@@ -83,6 +83,14 @@ const Login = () => {
     }
   };
 
+  var access_token = localStorage.getItem("ACCESS_TOKEN");
+  var refresh_token = localStorage.getItem("REFRESH_TOKEN");
+
+  if (access_token !== null && refresh_token !== null) {
+    window.location = "/";
+    return(null);
+  }
+
   return (
     <div className="signup-page">
       <Box component="main" className={classes.container}>

@@ -1,6 +1,11 @@
 @import "./BootstrapTheme.scss";
 @import "./Custom.scss";
 
+.btn-divider{
+  width:5px;
+  height:auto;
+  display:inline-block;
+}
 
 .ob-btn {
   border: none;

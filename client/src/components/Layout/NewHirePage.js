@@ -3,7 +3,6 @@ import { Link, Redirect, useLocation } from "react-router-dom";
 
 import Stepper from "./stepper/Stepper";
 import useForm from "./formcontroller/useForm";
-import SaveTemplateModal from "./Modals/SaveTemplateModal";
 import validate from "./validation/validateForm";
 import NewHireform from "./forms/NewHireform";
 import "react-datepicker/dist/react-datepicker.css";
@@ -144,6 +143,14 @@ const NewHirePage = () => {
       </div>
     </Fragment>
   );
+
+  const access_token = localStorage.getItem("ACCESS_TOKEN");
+  const refresh_token = localStorage.getItem("REFRESH_TOKEN");
+
+  if (access_token === null || refresh_token === null) {
+    window.location = "/login";
+    return (null);
+  }
 
   return (
     <Fragment>

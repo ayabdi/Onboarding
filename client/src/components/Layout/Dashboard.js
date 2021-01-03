@@ -2,18 +2,18 @@ import React, { useEffect, useState, Fragment } from "react";
 import axios from "axios";
 import "../css/Dashboard.scss";
 import useTaskEditForm from "./formcontroller/useTaskEditForm";
-import TaskModalForm from "./Modals/TaskModalForm";
-import TaskEditModal from "./Modals/TaskEditModal";
 
-import { getTime , format, parseISO} from "date-fns";
+import { parseISO} from "date-fns";
 import moment from 'moment'
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faChevronDown } from "@fortawesome/free-solid-svg-icons";
 import { faEdit } from "@fortawesome/free-solid-svg-icons";
-import { faTrash } from "@fortawesome/free-solid-svg-icons";
 
-import { Accordion, Card, Button, useAccordionToggle } from "react-bootstrap";
+import { Accordion, Button, useAccordionToggle } from "react-bootstrap";
+
+import { accessTokenCheck } from "./Utils";
+import { faTrash } from "@fortawesome/free-solid-svg-icons";
 
 function CustomToggle({ children, eventKey }) {
   const decoratedOnClick = useAccordionToggle(eventKey, () =>
@@ -63,43 +63,85 @@ const Dashboard = () => {
   ]);
   const[loading, setloading] = useState()
 
-  const [render, setRender] = useState(false)
+  const [render, setRender] = useState(false);
   const [tasksData, getTaskData] = useState([]);
-  useEffect(() => {
-    document.title = "Harmonize | Dashboard";
 
-    axios({
-      method: "GET",
-
-      url: `api/hires`,
-    }).then((res) => {
-     if(!loading){ 
-      getHireData(res.data);
-      setloading(true)
-      setRender(true)
-   
-  }
-   
-  });
-  }, [ loading, render, hireData]);
   useEffect(() => {
-   
-    getTaskData([])
-    if(render){
-    for(let i=0;i<hireData.length;i++){
+    (async () => {
+      document.title = "Harmonize | Dashboard";
+
+      await accessTokenCheck();
+      var access_token = localStorage.getItem("ACCESS_TOKEN");
+
       axios({
         method: "GET",
-        url: `api/tasks/find/${hireData[i]._id}`,
-      }).then((res2) => {
-       console.log('refressh')
-       console.log(tasksData[0])
-      getTaskData((tasksData)=> [...tasksData, res2.data])
-      
-       
+        url: `api/hires`,
+        headers: { Authorization: 'Bearer ' + access_token, },
+      }).then((res) => {
+        if(!loading){ 
+          getHireData(res.data);
+          setloading(true)
+          setRender(true)
+        }
+      }).catch(function (error) {
+        console.log(error);
+
+        if (error.response) {
+          console.log(error.response.data);
+          console.log(error.response.status);
+          console.log(error.response.headers);
+        } else if (error.request) {
+          console.log(error.request);
+        } else {
+          console.log('Error ' + error.message);
+        }
+
+        localStorage.removeItem("ACCESS_TOKEN");
+        localStorage.removeItem("REFRESH_TOKEN");
+        window.location = "/login";
       });
-    }
-  } 
-   setRender(false)
+    })();
+  }, [loading, render, hireData]);
+
+  useEffect(() => {
+    (async () => {
+      getTaskData([])
+
+      if (render) {
+        for (let i=0;i<hireData.length;i++){
+          await accessTokenCheck();
+          var access_token = localStorage.getItem("ACCESS_TOKEN");
+
+          axios({
+            method: "GET",
+            url: `api/tasks/find/${hireData[i]._id}`,
+            headers: { Authorization: 'Bearer ' + access_token, },
+          }).then((res2) => {
+            console.log('refressh')
+            console.log(tasksData[0])
+            getTaskData((tasksData) => [...tasksData, res2.data])
+          }).catch(function (error) {
+            console.log(error);
+
+            if (error.response) {
+              console.log(error.response.data);
+              console.log(error.response.status);
+              console.log(error.response.headers);
+            } else if (error.request) {
+              console.log(error.request);
+            } else {
+              console.log('Error ' + error.message);
+            }
+
+            localStorage.removeItem("ACCESS_TOKEN");
+            localStorage.removeItem("REFRESH_TOKEN");
+            window.location = "/login";
+          });
+        }
+      }
+      
+      setRender(false)
+    })();
   }, [render, loading])
  
   
@@ -108,12 +150,18 @@ const Dashboard = () => {
    
 
  const[isDashboard, setIsDashboard] = useState(false)
- 
+
+ var access_token = localStorage.getItem("ACCESS_TOKEN");
+ var refresh_token = localStorage.getItem("REFRESH_TOKEN");
+
+ if (access_token === null || refresh_token === null) {
+  window.location = "/login";
+  return (null);
+}
 
   //const hireData
   return (
     <Fragment>
-
       <div className="container" style={{ width: "100%" }}>
         <br />
         <br />
@@ -144,8 +192,7 @@ const Dashboard = () => {
         </div>
         <>
         
-          {loading && tasksData !=undefined?  tasksData.map((tasks, i) => tasks[0] !=undefined && (
-            
+          {loading && tasksData !=undefined? tasksData.map((tasks, i) => tasks[0] !=undefined && (
             <div key={i} className="card-body accordion">
               <Accordion className="accordion">
                 <div className="row hire-info">
