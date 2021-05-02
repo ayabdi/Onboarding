@@ -47,7 +47,7 @@ const _Navbar = () => {
       <nav className={`navbar-custom ${navWhite ? "white" : ""}`}>
         <div className="container">
           <a href="/" className="navbar-brand">
-            <img src={HarmonizeLogo} alt="logo" /> Harmonize
+            <img src={HarmonizeLogo} alt="logo" /> Onboarding
           </a>
           <ul id="header">
             <If condition={localStorage.getItem("ACCESS_TOKEN") != null && localStorage.getItem("REFRESH_TOKEN") != null}>
