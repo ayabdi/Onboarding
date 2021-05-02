@@ -30,7 +30,7 @@
 ## About The Project
 
 Web app to manage Onboarding of employees <br/><br/>
- <img width="638" alt="Webp net-resizeimage (16)" src="https://user-images.githubusercontent.com/46926470/116826295-fd20d500-ab9b-11eb-8767-173578944f14.png"> <br/>
+ <img width="638" alt="Webp net-resizeimage (16)" src="https://user-images.githubusercontent.com/46926470/116827075-fa27e380-ab9f-11eb-8dd9-5717fad8e1a5.png"> <br/>
 
 1. Login Page (Auth with JSONWebTokens and 0auth) <br/><br/>
  <img width="438"  alt="Webp net-resizeimage (9)" src="https://user-images.githubusercontent.com/46926470/116826464-cc8d6b00-ab9c-11eb-8f32-5e7db1deaca5.png"><br/>
