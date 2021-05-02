@@ -42,8 +42,8 @@ Web app to manage Onboarding of employees <br/><br/>
  <img width="638"  src="https://user-images.githubusercontent.com/46926470/116826631-b03dfe00-ab9d-11eb-9bf8-bdd3f4aebdac.png"><br/> <br/>
  
 4. Table of Hires/Dashboard <br/> <br/>
- <img width="638" alt="Webp net-resizeimage (4)" src="https://user-images.githubusercontent.com/46926470/116826665-d6fc3480-ab9d-11eb-9ae0-742bf21464c4.png">
- <br/>
+   &nbsp; <img width="638" alt="Webp net-resizeimage (4)" src="https://user-images.githubusercontent.com/46926470/116826665-d6fc3480-ab9d-11eb-9ae0-742bf21464c4.png">
+  <br/>
 
 
 
