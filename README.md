@@ -72,7 +72,7 @@ Web app to manage Onboarding of employees <br/><br/>
 
   1. Clone the repo
      ```sh
-     git clone https://github.com/ayabdi/DevSpace
+     git clone https://github.com/ayabdi/Onboarding
      ```
   2. Install NPM packages
      ```sh
