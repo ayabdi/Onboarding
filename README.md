@@ -79,8 +79,7 @@ Web app to manage Onboarding of employees <br/><br/>
       npm install
       ```
    
-   ## Usage
-   Link to Web app https://onboarding-heroku.herokuapp.com/
+  
    
    ## License
 
